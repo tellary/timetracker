@@ -1,0 +1,36 @@
+<dataset>
+
+    <activity
+            id="1"
+            name="First Activity"
+            finished="0"
+            />
+
+    <activity
+            id="2"
+            name="Second Activity"
+            finished="0"
+            />
+
+    <activity
+            id="3"
+            name="Third Activity"
+            finished="0"
+            />
+
+
+    <time_entry
+            id = "1"
+            time_start = "0"
+            time_end = "100"
+            activity_id = "2"/>
+    <time_entry
+            id = "2"
+            time_start = "100"
+            time_end = "200"
+            activity_id = "2"/>
+    <time_entry
+            id = "3"
+            time_start = "200"
+            activity_id = "2"/>
+</dataset>
