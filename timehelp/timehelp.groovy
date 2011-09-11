@@ -12,12 +12,34 @@ import com.atlassian.jira.rpc.soap.client.JiraSoapService
 import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 
 //--------------------
-date = "21-Aug-2011"
-projectKey='TST'
-String timeInOffice = '12:34:00'
-String togglCSV = "report.htm"
-float alreadyReported = 0
+jiraUrl = "http://sandbox.onjira.com/rpc/soap/jirasoapservice-v2";
+jiraUsername = "tellarytest";
+jiraPassword = "tellarytest";
 //--------------------
+date = "1-Sep-2011"
+projectKey='TST'
+timeInOffice = '12:34:00'
+togglCSV = "report.htm"
+alreadyReported = 0
+//--------------------
+
+List<Task> tasks = parseTasksFromTogglCSV(togglCSV)
+
+selectNoStretchTasks(tasks)
+
+stretchTasks(tasks)
+
+tasks = reportIntoJIRA(tasks)
+
+println '''
+Remaining tasks:
+===================='''
+
+tasks.each {Task it ->
+  println "${it.projectName}"
+  println "${it.taskName} ${TimeHelp.floatHoursToString(it.timeSpent)} ${TimeHelp.floatHoursToMinutes(it.timeStretch)} min"
+}
+
 
 List<Task> parseTasksFromTogglCSV(String filename) {
   tasks = [] as List<Task>
@@ -45,7 +67,7 @@ List<Task> parseTasksFromTogglCSV(String filename) {
       Task task = new Task();
       task.projectName = splits[2]
       task.taskName = splits[3]
-      task.timeSpent = splits[7]
+      task.timeSpent = TimeHelp.timeToFloatHours(splits[7])
       tasks.add(task)
     }
   }
@@ -53,7 +75,7 @@ List<Task> parseTasksFromTogglCSV(String filename) {
   return tasks
 }
 
-List selectNoStretchTasks(List<Task> tasks) {
+def selectNoStretchTasks(List<Task> tasks) {
   def swing = new SwingBuilder()
 
   Lock lock = new ReentrantLock()
@@ -62,7 +84,7 @@ List selectNoStretchTasks(List<Task> tasks) {
   JFrame frame =
   swing.frame (
       title: 'Select no-stretch tasks',
-      defaultCloseOperation: JFrame.DISPOSE_ON_CLOSE,
+      defaultCloseOperation: JFrame.EXIT_ON_CLOSE,
       show: true,
       pack: true,
   ) {
@@ -76,7 +98,7 @@ List selectNoStretchTasks(List<Task> tasks) {
             panel(constraints: BorderLayout.SOUTH) {
               borderLayout()
               label(text: '   ', constraints: BorderLayout.WEST)
-              label(text: "$task.taskName   $task.timeSpent", constraints: BorderLayout.CENTER)
+              label(text: "$task.taskName   ${TimeHelp.floatHoursToString(task.timeSpent)}", constraints: BorderLayout.CENTER)
               checkBox(
                   constraints: BorderLayout.EAST,
                   actionPerformed: {Task taskArg, event->
@@ -105,37 +127,20 @@ List selectNoStretchTasks(List<Task> tasks) {
   tasksSelected.await()
   lock.unlock()
   frame.dispose()
-
-  return null;
 }
 
-float sumUpTasksTime(Collection tasks) {
+float sumUpTasksTime(Collection<Task> tasks) {
   float sum = 0
-  tasks.each {
-    sum += timeToFloat(it.timeSpent)
+  tasks.each {Task it ->
+    sum += it.timeSpent
   }
   return sum
 }
 
-float timeToFloat(String timeString) {
-  String[] timeSplit = timeString.split(":");
-  if (timeSplit.length == 2) {
-    timeSplit = ["0", timeSplit[0], timeSplit[1]] as String[];
-  }
-  return Integer.parseInt(timeSplit[0]) + Integer.parseInt(timeSplit[1])/60f + Integer.parseInt(timeSplit[2])/3600f
-}
-
-int timeSecs(String timeString) {
-  float timeInHours = timeToFloat(timeString)
-  return timeInHours * 3600;
-}
-
 Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
-  String baseUrl = "http://sandbox.onjira.com/rpc/soap/jirasoapservice-v2";
-  SOAPSession soapSession = new SOAPSession(new URL(baseUrl));
-  String username = "tellarytest";
-  soapSession.connect(username, "tellarytest");
-  println "Connected to JIRA with user $username"
+  SOAPSession soapSession = new SOAPSession(new URL(jiraUrl));
+  soapSession.connect(jiraUsername, jiraPassword);
+  println "Connected to JIRA with user $jiraUsername"
 
   JiraSoapService jiraSoapService = soapSession.getJiraSoapService();
   String authToken = soapSession.getAuthenticationToken();
@@ -145,16 +150,20 @@ Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
   for (Task task: tasks) {
     RemoteWorklog worklog = new RemoteWorklog();
     worklog.setComment(task.taskName);
-    worklog.setTimeSpent("${(timeToFloat(task.timeSpent)*60).round()}m");
+    worklog.setTimeSpent("${(TimeHelp.floatHoursToMinutes(task.timeStretch))}m");
     worklog.setStartDate(JIRAReportHelper.parseStartDate(date))
 
     String issueKey = JIRAReportHelper.parseJIRAIssueKey(projectKey, task.projectName)
 
     println("""Going to add worklog for issue ${issueKey}
-with time spent '${worklog.getTimeSpent()}'
-and comment '${worklog.comment}'""")
+with actual time spent ${TimeHelp.floatHoursToMinutes(task.timeSpent)}m
+with worklog time spent '${worklog.getTimeSpent()}'
+and comment '${worklog.comment}'.
+Please confirm:""")
 
-    char confirm = System.in.read()
+    char confirm;
+    //noinspection GroovyEmptyStatementBody
+    while (Character.isWhitespace(confirm = System.in.read())) {}
     if (confirm != 'y') {
       println "Skipping..."
       notLogged.add(task)
@@ -163,9 +172,10 @@ and comment '${worklog.comment}'""")
 
     try {
       jiraSoapService.addWorklogAndAutoAdjustRemainingEstimate(authToken, issueKey, worklog);
-      println """Successfully added worklog for issue ${issueKey}
+      println """-->Successfully added worklog for issue ${issueKey}
 with time spent '${worklog.getTimeSpent()}'
-and comment '${worklog.comment}'"""
+and comment '${worklog.comment}'
+"""
     } catch (Exception e) {
       e.printStackTrace()
       notLogged.add(task)
@@ -175,46 +185,38 @@ and comment '${worklog.comment}'"""
   return notLogged
 }
 
-tasks = parseTasksFromTogglCSV(togglCSV)
-
-selectNoStretchTasks(tasks)
-
-tasks = reportIntoJIRA(tasks)
-
-println '''
+def stretchTasks(List<Task> tasks) {
+  println '''
 ===================='''
 
-float round
+  float timeInOfficeFloat = TimeHelp.timeToFloatHours(timeInOffice)
+  println "Time in office float ${timeInOfficeFloat.round(2)}"
 
-float timeInOfficeFloat = timeToFloat(timeInOffice)
-println "Time in office float ${timeInOfficeFloat.round(2)}"
+  float timeEffectiveFloat = sumUpTasksTime(tasks)
+  println "Time effective float ${timeEffectiveFloat.round(2)}"
 
-float timeEffectiveFloat = sumUpTasksTime(tasks)
-println "Time effective float ${timeEffectiveFloat.round(2)}"
+  float noStretchTime = sumUpTasksTime(tasks.findAll {Task t-> t.noStretch})
+  float stretchTime = sumUpTasksTime(tasks.findAll {!it.noStretch})
 
-float noStretchTime = sumUpTasksTime(tasks.findAll {Task t-> t.noStretch})
-float stretchTime = sumUpTasksTime(tasks.findAll {!it.noStretch})
+  println "No stretch tasks sum up time ${noStretchTime.round(2)}"
+  println "Stretch tasks sum up time ${stretchTime.round(2)}"
+  println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
+  println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
+  println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"
 
-println "No stretch tasks sum up time ${noStretchTime.round(2)}"
-println "Stretch tasks sum up time ${stretchTime.round(2)}"
-println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
-println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
-println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"
+  float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
 
-float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
+  leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
+  println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
 
-leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
-println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
-
-println '''
-===================='''
-tasks.each {Task it ->
-  println "${it.projectName}"
-  float timeSpent =  timeToFloat(it.timeSpent)
-  if (!it.noStretch) {
-    timeSpent = timeSpent * leftEffeciency
+  tasks.each {Task it ->
+    println "${it.projectName}"
+    float timeSpent =  it.timeSpent
+    if (!it.noStretch) {
+      it.timeStretch = timeSpent * leftEffeciency
+    } else {
+      it.timeStretch = timeSpent
+    }
   }
-  timeSpent = timeSpent * 60
-  println "${it.taskName} ${it.timeSpent} ${timeSpent.round()} min"
-  println ""
 }
+

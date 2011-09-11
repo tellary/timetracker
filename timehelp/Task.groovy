@@ -1,6 +1,7 @@
 class Task {
 	String projectName
 	String taskName
-	String timeSpent
+	float timeSpent
+  float timeStretch
 	boolean noStretch = false
 }
