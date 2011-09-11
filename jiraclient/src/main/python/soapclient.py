@@ -1,0 +1,2 @@
+THIS FILE IS NO LONGER A PART OF THIS DISTRIBUTION YOU CAN FIND THE SAMPLE CODE HERE:
+http://confluence.atlassian.com/display/JIRA/Creating+a+SOAP+Client
