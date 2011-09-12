@@ -22,6 +22,9 @@ class JIRAReportHelper {
     Calendar cal = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy")
     cal.setTime(sdf.parse(startDate))
+    //12:00 is set in calendar to avoid time shifts.
+    //We don't want to know JIRA server TZ to do it properly
+    cal.set(Calendar.HOUR, 12)
     return cal;
   }
 }

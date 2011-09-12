@@ -15,10 +15,10 @@ import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 jiraUrl = "http://sandbox.onjira.com/rpc/soap/jirasoapservice-v2";
 jiraUsername = "tellarytest";
 jiraPassword = "tellarytest";
-//--------------------
-date = "1-Sep-2011"
 projectKey='TST'
-timeInOffice = '12:34:00'
+//--------------------
+date = "06-Sep-2011"
+timeInOffice = '04:26:00'
 togglCSV = "report.htm"
 alreadyReported = 0
 //--------------------
@@ -153,11 +153,20 @@ Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
     worklog.setTimeSpent("${(TimeHelp.floatHoursToMinutes(task.timeStretch))}m");
     worklog.setStartDate(JIRAReportHelper.parseStartDate(date))
 
-    String issueKey = JIRAReportHelper.parseJIRAIssueKey(projectKey, task.projectName)
+    String issueKey
+    try {
+      issueKey = JIRAReportHelper.parseJIRAIssueKey(projectKey, task.projectName)
+    } catch (Exception e) {
+      println "Skipping as $e.message ..."
+      notLogged.add(task)
+      continue
+    }
 
     println("""Going to add worklog for issue ${issueKey}
 with actual time spent ${TimeHelp.floatHoursToMinutes(task.timeSpent)}m
 with worklog time spent '${worklog.getTimeSpent()}'
+on date '$worklog.startDate.time'
+for project '$task.projectName'
 and comment '${worklog.comment}'.
 Please confirm:""")
 
@@ -209,8 +218,10 @@ def stretchTasks(List<Task> tasks) {
   leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
   println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
 
+  println '''
+===================='''
+
   tasks.each {Task it ->
-    println "${it.projectName}"
     float timeSpent =  it.timeSpent
     if (!it.noStretch) {
       it.timeStretch = timeSpent * leftEffeciency
