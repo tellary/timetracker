@@ -15,7 +15,13 @@ import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 jiraUrl = "http://sandbox.onjira.com/rpc/soap/jirasoapservice-v2";
 jiraUsername = "tellarytest";
 jiraPassword = "tellarytest";
-projectKey='TST'
+//--------------------
+jiraMapping = new MatchFirstJIRAMapping(
+    new ProjectNameToIssueKeyJIRAMapping('Communication', 'TST-182'),
+    new ProjectNameToIssueKeyJIRAMapping('Use elevator', 'TST-183').
+        addProjectToComment(true),
+    new ParseKeyJIRAMapping('TST')
+)
 //--------------------
 date = "06-Sep-2011"
 timeInOffice = '04:26:00'
@@ -154,10 +160,9 @@ Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
     worklog.setStartDate(JIRAReportHelper.parseStartDate(date))
 
     String issueKey
-    try {
-      issueKey = JIRAReportHelper.parseJIRAIssueKey(projectKey, task.projectName)
-    } catch (Exception e) {
-      println "Skipping as $e.message ..."
+    issueKey = jiraMapping.mapToJIRA(task, worklog)
+    if (issueKey == null) {
+      println "Skipping task with projectName '$task.projectName' as no issueKey found ..."
       notLogged.add(task)
       continue
     }
