@@ -1,13 +1,4 @@
 import com.atlassian.jira_soapclient.SOAPSession
-import javax.swing.JFrame
-import javax.swing.BoxLayout
-import java.awt.BorderLayout
-import java.awt.Color
-import javax.swing.BorderFactory
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
-import java.util.concurrent.locks.Condition
-import groovy.swing.SwingBuilder
 import com.atlassian.jira.rpc.soap.client.JiraSoapService
 import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 
@@ -15,7 +6,9 @@ run(new File('config.groovy'))
 
 List<Task> tasks = parseTasksFromTogglCSV(togglCSV)
 
-selectNoStretchTasks(tasks)
+StretchModel model = new StretchModel()
+model.tasks = tasks
+new StretchTimeForm(model).selectNoStretchTasks()
 
 stretchTasks(tasks)
 
@@ -63,60 +56,6 @@ List<Task> parseTasksFromTogglCSV(String filename) {
   }
 
   return tasks
-}
-
-def selectNoStretchTasks(List<Task> tasks) {
-  def swing = new SwingBuilder()
-
-  Lock lock = new ReentrantLock()
-  lock.lock()
-  Condition tasksSelected = lock.newCondition();
-  JFrame frame =
-  swing.frame (
-      title: 'Select no-stretch tasks',
-      defaultCloseOperation: JFrame.EXIT_ON_CLOSE,
-      show: true,
-      pack: true,
-  ) {
-    scrollPane {
-      panel {
-        boxLayout(axis:BoxLayout.Y_AXIS)
-        for (Task task: tasks) {
-          panel(border: BorderFactory.createMatteBorder(1, 0, 0, 0, Color.black)) {
-            borderLayout()
-            label(text: task.projectName, constraints: BorderLayout.NORTH)
-            panel(constraints: BorderLayout.SOUTH) {
-              borderLayout()
-              label(text: '   ', constraints: BorderLayout.WEST)
-              label(text: "$task.taskName   ${TimeHelp.floatHoursToString(task.timeSpent)}", constraints: BorderLayout.CENTER)
-              checkBox(
-                  constraints: BorderLayout.EAST,
-                  actionPerformed: {Task taskArg, event->
-                    println taskArg.taskName
-                    taskArg.noStretch = event.source.selected;
-                  }.curry(task)
-              )
-            }
-          }
-        }
-        panel {
-          borderLayout()
-          button(
-              text: 'Ok',
-              constraints: BorderLayout.WEST,
-              actionPerformed: {
-                lock.lock()
-                tasksSelected.signal()
-                lock.unlock()
-              }
-          )
-        }
-      }
-    }
-  }
-  tasksSelected.await()
-  lock.unlock()
-  frame.dispose()
 }
 
 float sumUpTasksTime(Collection<Task> tasks) {

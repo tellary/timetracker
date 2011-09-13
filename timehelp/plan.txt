@@ -1,5 +1,5 @@
 Interactive time stretch review
-1. Add input field for time spent and reporting date
+1. Add input field for time spent and reporting date DONE
 2. Add input field for timeStretch value for each task, bind input and data field.
 3. Make timeStretch pre-filled with timeSpent on togglCSV parsing, so what these values are populated
    in timeStretch input fields on the form
