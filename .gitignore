@@ -1,6 +1,6 @@
 *.log
 output
-/target
+target
 /testDB
 /window.properties
 *.iml

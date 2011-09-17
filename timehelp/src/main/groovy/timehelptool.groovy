@@ -31,20 +31,31 @@ List<Task> parseTasksFromTogglCSV(String filename) {
       List<String> splits = [] as List<String>
       String currentSplit
       line.split(',').each {String split ->
-        if (split.startsWith('"')) {
-          currentSplit = ''
+        //Begin of multi-split sentense
+        if (currentSplit == null && split.startsWith('"')) {
+          split = split.substring(1)
+          currentSplit = split
+          return
         }
 
-        if (currentSplit == null) {
-          splits.add(split)
-        } else
+        //End of multi-split sentense
+        if (currentSplit != null && split.endsWith('"')) {
+          split = split.substring(0, split.length() - 1)
+          currentSplit += ','
           currentSplit += split
-
-        if (split.endsWith('"')) {
           splits.add(currentSplit)
           currentSplit = null
+          return
         }
-
+        //Middle of multi-split sentence
+        if (currentSplit != null) {
+          currentSplit += ','
+          currentSplit += split
+        }
+        //Single split sentense
+        else {
+          splits.add(split)
+        }
       }
 
       Task task = new Task();
