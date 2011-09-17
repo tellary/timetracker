@@ -16,6 +16,7 @@ class Task {
   void setTimeStretch(float timeStretch) {
     this.timeStretch = timeStretch
     if (stretchModel != null) {
+      noStretch = true
       TimeHelp.stretchTasks(stretchModel)
       notifyListeners()
     }
