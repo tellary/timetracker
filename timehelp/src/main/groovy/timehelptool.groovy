@@ -4,10 +4,8 @@ import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 
 run(new File('config.groovy'))
 
-List<Task> tasks = parseTasksFromTogglCSV(togglCSV)
-
-StretchModel model = new StretchModel()
-model.tasks = tasks
+StretchModel model = parseTasksFromTogglCSV(togglCSV)
+TimeHelp.stretchTasks(model)
 new StretchTimeForm(model).display()
 
 tasks = reportIntoJIRA(tasks)
@@ -22,21 +20,22 @@ tasks.each {Task it ->
 }
 
 
-List<Task> parseTasksFromTogglCSV(String filename) {
-  tasks = [] as List<Task>
+StretchModel parseTasksFromTogglCSV(String filename) {
+  StretchModel stretchModel = new StretchModel()
+  stretchModel.tasks = [] as List<Task>
   new File(filename).eachLine {String line ->
     if (!line.startsWith("User,Client,Project") && !line.trim().isEmpty()) {
       List<String> splits = [] as List<String>
       String currentSplit
       line.split(',').each {String split ->
-        //Begin of multi-split sentense
+        //Begin of multi-split sentence
         if (currentSplit == null && split.startsWith('"')) {
           split = split.substring(1)
           currentSplit = split
           return
         }
 
-        //End of multi-split sentense
+        //End of multi-split sentence
         if (currentSplit != null && split.endsWith('"')) {
           split = split.substring(0, split.length() - 1)
           currentSplit += ','
@@ -50,7 +49,7 @@ List<Task> parseTasksFromTogglCSV(String filename) {
           currentSplit += ','
           currentSplit += split
         }
-        //Single split sentense
+        //Single split sentence
         else {
           splits.add(split)
         }
@@ -61,11 +60,12 @@ List<Task> parseTasksFromTogglCSV(String filename) {
       task.taskName = splits[3]
       task.timeSpent = TimeHelp.timeToFloatHours(splits[7])
       task.timeStretch = task.timeSpent
-      tasks.add(task)
+      task.stretchModel = stretchModel
+      stretchModel.tasks.add(task)
     }
   }
 
-  return tasks
+  return stretchModel
 }
 
 Collection<Task> reportIntoJIRA(Collection<Task> tasks) {

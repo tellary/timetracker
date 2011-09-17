@@ -55,8 +55,8 @@ class TimeHelp {
 
     float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
 
-    leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
-    println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
+    float leftEfficiency = (timeInOfficeLeft - noStretchTime)/stretchTime
+    println "Extension coef for timeLeft ${leftEfficiency.round(2)}"
 
     println '''
 ===================='''
@@ -64,7 +64,7 @@ class TimeHelp {
     stretchModel.tasks.each {Task it ->
       float timeSpent =  it.timeSpent
       if (!it.noStretch) {
-        it.timeStretch = timeSpent * leftEffeciency
+        it.timeStretch = timeSpent * leftEfficiency
       } else {
         it.timeStretch = timeSpent
       }
