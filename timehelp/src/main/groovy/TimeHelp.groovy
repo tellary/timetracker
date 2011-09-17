@@ -24,4 +24,50 @@ class TimeHelp {
   static int floatHoursToMinutes(float floatHours) {
     return (floatHours*60).round();
   }
+
+  static float sumUpTasksTime(Collection<Task> tasks) {
+    float sum = 0
+    tasks.each {Task it ->
+      sum += it.timeSpent
+    }
+    return sum
+  }
+
+  static def stretchTasks(StretchModel stretchModel) {
+    println '''
+===================='''
+    float timeInOfficeFloat = stretchModel.timeInOffice
+    println "Time in office float ${timeInOfficeFloat.round(2)}"
+
+    float timeEffectiveFloat = sumUpTasksTime(stretchModel.tasks)
+    println "Time effective float ${timeEffectiveFloat.round(2)}"
+
+    float alreadyReported = stretchModel.alreadyReported
+
+    float noStretchTime = sumUpTasksTime(stretchModel.findAll {Task t-> t.noStretch})
+    float stretchTime = sumUpTasksTime(stretchModel.findAll {!it.noStretch})
+
+    println "No stretch stretchModel sum up time ${noStretchTime.round(2)}"
+    println "Stretch stretchModel sum up time ${stretchTime.round(2)}"
+    println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
+    println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
+    println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"
+
+    float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
+
+    leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
+    println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
+
+    println '''
+===================='''
+
+    stretchModel.tasks.each {Task it ->
+      float timeSpent =  it.timeSpent
+      if (!it.noStretch) {
+        it.timeStretch = timeSpent * leftEffeciency
+      } else {
+        it.timeStretch = timeSpent
+      }
+    }
+  }
 }

@@ -1,4 +1,3 @@
-import groovy.beans.Bindable
 /**
  * Created by Silvestrov Ilya
  * Date: 9/14/11
@@ -8,4 +7,5 @@ class StretchModel {
   List<Task> tasks
   float timeInOffice
   Calendar date
+  float alreadyReported
 }

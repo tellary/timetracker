@@ -8,9 +8,7 @@ List<Task> tasks = parseTasksFromTogglCSV(togglCSV)
 
 StretchModel model = new StretchModel()
 model.tasks = tasks
-new StretchTimeForm(model).selectNoStretchTasks()
-
-stretchTasks(tasks)
+new StretchTimeForm(model).display()
 
 tasks = reportIntoJIRA(tasks)
 
@@ -70,14 +68,6 @@ List<Task> parseTasksFromTogglCSV(String filename) {
   return tasks
 }
 
-float sumUpTasksTime(Collection<Task> tasks) {
-  float sum = 0
-  tasks.each {Task it ->
-    sum += it.timeSpent
-  }
-  return sum
-}
-
 Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
   SOAPSession soapSession = new SOAPSession(new URL(jiraUrl));
   soapSession.connect(jiraUsername, jiraPassword);
@@ -133,41 +123,3 @@ and comment '${worklog.comment}'
 
   return notLogged
 }
-
-def stretchTasks(List<Task> tasks) {
-  println '''
-===================='''
-
-  float timeInOfficeFloat = TimeHelp.timeToFloatHours(timeInOffice)
-  println "Time in office float ${timeInOfficeFloat.round(2)}"
-
-  float timeEffectiveFloat = sumUpTasksTime(tasks)
-  println "Time effective float ${timeEffectiveFloat.round(2)}"
-
-  float noStretchTime = sumUpTasksTime(tasks.findAll {Task t-> t.noStretch})
-  float stretchTime = sumUpTasksTime(tasks.findAll {!it.noStretch})
-
-  println "No stretch tasks sum up time ${noStretchTime.round(2)}"
-  println "Stretch tasks sum up time ${stretchTime.round(2)}"
-  println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
-  println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
-  println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"
-
-  float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
-
-  leftEffeciency = (timeInOfficeLeft - noStretchTime)/stretchTime
-  println "Extension coef for timeLeft ${leftEffeciency.round(2)}"
-
-  println '''
-===================='''
-
-  tasks.each {Task it ->
-    float timeSpent =  it.timeSpent
-    if (!it.noStretch) {
-      it.timeStretch = timeSpent * leftEffeciency
-    } else {
-      it.timeStretch = timeSpent
-    }
-  }
-}
-

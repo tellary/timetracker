@@ -10,7 +10,6 @@ import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.JTextField
 
-import java.awt.event.ActionListener
 /**
  * Created by Silvestrov Ilya
  * Date: 9/14/11
@@ -24,7 +23,7 @@ class StretchTimeForm {
     this.stretchModel = stretchModel
   }
 
-  def selectNoStretchTasks() {
+  def display() {
     def swing = new SwingBuilder()
 
     Lock lock = new ReentrantLock()
