@@ -62,6 +62,7 @@ List<Task> parseTasksFromTogglCSV(String filename) {
       task.projectName = splits[2]
       task.taskName = splits[3]
       task.timeSpent = TimeHelp.timeToFloatHours(splits[7])
+      task.timeStretch = task.timeSpent
       tasks.add(task)
     }
   }

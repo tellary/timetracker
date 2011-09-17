@@ -71,15 +71,31 @@ class StretchTimeForm {
               label(text: task.projectName, constraints: BorderLayout.NORTH)
               panel(constraints: BorderLayout.SOUTH) {
                 borderLayout()
-                label(text: '   ', constraints: BorderLayout.WEST)
-                label(text: "$task.taskName   ${TimeHelp.floatHoursToString(task.timeSpent)}", constraints: BorderLayout.CENTER)
-                checkBox(
-                    constraints: BorderLayout.EAST,
-                    actionPerformed: {Task taskArg, event->
-                      println taskArg.taskName
-                      taskArg.noStretch = event.source.selected;
-                    }.curry(task)
-                )
+                hbox (constraints: BorderLayout.LINE_START) {
+                  label(text: '   ', constraints: BorderLayout.WEST)
+                  label(text: "$task.taskName   ${TimeHelp.floatHoursToString(task.timeSpent)}",
+                      constraints: BorderLayout.CENTER)
+                }
+                hbox (constraints: BorderLayout.LINE_END) {
+                  checkBox(
+                      constraints: BorderLayout.LINE_START,
+                      actionPerformed: {Task taskArg, event->
+                        println taskArg.taskName
+                        taskArg.noStretch = event.source.selected;
+                      }.curry(task)
+                  )
+                  JTextField timeStretchFld = textField(
+                      constraints: BorderLayout.CENTER,
+                      columns: 5,
+                      actionPerformed: {Task taskArg, ActionEvent event ->
+                        JTextField field = (JTextField)event.getSource()
+                        String timeStr = field.getText()
+                        taskArg.timeStretch = TimeHelp.timeToFloatHours(timeStr)
+                        println "TimeStrech set to $taskArg.timeStretch"
+                      }.curry(task)
+                  )
+                  timeStretchFld.setText(TimeHelp.floatHoursToString(task.timeStretch))
+                }
               }
             }
           }
