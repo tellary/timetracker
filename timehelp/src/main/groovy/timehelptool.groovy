@@ -5,10 +5,10 @@ import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 run(new File('config.groovy'))
 
 StretchModel model = parseTasksFromTogglCSV(togglCSV)
-TimeHelp.stretchTasks(model)
+model.timeInOffice = TimeHelp.sumUpTasksTime(model.tasks)
 new StretchTimeForm(model).display()
 
-tasks = reportIntoJIRA(tasks)
+tasks = reportIntoJIRA(model.tasks)
 
 println '''
 Remaining tasks:

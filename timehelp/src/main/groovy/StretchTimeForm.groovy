@@ -9,6 +9,7 @@ import java.awt.Color
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.JTextField
+import javax.swing.JCheckBox
 
 /**
  * Created by Silvestrov Ilya
@@ -44,6 +45,7 @@ class StretchTimeForm {
             label(text: 'Report date:', constraints: BorderLayout.WEST)
             textField (
                 constraints: BorderLayout.CENTER,
+                columns: 6,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
                   String dateText = field.getText()
@@ -55,7 +57,8 @@ class StretchTimeForm {
           panel {
             borderLayout()
             label(text: 'Time in office:', constraints: BorderLayout.WEST)
-            textField(
+            JTextField timeInOfficeFld = textField(
+                columns: 6,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
                   stretchModel.timeInOffice = TimeHelp.timeToFloatHours(field.getText())
@@ -63,6 +66,7 @@ class StretchTimeForm {
                 },
                 constraints: BorderLayout.CENTER
             )
+            timeInOfficeFld.text = TimeHelp.floatHoursToString(stretchModel.timeInOffice)
           }
           for (Task task: stretchModel.tasks) {
             panel(border: BorderFactory.createMatteBorder(1, 0, 0, 0, Color.black)) {
@@ -76,7 +80,7 @@ class StretchTimeForm {
                       constraints: BorderLayout.CENTER)
                 }
                 hbox (constraints: BorderLayout.LINE_END) {
-                  checkBox(
+                  JCheckBox checkBox = checkBox(
                       constraints: BorderLayout.LINE_START,
                       actionPerformed: {Task taskArg, event->
                         println taskArg.taskName
@@ -85,7 +89,7 @@ class StretchTimeForm {
                   )
                   JTextField timeStretchFld = textField(
                       constraints: BorderLayout.CENTER,
-                      columns: 5,
+                      columns: 6,
                       actionPerformed: {Task taskArg, ActionEvent event ->
                         JTextField field = (JTextField)event.getSource()
                         String timeStr = field.getText()
@@ -94,6 +98,12 @@ class StretchTimeForm {
                       }.curry(task)
                   )
                   timeStretchFld.setText(TimeHelp.floatHoursToString(task.timeStretch))
+                  task.taskModificationListeners.add(new TaskModificationListener() {
+                    void taskModified(Task taskEvt) {
+                      timeStretchFld.setText(TimeHelp.floatHoursToString(taskEvt.timeStretch))
+                      checkBox.setSelected(taskEvt.noStretch)
+                    }
+                  })
                 }
               }
             }

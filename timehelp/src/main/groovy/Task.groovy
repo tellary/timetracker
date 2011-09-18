@@ -1,9 +1,9 @@
 class Task {
-	String projectName
-	String taskName
-	float timeSpent
+  String projectName
+  String taskName
+  float timeSpent
   float timeStretch
-	boolean noStretch = false
+  boolean noStretch = false
   StretchModel stretchModel
   List<TaskModificationListener> taskModificationListeners = []
 
@@ -26,6 +26,12 @@ class Task {
     this.noStretch = noStretch
     if (stretchModel != null) {
       TimeHelp.stretchTasks(stretchModel)
+    }
+  }
+
+  void doStretch(float coefficient) {
+    if (!noStretch) {
+      timeStretch = timeSpent * coefficient
       notifyListeners()
     }
   }

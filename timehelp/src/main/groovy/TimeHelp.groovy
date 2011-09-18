@@ -52,8 +52,8 @@ class TimeHelp {
 
     float alreadyReported = stretchModel.alreadyReported
 
-    float noStretchTime = sumUpStretchTasksTime(stretchModel.findAll {Task t-> t.noStretch})
-    float stretchTime = sumUpTasksTime(stretchModel.findAll {!it.noStretch})
+    float noStretchTime = sumUpStretchTasksTime(stretchModel.tasks.findAll {Task t-> t.noStretch})
+    float stretchTime = sumUpTasksTime(stretchModel.tasks.findAll {!it.noStretch})
 
     println "No stretch stretchModel sum up time ${noStretchTime.round(2)}"
     println "Stretch stretchModel sum up time ${stretchTime.round(2)}"
@@ -69,13 +69,6 @@ class TimeHelp {
     println '''
 ===================='''
 
-    stretchModel.tasks.each {Task it ->
-      float timeSpent =  it.timeSpent
-      if (!it.noStretch) {
-        it.timeStretch = timeSpent * leftEfficiency
-      } else {
-        it.timeStretch = timeSpent
-      }
-    }
+    stretchModel.tasks.each {Task it -> it.doStretch((float)leftEfficiency)}
   }
 }
