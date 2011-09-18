@@ -99,17 +99,7 @@ with actual time spent ${TimeHelp.floatHoursToMinutes(task.timeSpent)}m
 with worklog time spent '${worklog.getTimeSpent()}'
 on date '$worklog.startDate.time'
 for project '$task.projectName'
-and comment '${worklog.comment}'.
-Please confirm:""")
-
-    char confirm;
-    //noinspection GroovyEmptyStatementBody
-    while (Character.isWhitespace(confirm = System.in.read())) {}
-    if (confirm != 'y') {
-      println "Skipping..."
-      notLogged.add(task)
-      continue
-    }
+and comment '${worklog.comment}'""")
 
     try {
       jiraSoapService.addWorklogAndAutoAdjustRemainingEstimate(authToken, issueKey, worklog);
