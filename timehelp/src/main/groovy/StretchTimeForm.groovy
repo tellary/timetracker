@@ -44,7 +44,7 @@ class StretchTimeForm {
             borderLayout()
             label(text: 'Report date:', constraints: BorderLayout.WEST)
             textField (
-                constraints: BorderLayout.CENTER,
+                constraints: BorderLayout.EAST,
                 columns: 6,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
@@ -64,7 +64,7 @@ class StretchTimeForm {
                   stretchModel.timeInOffice = TimeHelp.timeToFloatHours(field.getText())
                   println "Time in office successfully set to $stretchModel.timeInOffice"
                 },
-                constraints: BorderLayout.CENTER
+                constraints: BorderLayout.EAST
             )
             timeInOfficeFld.text = TimeHelp.floatHoursToString(stretchModel.timeInOffice)
           }

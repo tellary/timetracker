@@ -55,8 +55,8 @@ class TimeHelp {
     float noStretchTime = sumUpStretchTasksTime(stretchModel.tasks.findAll {Task t-> t.noStretch})
     float stretchTime = sumUpTasksTime(stretchModel.tasks.findAll {!it.noStretch})
 
-    println "No stretch stretchModel sum up time ${noStretchTime.round(2)}"
-    println "Stretch stretchModel sum up time ${stretchTime.round(2)}"
+    println "No stretch tasks sum up time ${noStretchTime.round(2)}"
+    println "Stretch tasks sum up time ${stretchTime.round(2)}"
     println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
     println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
     println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"

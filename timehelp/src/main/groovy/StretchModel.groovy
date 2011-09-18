@@ -8,4 +8,9 @@ class StretchModel {
   float timeInOffice
   Calendar date
   float alreadyReported
+
+  void setTimeInOffice(float timeInOffice) {
+    this.timeInOffice = timeInOffice
+    TimeHelp.stretchTasks(this)
+  }
 }
