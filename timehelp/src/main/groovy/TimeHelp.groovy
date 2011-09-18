@@ -1,4 +1,4 @@
-
+import java.util.regex.Matcher
 /**
  * Created by Silvestrov Ilya
  * Date: 9/12/11
@@ -6,9 +6,29 @@
  */
 class TimeHelp {
   static float timeToFloatHours(String timeString) {
-    String[] timeSplit = timeString.split(":");
-    if (timeSplit.length == 2) {
-      timeSplit = ["0", timeSplit[0], timeSplit[1]] as String[];
+    String[] timeSplit
+    if (timeString.matches('.*(h|m|s).*')) {
+      timeSplit = ["0", "0", "0"] as String[]
+      Matcher m
+      m = timeString =~ '(\\d+)\\s*h'
+      if (m.find())
+        timeSplit[0] = m.group(1)
+      m = timeString =~ '(\\d+)\\s*m'
+      if (m.find())
+        timeSplit[1] = m.group(1)
+      m = timeString =~ '(\\d+)\\s*s'
+      if (m.find())
+        timeSplit[2] = m.group(1)
+      m = timeString =~ '(\\d+)\\s*$'
+      if (m.find())
+        timeSplit[1] = m.group(1)
+    } else {
+      timeSplit = timeString.split(":");
+      if (timeSplit.length == 2) {
+        timeSplit = ["0", timeSplit[0], timeSplit[1]] as String[];
+      } else if (timeSplit.length == 1) {
+        timeSplit = ["0", timeSplit[0], "0"] as String[];
+      }
     }
     return Integer.parseInt(timeSplit[0]) + Integer.parseInt(timeSplit[1])/60f + Integer.parseInt(timeSplit[2])/3600f
   }
