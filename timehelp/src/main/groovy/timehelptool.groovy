@@ -8,7 +8,7 @@ StretchModel model = parseTasksFromTogglCSV(togglCSV)
 model.timeInOffice = TimeHelp.sumUpTasksTime(model.tasks)
 new StretchTimeForm(model).display()
 
-tasks = reportIntoJIRA(model.tasks)
+tasks = reportIntoJIRA(model)
 
 println '''
 Remaining tasks:
@@ -68,7 +68,7 @@ StretchModel parseTasksFromTogglCSV(String filename) {
   return stretchModel
 }
 
-Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
+Collection<Task> reportIntoJIRA(StretchModel model) {
   SOAPSession soapSession = new SOAPSession(new URL(jiraUrl));
   soapSession.connect(jiraUsername, jiraPassword);
   println "Connected to JIRA with user $jiraUsername"
@@ -78,11 +78,11 @@ Collection<Task> reportIntoJIRA(Collection<Task> tasks) {
 
   List<Task> notLogged = new LinkedList<Task>()
 
-  for (Task task: tasks) {
+  for (Task task: model.tasks) {
     RemoteWorklog worklog = new RemoteWorklog();
     worklog.setComment(task.taskName);
     worklog.setTimeSpent("${(TimeHelp.floatHoursToMinutes(task.timeStretch))}m");
-    worklog.setStartDate(JIRAReportHelper.parseStartDate(date))
+    worklog.setStartDate(model.date)
 
     String issueKey
     issueKey = jiraMapping.mapToJIRA(task, worklog)
