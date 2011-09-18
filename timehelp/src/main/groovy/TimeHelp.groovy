@@ -1,4 +1,5 @@
 import java.util.regex.Matcher
+import java.text.SimpleDateFormat
 /**
  * Created by Silvestrov Ilya
  * Date: 9/12/11
@@ -39,6 +40,11 @@ class TimeHelp {
     float floatSeconds = (minutesPart*60 - minutes) * 60
     int seconds = floatSeconds.round()
     return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+  }
+
+  public static String formatDate(Calendar date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy")
+    return sdf.format(date.time)
   }
 
   static int floatHoursToMinutes(float floatHours) {

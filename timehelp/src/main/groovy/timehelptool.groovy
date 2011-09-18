@@ -6,6 +6,8 @@ run(new File('config.groovy'))
 
 StretchModel model = parseTasksFromTogglCSV(togglCSV)
 model.timeInOffice = TimeHelp.sumUpTasksTime(model.tasks)
+model.date = JIRAReportHelper.yesterday()
+model.alreadyReported = alreadyReported
 new StretchTimeForm(model).display()
 
 tasks = reportIntoJIRA(model)

@@ -45,20 +45,21 @@ class StretchTimeForm {
             label(text: 'Report date:', constraints: BorderLayout.WEST)
             textField (
                 constraints: BorderLayout.EAST,
-                columns: 6,
+                columns: 8,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
                   String dateText = field.getText()
                   stretchModel.date = JIRAReportHelper.parseStartDate(dateText)
                   println "Date successfully set to $stretchModel.date.time"
-                }
+                },
+                text: TimeHelp.formatDate(stretchModel.date)
             )
           }
           panel {
             borderLayout()
             label(text: 'Time in office:', constraints: BorderLayout.WEST)
             JTextField timeInOfficeFld = textField(
-                columns: 6,
+                columns: 8,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
                   stretchModel.timeInOffice = TimeHelp.timeToFloatHours(field.getText())

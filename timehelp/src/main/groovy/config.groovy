@@ -10,7 +10,6 @@ jiraMapping = new MatchFirstJIRAMapping(
     new ParseKeyJIRAMapping('TST')
 )
 //--------------------
-date = "06-Sep-2011"
 timeInOffice = '04:26:00'
 togglCSV = "report.htm"
 alreadyReported = 0
