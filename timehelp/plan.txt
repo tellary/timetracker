@@ -1,10 +1,11 @@
 Interactive time stretch review
-1. DONE Add input field for time spent and reporting date
-2. DONE Add input field for timeStretch value for each task
-3. DONE Make timeStretch pre-filled with timeSpent on togglCSV parsing, so what these values are populated
+* DONE Add input field for time spent and reporting date
+* DONE Add input field for timeStretch value for each task
+* DONE Make timeStretch pre-filled with timeSpent on togglCSV parsing, so what these values are populated
    in timeStretch input fields on the form
-4. Make 'good looking' formatting for timeSpent and timeStretch (select minutes or hh:mm)
-5. DONE Invoke stretchTasks procedure on time spent modification, so what new values of timeStretch fields are seen
+* Make 'good looking' formatting for timeSpent and timeStretch (select minutes or hh:mm)
+* DONE Invoke stretchTasks procedure on time spent modification, so what new values of timeStretch fields are seen
    on the form after time spent input modification
-6. DONE Invoke stretchTasks procedure on noStretch checkbox state change.
-7. DONE Invoke stretchTasks procedure on timeStretch input value editing.
+* DONE Invoke stretchTasks procedure on noStretch checkbox state change.
+* DONE Invoke stretchTasks procedure on timeStretch input value editing.
+
