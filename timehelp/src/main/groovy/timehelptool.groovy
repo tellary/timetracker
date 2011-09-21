@@ -22,6 +22,17 @@ tasks.each {Task it ->
 }
 
 
+def boolean splitEnds(String split) {
+  if (split.endsWith('"""'))
+    return true
+  else if (split.endsWith('""'))
+    return false
+  else if (split.endsWith('"'))
+    return true
+
+  return false
+}
+
 StretchModel parseTasksFromTogglCSV(String filename) {
   StretchModel stretchModel = new StretchModel()
   stretchModel.tasks = [] as List<Task>
@@ -33,16 +44,21 @@ StretchModel parseTasksFromTogglCSV(String filename) {
         //Begin of multi-split sentence
         if (currentSplit == null && split.startsWith('"')) {
           split = split.substring(1)
+          if (splitEnds(split)) {
+            split = split.substring(0, split.length() - 1)
+            splits.add(split.replace('""', '"'))
+            return
+          }
           currentSplit = split
           return
         }
 
         //End of multi-split sentence
-        if (currentSplit != null && split.endsWith('"')) {
+        if (currentSplit != null && splitEnds(split)) {
           split = split.substring(0, split.length() - 1)
           currentSplit += ','
           currentSplit += split
-          splits.add(currentSplit)
+          splits.add(currentSplit.replace('""', '"'))
           currentSplit = null
           return
         }
