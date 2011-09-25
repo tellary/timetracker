@@ -7,26 +7,40 @@ import org.junit.Assert
  */
 class TimeHelpTest {
   @Test
-  void testFloatHoursToString() {
-    String hours = TimeHelp.floatHoursToString(1.5f)
-    Assert.assertEquals('1:30:0', hours)
-  }
-
-  @Test
-  void testFloatHoursToMinutes() {
-    Assert.assertEquals(90, TimeHelp.floatHoursToMinutes(1.5f))
+  void testTimeStringToMillis() {
+    String time = '00:00:01'
+    long timeMillis = TimeHelp.timeStringToMillis(time)
+    Assert.assertEquals(1000, timeMillis)
   }
 
   @Test
   void testTimeFromToString() {
     String time = '00:30:01'
-    float hours = TimeHelp.timeToFloatHours(time)
-    String time1 = TimeHelp.floatHoursToString(hours)
+    long timeMillis = TimeHelp.timeStringToMillis(time)
+    String time1 = TimeHelp.timeMillisToString(timeMillis)
     Assert.assertEquals(time, time1)
 
     time = '01:30:27'
-    hours = TimeHelp.timeToFloatHours(time)
-    time1 = TimeHelp.floatHoursToString(hours)
+    timeMillis = TimeHelp.timeStringToMillis(time)
+    time1 = TimeHelp.timeMillisToString(timeMillis)
+    Assert.assertEquals(time, time1)
+  }
+
+  @Test
+  void testTimeFromToString60Sec() {
+    String time = '4h59m'
+    long timeMillis = TimeHelp.timeStringToMillis(time)
+    String time1 = TimeHelp.timeMillisToString(timeMillis)
+    Assert.assertEquals('04:59:00', time1)
+
+    time = '00:21:36'
+    timeMillis = TimeHelp.timeStringToMillis(time)
+    time1 = TimeHelp.timeMillisToString(timeMillis)
+    Assert.assertEquals(time, time1)
+
+    time = '01:09:59'
+    timeMillis = TimeHelp.timeStringToMillis(time)
+    time1 = TimeHelp.timeMillisToString(timeMillis)
     Assert.assertEquals(time, time1)
   }
 }

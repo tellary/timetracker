@@ -1,8 +1,8 @@
 class Task {
   String projectName
   String taskName
-  float timeSpent
-  float timeStretch
+  long timeSpent
+  long timeStretch
   boolean noStretch = false
   StretchModel stretchModel
   List<TaskModificationListener> taskModificationListeners = []
@@ -13,7 +13,7 @@ class Task {
     }
   }
 
-  void setTimeStretch(float timeStretch) {
+  void setTimeStretch(long timeStretch) {
     this.timeStretch = timeStretch
     if (stretchModel != null) {
       noStretch = true

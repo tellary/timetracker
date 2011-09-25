@@ -5,11 +5,11 @@
  */
 class StretchModel {
   List<Task> tasks
-  float timeInOffice
+  long timeInOffice
   Calendar date
-  float alreadyReported
+  long alreadyReported
 
-  void setTimeInOffice(float timeInOffice) {
+  void setTimeInOffice(long timeInOffice) {
     this.timeInOffice = timeInOffice
     TimeHelp.stretchTasks(this)
   }

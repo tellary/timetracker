@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
  * Time: 1:11 AM
  */
 class TimeHelp {
-  static float timeToFloatHours(String timeString) {
+  static long timeStringToMillis(String timeString) {
     String[] timeSplit
     if (timeString.matches('.*(h|m|s).*')) {
       timeSplit = ["0", "0", "0"] as String[]
@@ -31,14 +31,17 @@ class TimeHelp {
         timeSplit = ["0", timeSplit[0], "0"] as String[];
       }
     }
-    return Integer.parseInt(timeSplit[0]) + Integer.parseInt(timeSplit[1])/60f + Integer.parseInt(timeSplit[2])/3600f
+    int hours = Integer.parseInt(timeSplit[0])
+    int minutes = Integer.parseInt(timeSplit[1])
+    int seconds = Integer.parseInt(timeSplit[2])
+    return hours * 3600000 + minutes*60000 + seconds * 1000
   }
-  static String floatHoursToString(float floatHours) {
-    int hours = floatHours;
-    float minutesPart = floatHours - hours
-    int minutes = minutesPart * 60
-    float floatSeconds = (minutesPart*60 - minutes) * 60
-    int seconds = floatSeconds.round()
+  static String timeMillisToString(long timeMillis) {
+    long hours = timeMillis/3600000
+    long hoursRemainder = timeMillis - hours*3600000
+    long minutes = hoursRemainder/60000
+    long minutesRemainder = hoursRemainder - minutes*60000
+    long seconds = minutesRemainder/1000
     return String.format("%02d:%02d:%02d", hours, minutes, seconds)
   }
 
@@ -47,12 +50,16 @@ class TimeHelp {
     return sdf.format(date.time)
   }
 
-  static int floatHoursToMinutes(float floatHours) {
-    return (floatHours*60).round();
+  static int timeMillisToMinutes(long timeMillis) {
+    return ((float)timeMillis/60000.0).round()
   }
 
-  static float sumUpTasksTime(Collection<Task> tasks) {
-    float sum = 0
+  static float timeMillisToHours(long timeMillis) {
+    return ((float)timeMillis/3600000.0).round(2)
+  }
+
+  static long sumUpTasksTime(Collection<Task> tasks) {
+    long sum = 0
     tasks.each {Task it ->
       sum += it.timeSpent
     }
@@ -60,7 +67,7 @@ class TimeHelp {
   }
 
   static float sumUpStretchTasksTime(Collection<Task> tasks) {
-    float sum = 0
+    long sum = 0
     tasks.each {Task it ->
       sum += it.timeStretch
     }
@@ -70,26 +77,26 @@ class TimeHelp {
   static def stretchTasks(StretchModel stretchModel) {
     println '''
 ===================='''
-    float timeInOfficeFloat = stretchModel.timeInOffice
-    println "Time in office float ${timeInOfficeFloat.round(2)}"
+    long timeInOfficeMillis = stretchModel.timeInOffice
+    println "Time in office hours ${TimeHelp.timeMillisToHours(timeInOfficeMillis)}"
 
-    float timeEffectiveFloat = sumUpTasksTime(stretchModel.tasks)
-    println "Time effective float ${timeEffectiveFloat.round(2)}"
+    long timeEffectiveMillis = sumUpTasksTime(stretchModel.tasks)
+    println "Time effective hours ${TimeHelp.timeMillisToHours(timeEffectiveMillis)}"
 
-    float alreadyReported = stretchModel.alreadyReported
+    long alreadyReported = stretchModel.alreadyReported
 
-    float noStretchTime = sumUpStretchTasksTime(stretchModel.tasks.findAll {Task t-> t.noStretch})
-    float stretchTime = sumUpTasksTime(stretchModel.tasks.findAll {!it.noStretch})
+    long noStretchTime = sumUpStretchTasksTime(stretchModel.tasks.findAll {Task t-> t.noStretch})
+    long stretchTime = sumUpTasksTime(stretchModel.tasks.findAll {!it.noStretch})
 
-    println "No stretch tasks sum up time ${noStretchTime.round(2)}"
-    println "Stretch tasks sum up time ${stretchTime.round(2)}"
-    println "Overall efficency ${(timeEffectiveFloat/(timeInOfficeFloat - alreadyReported)).round(2)}"
-    println "Office - effective difference ${(timeInOfficeFloat - timeEffectiveFloat).round(2)}"
-    println "Office - alreadyReported ${(timeInOfficeFloat - alreadyReported).round(2)}"
+    println "No stretch tasks sum up time hours ${TimeHelp.timeMillisToHours(noStretchTime)}"
+    println "Stretch tasks sum up time hours ${TimeHelp.timeMillisToHours(stretchTime)}"
+    println "Overall efficency ${((float)timeEffectiveMillis/(timeInOfficeMillis - alreadyReported)).round(2)}"
+    println "Office - effective difference hours ${TimeHelp.timeMillisToHours(timeInOfficeMillis - timeEffectiveMillis)}"
+    println "Office - alreadyReported hours ${TimeHelp.timeMillisToHours(timeInOfficeMillis - alreadyReported)}"
 
-    float timeInOfficeLeft = timeInOfficeFloat - alreadyReported
+    long timeInOfficeLeftMillis = timeInOfficeMillis - alreadyReported
 
-    float leftEfficiency = (timeInOfficeLeft - noStretchTime)/stretchTime
+    float leftEfficiency = (timeInOfficeLeftMillis - noStretchTime)/stretchTime
     println "Extension coef for timeLeft ${leftEfficiency.round(2)}"
 
     println '''

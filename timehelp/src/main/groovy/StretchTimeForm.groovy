@@ -67,13 +67,13 @@ class StretchTimeForm {
                 columns: 8,
                 actionPerformed: {ActionEvent event ->
                   JTextField field = (JTextField)event.getSource()
-                  stretchModel.timeInOffice = TimeHelp.timeToFloatHours(field.getText())
-                  field.text = TimeHelp.floatHoursToString(stretchModel.timeInOffice)
+                  stretchModel.timeInOffice = TimeHelp.timeStringToMillis(field.getText())
+                  field.text = TimeHelp.timeMillisToString(stretchModel.timeInOffice)
                   println "Time in office successfully set to $stretchModel.timeInOffice"
                 },
                 constraints: BorderLayout.EAST
             )
-            timeInOfficeFld.text = TimeHelp.floatHoursToString(stretchModel.timeInOffice)
+            timeInOfficeFld.text = TimeHelp.timeMillisToString(stretchModel.timeInOffice)
           }
           for (Task task: stretchModel.tasks) {
             panel(border: BorderFactory.createMatteBorder(1, 0, 0, 0, Color.black)) {
@@ -94,7 +94,7 @@ class StretchTimeForm {
                   )
                 }
                 hbox (constraints: BorderLayout.LINE_END) {
-                  label(text: "${TimeHelp.floatHoursToString(task.timeSpent)}", constraints: BorderLayout.LINE_START)
+                  label(text: "${TimeHelp.timeMillisToString(task.timeSpent)}", constraints: BorderLayout.LINE_START)
                   JCheckBox checkBox = checkBox(
                       constraints: BorderLayout.CENTER,
                       actionPerformed: {Task taskArg, event->
@@ -108,14 +108,14 @@ class StretchTimeForm {
                       actionPerformed: {Task taskArg, ActionEvent event ->
                         JTextField field = (JTextField)event.getSource()
                         String timeStr = field.getText()
-                        taskArg.timeStretch = TimeHelp.timeToFloatHours(timeStr)
+                        taskArg.timeStretch = TimeHelp.timeStringToMillis(timeStr)
                         println "TimeStrech set to $taskArg.timeStretch"
                       }.curry(task)
                   )
-                  timeStretchFld.setText(TimeHelp.floatHoursToString(task.timeStretch))
+                  timeStretchFld.setText(TimeHelp.timeMillisToString(task.timeStretch))
                   task.taskModificationListeners.add(new TaskModificationListener() {
                     void taskModified(Task taskEvt) {
-                      timeStretchFld.setText(TimeHelp.floatHoursToString(taskEvt.timeStretch))
+                      timeStretchFld.setText(TimeHelp.timeMillisToString(taskEvt.timeStretch))
                       checkBox.setSelected(taskEvt.noStretch)
                     }
                   })

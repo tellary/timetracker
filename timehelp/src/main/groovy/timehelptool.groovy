@@ -4,7 +4,7 @@ import com.atlassian.jira.rpc.soap.client.RemoteWorklog
 
 run(new File('config.groovy'))
 
-StretchModel model = parseTasksFromTogglCSV(togglCSV)
+StretchModel model = TogglHelper.parseTasksFromTogglCSV(togglCSV)
 model.timeInOffice = TimeHelp.sumUpTasksTime(model.tasks)
 model.date = JIRAReportHelper.yesterday()
 model.alreadyReported = alreadyReported
@@ -18,72 +18,7 @@ Remaining tasks:
 
 tasks.each {Task it ->
   println "${it.projectName}"
-  println "${it.taskName} ${TimeHelp.floatHoursToString(it.timeSpent)} ${TimeHelp.floatHoursToMinutes(it.timeStretch)} min"
-}
-
-
-def boolean splitEnds(String split) {
-  if (split.endsWith('"""'))
-    return true
-  else if (split.endsWith('""'))
-    return false
-  else if (split.endsWith('"'))
-    return true
-
-  return false
-}
-
-StretchModel parseTasksFromTogglCSV(String filename) {
-  StretchModel stretchModel = new StretchModel()
-  stretchModel.tasks = [] as List<Task>
-  new File(filename).eachLine {String line ->
-    if (!line.startsWith("User,Client,Project") && !line.trim().isEmpty()) {
-      List<String> splits = [] as List<String>
-      String currentSplit
-      line.split(',').each {String split ->
-        //Begin of multi-split sentence
-        if (currentSplit == null && split.startsWith('"')) {
-          split = split.substring(1)
-          if (splitEnds(split)) {
-            split = split.substring(0, split.length() - 1)
-            splits.add(split.replace('""', '"'))
-            return
-          }
-          currentSplit = split
-          return
-        }
-
-        //End of multi-split sentence
-        if (currentSplit != null && splitEnds(split)) {
-          split = split.substring(0, split.length() - 1)
-          currentSplit += ','
-          currentSplit += split
-          splits.add(currentSplit.replace('""', '"'))
-          currentSplit = null
-          return
-        }
-        //Middle of multi-split sentence
-        if (currentSplit != null) {
-          currentSplit += ','
-          currentSplit += split
-        }
-        //Single split sentence
-        else {
-          splits.add(split)
-        }
-      }
-
-      Task task = new Task();
-      task.projectName = splits[2]
-      task.taskName = splits[3]
-      task.timeSpent = TimeHelp.timeToFloatHours(splits[7])
-      task.timeStretch = task.timeSpent
-      task.stretchModel = stretchModel
-      stretchModel.tasks.add(task)
-    }
-  }
-
-  return stretchModel
+  println "${it.taskName} ${TimeHelp.timeMillisToString(it.timeSpent)} ${TimeHelp.timeMillisToMinutes(it.timeStretch)} min"
 }
 
 Collection<Task> reportIntoJIRA(StretchModel model) {
@@ -99,7 +34,7 @@ Collection<Task> reportIntoJIRA(StretchModel model) {
   for (Task task: model.tasks) {
     RemoteWorklog worklog = new RemoteWorklog();
     worklog.setComment(task.taskName);
-    worklog.setTimeSpent("${(TimeHelp.floatHoursToMinutes(task.timeStretch))}m");
+    worklog.setTimeSpent("${(TimeHelp.timeMillisToMinutes(task.timeStretch))}m");
     worklog.setStartDate(model.date)
 
     String issueKey
@@ -111,7 +46,7 @@ Collection<Task> reportIntoJIRA(StretchModel model) {
     }
 
     println("""Going to add worklog for issue ${issueKey}
-with actual time spent ${TimeHelp.floatHoursToMinutes(task.timeSpent)}m
+with actual time spent ${TimeHelp.timeMillisToMinutes(task.timeSpent)}m
 with worklog time spent '${worklog.getTimeSpent()}'
 on date '$worklog.startDate.time'
 for project '$task.projectName'
