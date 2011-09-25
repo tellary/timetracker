@@ -31,7 +31,10 @@ class Task {
 
   void doStretch(float coefficient) {
     if (!noStretch) {
-      timeStretch = timeSpent * coefficient
+      if (coefficient < 1.0)
+        timeStretch = timeSpent
+      else
+        timeStretch = timeSpent * coefficient
       notifyListeners()
     }
   }
