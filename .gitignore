@@ -1,7 +1,7 @@
 *.log
 output
 target
-/testDB
+/timeDB
 /window.properties
 *.iml
 *.ipr
