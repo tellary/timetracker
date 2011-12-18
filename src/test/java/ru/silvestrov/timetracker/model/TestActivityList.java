@@ -11,21 +11,21 @@ import ru.silvestrov.timetracker.data.DataConfigurationTestSetup;
  * Time: 4:52:40 PM
  */
 public class TestActivityList {
-    private ActivityList activityList;
+    private ActivityControlList activityControlList;
     @Before
     public void setUp() {
         DataConfigurationTestSetup dataTestSetup = new DataConfigurationTestSetup();
         DataConfiguration dataConfig = dataTestSetup.getDataConfiguration();
-        activityList = new ActivityList();
-        activityList.setDataConfiguration(dataConfig);
-        activityList.afterPropertiesSet();
+        activityControlList = new ActivityControlList();
+        activityControlList.setDataConfiguration(dataConfig);
+        activityControlList.afterPropertiesSet();
     }
 
 
     @Test
     public void testSwitchActivity() {
-        activityList.makeActive(0);
-        activityList.makeActive(2);
-        activityList.makeActive(1);
+        activityControlList.makeActive(0);
+        activityControlList.makeActive(2);
+        activityControlList.makeActive(1);
     }
 }

@@ -1,6 +1,6 @@
 package ru.silvestrov.timetracker.view;
 
-import ru.silvestrov.timetracker.model.ActivityList;
+import ru.silvestrov.timetracker.model.ActivityControlList;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -14,7 +14,7 @@ import java.awt.*;
  */
 public class AddActivityController implements ActionListener {
     private JTextField name;
-    private ActivityList activityList;
+    private ActivityControlList activityControlList;
     private Window form;
 
     public void setName(JTextField name) {
@@ -25,12 +25,12 @@ public class AddActivityController implements ActionListener {
         this.form = form;
     }
 
-    public void setActivityList(ActivityList activityList) {
-        this.activityList = activityList;
+    public void setActivityControlList(ActivityControlList activityControlList) {
+        this.activityControlList = activityControlList;
     }
 
     public void actionPerformed(ActionEvent e) {
-        activityList.addActivity(name.getText());
+        activityControlList.addActivity(name.getText());
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 form.dispose();

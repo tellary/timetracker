@@ -28,11 +28,11 @@ public class DataConfiguration {
                 return new ClassPathResource(path, getClass());
             }
         };
-        PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
+        PropertyPlaceholderConfigurer configurator = new PropertyPlaceholderConfigurer();
         Properties props = new Properties();
         props.setProperty("derby.dbName", dbName);
-        configurer.setProperties(props);
-        ctx.addBeanFactoryPostProcessor(configurer);
+        configurator.setProperties(props);
+        ctx.addBeanFactoryPostProcessor(configurator);
         ctx.refresh();
     }
 

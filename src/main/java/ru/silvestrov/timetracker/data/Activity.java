@@ -1,5 +1,7 @@
 package ru.silvestrov.timetracker.data;
 
+import ru.silvestrov.timetracker.annotations.Nullable;
+
 import javax.persistence.*;
 
 /**
@@ -47,7 +49,7 @@ public class Activity {
         return currentTimeEntry;
     }
 
-    public void setCurrentTimeEntry(TimeEntry currentTimeEntry) {
+    public void setCurrentTimeEntry(@Nullable TimeEntry currentTimeEntry) {
         this.currentTimeEntry = currentTimeEntry;
     }
 }

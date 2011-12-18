@@ -1,8 +1,12 @@
 package ru.silvestrov.timetracker.view;
 
-import ru.silvestrov.timetracker.model.ActivityList;
-import ru.silvestrov.timetracker.model.ActivityListUpdateListener;
+import ru.silvestrov.timetracker.data.Activity;
+import ru.silvestrov.timetracker.model.ActivityControlList;
+import ru.silvestrov.timetracker.model.ActivityControlListUpdateListener;
+import ru.silvestrov.timetracker.model.ActivityInfo;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -14,9 +18,9 @@ import javax.swing.*;
  * Time: 9:20:23 PM
  */
 public class ActivityListTableModel extends AbstractTableModel {
-    private ActivityList activityList;
+    private ActivityControlList activityControlList;
 
-    public class UpdateListener implements ActivityListUpdateListener {
+    public class UpdateListenerControl implements ActivityControlListUpdateListener {
         public void activityTimeUpdated(int i) {
             final Integer index = ++i;
             SwingUtilities.invokeLater(new Runnable() {
@@ -41,15 +45,20 @@ public class ActivityListTableModel extends AbstractTableModel {
                 ListSelectionModel lsm = (ListSelectionModel) e.getSource();
                 int i = lsm.getLeadSelectionIndex();
                 if (i > 0)
-                    activityList.makeActive(i - 1);
+                    activityControlList.makeActive(i - 1);
                 else
-                    activityList.stopTimer();
+                    activityControlList.stopTimer();
             }
         }
     }
 
-    public ActivityListTableModel(ActivityList activityList) {
-        this.activityList = activityList;
+    public ActivityListTableModel(ActivityControlList activityControlList) {
+        this.activityControlList = activityControlList;
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return rowIndex > 0;
     }
 
     public int getColumnCount() {
@@ -58,7 +67,7 @@ public class ActivityListTableModel extends AbstractTableModel {
 
 
     public int getRowCount() {
-        return activityList.size() + 1;
+        return activityControlList.size() + 1;
     }
 
 
@@ -71,10 +80,16 @@ public class ActivityListTableModel extends AbstractTableModel {
             }
         }
         if (column == 0)
-            return activityList.getActivityInfo(row - 1).getName();
+            return activityControlList.getActivityInfo(row - 1).getName();
         else if (column == 1) {
-            return activityList.getActivityInfo(row - 1).getTime();
+            return activityControlList.getActivityInfo(row - 1).getTime();
         }
         throw new RuntimeException("Only 2 columns in the table");
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        ActivityInfo activity = activityControlList.getActivityInfo(rowIndex - 1);
+        System.out.println("Old activity name: " + activity.getName() + ", new name: " + aValue);
     }
 }

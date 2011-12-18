@@ -22,13 +22,13 @@ import java.util.concurrent.TimeUnit;
  * Date: Jul 12, 2008
  * Time: 9:13:30 PM
  */
-public class ActivityList implements InitializingBean {
+public class ActivityControlList implements InitializingBean {
     private ActivityDao activityDao;
     private TimeEntryDao timeEntryDao;
     private TransactionTemplate transactionTemplate;
     private List<Activity> activities;
     private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-    private ActivityListUpdateListener updateListener;
+    private ActivityControlListUpdateListener updateListener;
     private Future future;
     private long startTime;
 
@@ -54,7 +54,7 @@ public class ActivityList implements InitializingBean {
         setTransactionTemplate(dataConfiguration.getTransactionTemplate());
     }
 
-    public void setUpdateListener(ActivityListUpdateListener updateListener) {
+    public void setUpdateListener(ActivityControlListUpdateListener updateListener) {
         this.updateListener = updateListener;
     }
 

@@ -4,7 +4,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
-import ru.silvestrov.timetracker.model.ActivityList;
+import ru.silvestrov.timetracker.model.ActivityControlList;
 import ru.silvestrov.timetracker.view.ActivityListTableModel;
 import ru.silvestrov.timetracker.view.AddActivityController;
 import ru.silvestrov.timetracker.view.WindowSettingsSaver;
@@ -32,7 +32,7 @@ public class Main {
 //            }
 //        };
 
-        DataConfiguration dataConfiguration = new DataConfiguration("./testDB");
+        DataConfiguration dataConfiguration = new DataConfiguration("./timeDB");
         ActivityDao activityDao = dataConfiguration.getActivityDao();
         TimeEntryDao timeEntryDao = dataConfiguration.getTimeEntryDao();
         TransactionTemplate tt = dataConfiguration.getTransactionTemplate();
@@ -40,14 +40,15 @@ public class Main {
 
 
         final JFrame mainFrame = new JFrame();
-        final ActivityList activityList = new ActivityList();
-        activityList.setActivityDao(activityDao);
-        activityList.setTimeEntryDao(timeEntryDao);
-        activityList.setTransactionTemplate(tt);
-        ActivityListTableModel tableModel = new ActivityListTableModel(activityList);
-        activityList.setUpdateListener(tableModel.new UpdateListener());
-        activityList.afterPropertiesSet();
-        
+        final ActivityControlList activityControlList = new ActivityControlList();
+        activityControlList.setActivityDao(activityDao);
+        activityControlList.setTimeEntryDao(timeEntryDao);
+        activityControlList.setTransactionTemplate(tt);
+
+        ActivityListTableModel tableModel = new ActivityListTableModel(activityControlList);
+        activityControlList.setUpdateListener(tableModel.new UpdateListenerControl());
+        activityControlList.afterPropertiesSet();
+
 
         JTable table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -67,7 +68,7 @@ public class Main {
 
                         JButton addActivityButton = new JButton("Add activity");
                         AddActivityController addActivityController = new AddActivityController();
-                        addActivityController.setActivityList(activityList);
+                        addActivityController.setActivityControlList(activityControlList);
                         addActivityController.setName(text);
                         addActivityController.setForm(frame);
                         addActivityButton.addActionListener(addActivityController);
@@ -78,6 +79,7 @@ public class Main {
                 });
             }
         });
+
         JPanel panel = new JPanel(new GridLayout());
         panel.add(table);
         panel.add(addActivityButton);
@@ -88,18 +90,18 @@ public class Main {
         final WindowSettingsSaver settingsSaver = new WindowSettingsSaver();
 
         Toolkit.getDefaultToolkit().addAWTEventListener(
-                new AWTEventListener() {
-                    public void eventDispatched(AWTEvent event) {
-                        WindowEvent we = (WindowEvent) event;
-                        switch (event.getID()) {
-                            case WindowEvent.WINDOW_OPENED:
-                                settingsSaver.windowOpened(we);
-                                break;
-                            case WindowEvent.WINDOW_CLOSING:
-                                settingsSaver.windowClosing(we);
-                        }
+            new AWTEventListener() {
+                public void eventDispatched(AWTEvent event) {
+                    WindowEvent we = (WindowEvent) event;
+                    switch (event.getID()) {
+                        case WindowEvent.WINDOW_OPENED:
+                            settingsSaver.windowOpened(we);
+                            break;
+                        case WindowEvent.WINDOW_CLOSING:
+                            settingsSaver.windowClosing(we);
                     }
-                }, AWTEvent.WINDOW_EVENT_MASK
+                }
+            }, AWTEvent.WINDOW_EVENT_MASK
         );
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -109,5 +111,5 @@ public class Main {
             }
         });
 
-     }
+    }
 }
