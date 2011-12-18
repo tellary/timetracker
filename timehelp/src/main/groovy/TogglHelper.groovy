@@ -24,7 +24,7 @@ class TogglHelper {
     StretchModel stretchModel = new StretchModel()
     stretchModel.tasks = [] as List<Task>
     togglCSV.eachLine {String line ->
-      if (!line.startsWith("User,Client,Project") && !line.trim().isEmpty()) {
+      if (!line.startsWith("User,Email,Client,Project") && !line.trim().isEmpty()) {
         List<String> splits = [] as List<String>
         String currentSplit
         line.split(',').each {String split ->
@@ -61,9 +61,9 @@ class TogglHelper {
         }
 
         Task task = new Task();
-        task.projectName = splits[2]
-        task.taskName = splits[3]
-        task.timeSpent = TimeHelp.timeStringToMillis(splits[7])
+        task.projectName = splits[3]
+        task.taskName = splits[5]
+        task.timeSpent = TimeHelp.timeStringToMillis(splits[11])
         task.timeStretch = task.timeSpent
         task.stretchModel = stretchModel
         stretchModel.tasks.add(task)
