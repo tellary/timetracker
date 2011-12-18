@@ -8,7 +8,7 @@
 
 * DONE
 
-  * Remove TODO highlighting in *.apt files in IntelliJ (changed pattern to catch TODO: instead "TODO")
+  * Remove TODO highlighting in *.apt files in IntelliJ (changed pattern to catch TODO\: instead of "TODO")
 
 * TODO
 
