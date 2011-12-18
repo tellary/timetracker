@@ -4,7 +4,7 @@
     <groupId>ru.silvestrov.timetracker</groupId>
     <artifactId>timehelp</artifactId>
     <name>Time help tool to report into JIRA</name>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
