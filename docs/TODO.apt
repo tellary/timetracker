@@ -1,0 +1,67 @@
+17-Dec-11
+
+* DONE
+
+  * As a user I can rename activity to correct my mistakes: made cell editable and get cell updates
+
+18-Dec-11
+
+* DONE
+
+  * Remove TODO highlighting in *.apt files in IntelliJ (changed pattern to catch TODO: instead "TODO")
+
+* TODO
+
+  * Plan backlog for version 0.5
+
+  * U1: As a user I can rename activity to correct my mistakes
+    (version 0.5)
+
+    * Rename activity in the database and see it is updated in the activity list
+
+  * U2: As a user I want to see "time tracking" activity on the control list, so what I could
+    easily start it when renaming/creating/hiding activities or doing some other time tracking
+    related stuff.
+    (version 0.5, caused by U3)
+
+    * Add time tracking activity to the database if not present on construction of ActivityControlList
+
+  * U3: As a user I want special "time tracking" activity
+    to be started when I double-click its' name for edit so what I could
+    easily track time spent on "time tracking" activities
+    (version 0.5, caused by U1, depends on U2)
+
+    * Bind to "start edit" event
+
+    * Start the timer itself on "start edit" event
+
+Version 0.5
+
+  This version contains minimal set of features to start run Timetracker for work
+
+  * U4: As a user I can hide activities from control panel to free it up for faster switching
+
+    * Add column with control in ActivityControlList
+
+    * Implement callback for the control
+
+  * U5: As a user I can view activities by days to be able select them back to control panel
+
+  * U6: As a user I can restore activities back to control list to be able to start/stop them
+
+  * U7: As a user I want to view activities grouped by tasks and days so what I could easily find activities to
+    to restore them back into control list, to understand what was done on certain day, and to trigger export
+    to toggl CSV for certain day.
+
+  * U8: As a user I want to export "tasks done by day report" in CSV format compatible with toggl to be able
+    to import it into JIRA with timehelp tool.
+
+  * U9: As a user I want to see time spent on activities in human readable format
+
+  * U10: As a user I want to have distribution of TimeTracker to be able to run it on new workstations
+
+Backlog
+
+
+
+
