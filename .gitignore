@@ -2,6 +2,7 @@
 output
 target
 /timeDB
+/testDB
 /window.properties
 *.iml
 *.ipr
