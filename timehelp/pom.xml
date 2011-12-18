@@ -6,6 +6,12 @@
     <name>Time help tool to report into JIRA</name>
     <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <scm>
+        <connection>scm:git:.</connection>
+        <developerConnection>scm:git:.</developerConnection>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>com.atlassian.jira.plugins</groupId>
@@ -34,7 +40,7 @@
                     Remove this archiverConfig clause after bug is fixed.
                     -->
                     <!--
-                    TODO: Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround
+                    TODO: Vote for MASSEMBLY-449 and say thanks to the guy who have offered a workaround
                     -->
                     <archiverConfig>
                         <fileMode>420</fileMode> <!-- 420(dec) = 644(oct) -->
