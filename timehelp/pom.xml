@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ru.silvestrov.timetracker</groupId>
+    <artifactId>timehelp</artifactId>
+    <name>Time help tool to report into JIRA</name>
+    <version>0.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.atlassian.jira.plugins</groupId>
+            <artifactId>jira-soapclient</artifactId>
+            <version>4.1.1-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                    <!--
+                    This is workaround for bad directory permissions in zip assembly
+                    Offered in JIRA http://jira.codehaus.org/browse/MASSEMBLY-449.
+                    Remove this archiverConfig clause after bug is fixed.
+                    -->
+                    <!--
+                    TODO: Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround
+                    -->
+                    <archiverConfig>
+                        <fileMode>420</fileMode> <!-- 420(dec) = 644(oct) -->
+                        <directoryMode>493</directoryMode> <!-- 493(dec) = 755(oct) -->
+                        <defaultDirectoryMode>493</defaultDirectoryMode>
+                    </archiverConfig>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
