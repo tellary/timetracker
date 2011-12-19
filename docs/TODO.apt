@@ -32,6 +32,8 @@ Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
+  * Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround and remove TODO in the pom.xml
+
   * U1: As a user I can rename activity to correct my mistakes
     (version 0.5)
 
@@ -71,6 +73,9 @@ Version 0.5
   * U9: As a user I want to see time spent on activities in human readable format
 
   * U10: As a user I want to have distribution of TimeTracker to be able to run it on new workstations
+
+  * U11: As a user I want "add activity" button to be on top of Activity Control List and to
+    be "acceptably small" to avoid wasting of space on the screen
 
 Backlog
 
