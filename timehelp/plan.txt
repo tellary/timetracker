@@ -25,3 +25,9 @@ Interactive time stretch review
 * TODO
 
   * Create distribution for timehelp
+
+
+Backlog
+
+  * Package template for config.groovy into distribution with assembly plugin instead of development one
+    to avoid screwing up my JIRA sandbox environment by users.

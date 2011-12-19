@@ -10,9 +10,27 @@
 
   * Remove TODO highlighting in *.apt files in IntelliJ (changed pattern to catch TODO\: instead of "TODO")
 
-* TODO
-
   * Plan backlog for version 0.5
+
+
+19-Dec-11
+
+* DONE
+
+  * U3: As a user I want special "time tracking" activity
+    to be started when I double-click its' name for edit so what I could
+    easily track time spent on "time tracking" activities
+    (version 0.5, caused by U1, depends on U2)
+
+    * Found a way to disable selection on cell editing in JTable
+    (Double click generates two mouse events, on first event selection is adjusted
+    second events triggers cell editing. With custom CellEditor it is possible to detect
+    start editing situation by listening for focus event of underlying editor's component
+    and trigger selection to whatever you want)
+
+Version 0.5
+
+  This version contains minimal set of features to start run Timetracker for work
 
   * U1: As a user I can rename activity to correct my mistakes
     (version 0.5)
@@ -31,13 +49,7 @@
     easily track time spent on "time tracking" activities
     (version 0.5, caused by U1, depends on U2)
 
-    * Bind to "start edit" event
-
-    * Start the timer itself on "start edit" event
-
-Version 0.5
-
-  This version contains minimal set of features to start run Timetracker for work
+    * Start the "time tracking" activity (U2) on "start edit" event
 
   * U4: As a user I can hide activities from control panel to free it up for faster switching
 

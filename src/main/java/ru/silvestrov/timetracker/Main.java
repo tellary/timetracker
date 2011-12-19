@@ -11,10 +11,7 @@ import ru.silvestrov.timetracker.view.WindowSettingsSaver;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.AWTEventListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -50,10 +47,24 @@ public class Main {
         activityControlList.afterPropertiesSet();
 
 
-        JTable table = new JTable(tableModel);
+        final JTable table = new JTable(tableModel) {};
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().addListSelectionListener(tableModel.new SelectionListener());
         tableModel.addTableModelListener(table);
+        JTextField cellField = new JTextField();
+        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cellField));
+        cellField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                System.out.println("Focus");
+                table.changeSelection(0, 0, true, true);
+            }
+
+            public void focusLost(FocusEvent e) {
+            }
+        });
+
+
+
 
         final JButton addActivityButton = new JButton("Add activity");
         addActivityButton.addActionListener(new ActionListener() {
