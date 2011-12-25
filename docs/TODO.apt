@@ -23,21 +23,33 @@
     (version 0.5, caused by U1, depends on U2)
 
     * Found a way to disable selection on cell editing in JTable
-    (Double click generates two mouse events, on first event selection is adjusted
-    second events triggers cell editing. With custom CellEditor it is possible to detect
-    start editing situation by listening for focus event of underlying editor's component
-    and trigger selection to whatever you want)
+      (Double click generates two mouse events, on first event selection is adjusted
+      second events triggers cell editing. With custom CellEditor it is possible to detect
+      start editing situation by listening for focus event of underlying editor's component
+      and trigger selection to whatever you want)
+
+
+25-Dec-11
+
+* DONE
+
+  * U1: As a user I can rename activity to correct my mistakes
+    (version 0.5)
+
+    * Rename activity in the database and see it is updated in the activity list
+
+* TODO
+
+  * U1: As a user I can rename activity to correct my mistakes
+    (version 0.5)
+
+    * Understand why editing time cells causes name cells to be set to time value
 
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
   * Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround and remove TODO in the pom.xml
-
-  * U1: As a user I can rename activity to correct my mistakes
-    (version 0.5)
-
-    * Rename activity in the database and see it is updated in the activity list
 
   * U2: As a user I want to see "time tracking" activity on the control list, so what I could
     easily start it when renaming/creating/hiding activities or doing some other time tracking

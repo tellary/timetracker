@@ -22,10 +22,7 @@ Interactive time stretch review
 
   * Change CSV parser to match new toggl CSV format in timehelper
 
-* TODO
-
   * Create distribution for timehelp
-
 
 Backlog
 

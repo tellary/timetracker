@@ -1,12 +1,8 @@
 package ru.silvestrov.timetracker.view;
 
-import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.model.ActivityControlList;
 import ru.silvestrov.timetracker.model.ActivityControlListUpdateListener;
-import ru.silvestrov.timetracker.model.ActivityInfo;
 
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -19,6 +15,7 @@ import javax.swing.*;
  */
 public class ActivityListTableModel extends AbstractTableModel {
     private ActivityControlList activityControlList;
+    private RenameActivityController renameActivityController;
 
     public class UpdateListenerControl implements ActivityControlListUpdateListener {
         public void activityTimeUpdated(int i) {
@@ -52,8 +49,10 @@ public class ActivityListTableModel extends AbstractTableModel {
         }
     }
 
-    public ActivityListTableModel(ActivityControlList activityControlList) {
+    public ActivityListTableModel(ActivityControlList activityControlList,
+                                  RenameActivityController renameActivityController) {
         this.activityControlList = activityControlList;
+        this.renameActivityController = renameActivityController;
     }
 
     @Override
@@ -89,7 +88,6 @@ public class ActivityListTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        ActivityInfo activity = activityControlList.getActivityInfo(rowIndex - 1);
-        System.out.println("Old activity name: " + activity.getName() + ", new name: " + aValue);
+        renameActivityController.renameActivity(rowIndex - 1, (String) aValue);
     }
 }

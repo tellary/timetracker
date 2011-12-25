@@ -192,6 +192,10 @@ public class ActivityControlList implements InitializingBean {
         startTime = currentTime;
     }
 
+    public Activity getActivity(final int i) {
+        return activities.get(i);
+    }
+
     public ActivityInfo getActivityInfo(final int i) {
         return (ActivityInfo) transactionTemplate.execute(new TransactionCallback() {
             public Object doInTransaction(TransactionStatus status) {
@@ -199,9 +203,12 @@ public class ActivityControlList implements InitializingBean {
                 long time = timeEntryDao.getTotalTime(activity.getId());
                 TimeEntry timeEntry = activity.getCurrentTimeEntry();
                 if (timeEntry != null) {
-                    return new ActivityInfo(activity.getName(), time + System.currentTimeMillis() - timeEntry.getTimeStart());
+                    return new ActivityInfo(
+                        activity.getId(),
+                        activity.getName(),
+                        time + System.currentTimeMillis() - timeEntry.getTimeStart());
                 } else {
-                    return new ActivityInfo(activity.getName(), time);
+                    return new ActivityInfo(activity.getId(), activity.getName(), time);
                 }
             }
         });

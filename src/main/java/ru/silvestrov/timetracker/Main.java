@@ -7,6 +7,7 @@ import ru.silvestrov.timetracker.data.TimeEntryDao;
 import ru.silvestrov.timetracker.model.ActivityControlList;
 import ru.silvestrov.timetracker.view.ActivityListTableModel;
 import ru.silvestrov.timetracker.view.AddActivityController;
+import ru.silvestrov.timetracker.view.RenameActivityController;
 import ru.silvestrov.timetracker.view.WindowSettingsSaver;
 
 import javax.swing.*;
@@ -42,12 +43,17 @@ public class Main {
         activityControlList.setTimeEntryDao(timeEntryDao);
         activityControlList.setTransactionTemplate(tt);
 
-        ActivityListTableModel tableModel = new ActivityListTableModel(activityControlList);
+        RenameActivityController renameActivityController = new RenameActivityController();
+        renameActivityController.setActivityControlList(activityControlList);
+        renameActivityController.setActivityDao(activityDao);
+        renameActivityController.setTransactionTemplate(tt);
+
+        ActivityListTableModel tableModel = new ActivityListTableModel(
+            activityControlList, renameActivityController);
         activityControlList.setUpdateListener(tableModel.new UpdateListenerControl());
         activityControlList.afterPropertiesSet();
 
-
-        final JTable table = new JTable(tableModel) {};
+        final JTable table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().addListSelectionListener(tableModel.new SelectionListener());
         tableModel.addTableModelListener(table);

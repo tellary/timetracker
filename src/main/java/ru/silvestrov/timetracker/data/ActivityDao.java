@@ -18,4 +18,8 @@ public class ActivityDao extends HibernateDaoSupport {
     public List<Activity> listCurrentActivities() {
         return getHibernateTemplate().find("FROM Activity WHERE finished = false");
     }
+
+    public Activity getActivityById(long id) {
+        return (Activity) getHibernateTemplate().find("FROM Activity WHERE id = ?", id);
+    }
 }
