@@ -88,6 +88,7 @@ public class ActivityListTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        renameActivityController.renameActivity(rowIndex - 1, (String) aValue);
+        if (columnIndex == 0)
+            renameActivityController.renameActivity(rowIndex - 1, (String) aValue);
     }
 }
