@@ -38,18 +38,27 @@
 
     * Rename activity in the database and see it is updated in the activity list
 
-* TODO
+  * Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround and remove TODO in the pom.xml
 
-  * U1: As a user I can rename activity to correct my mistakes
-    (version 0.5)
+26-Dec-11
 
-    * Understand why editing time cells causes name cells to be set to time value
+* DONE
+
+  * U10: As a user I want to have distribution of TimeTracker to be able to run it on new workstations and
+    with new database files.
 
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * Vote for MASSEMBLY-449 in say thanks to the guy who have offered a workaround and remove TODO in the pom.xml
+  * Resolve dependency
+---
+  <dependency>
+    <groupId>org.apache.derby</groupId>
+    <artifactId>derbytools</artifactId>
+    <version>10.4.1.3</version>
+  </dependency>
+---
 
   * U2: As a user I want to see "time tracking" activity on the control list, so what I could
     easily start it when renaming/creating/hiding activities or doing some other time tracking
@@ -83,8 +92,6 @@ Version 0.5
     to import it into JIRA with timehelp tool.
 
   * U9: As a user I want to see time spent on activities in human readable format
-
-  * U10: As a user I want to have distribution of TimeTracker to be able to run it on new workstations
 
   * U11: As a user I want "add activity" button to be on top of Activity Control List and to
     be "acceptably small" to avoid wasting of space on the screen
