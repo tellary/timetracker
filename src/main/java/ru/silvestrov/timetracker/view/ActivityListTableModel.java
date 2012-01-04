@@ -81,7 +81,7 @@ public class ActivityListTableModel extends AbstractTableModel {
         if (column == 0)
             return activityControlList.getActivityInfo(row - 1).getName();
         else if (column == 1) {
-            return activityControlList.getActivityInfo(row - 1).getTime();
+            return formatTime(activityControlList.getActivityInfo(row - 1).getTime());
         }
         throw new RuntimeException("Only 2 columns in the table");
     }
@@ -90,5 +90,16 @@ public class ActivityListTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (columnIndex == 0)
             renameActivityController.renameActivity(rowIndex - 1, (String) aValue);
+    }
+
+    public static String formatTime(long time) {
+        //Copy-pasted from TimeHelp#timeMillisToString
+        //TODO: use common codebase
+        long hours = time / 3600000;
+        long hoursRemainder = time - hours * 3600000;
+        long minutes = hoursRemainder / 60000;
+        long minutesRemainder = hoursRemainder - minutes * 60000;
+        long seconds = minutesRemainder / 1000;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }

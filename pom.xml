@@ -4,7 +4,7 @@
     <groupId>ru.silvestrov.timetracker</groupId>
     <artifactId>timetracker</artifactId>
     <name>Time tracker</name>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.atlassian.jira.plugins</groupId>
@@ -128,7 +128,7 @@
                                         <path refid="maven.compile.classpath"/>
                                         <path refid="maven.plugin.classpath"/>
                                     </classpath>
-                                    <arg line="-p testDB.properties"/>
+                                    <!--<arg line="-p testDB.properties"/>-->
                                 </java>
                             </tasks>
                         </configuration>
