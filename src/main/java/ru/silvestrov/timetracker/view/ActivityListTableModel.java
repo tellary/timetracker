@@ -93,7 +93,7 @@ public class ActivityListTableModel extends AbstractTableModel {
             JButton button = hideButtons.get(row);
             activityControlList.getActivityInfo(row - 1).getName();
             if (button == null) {
-                button = new JButton("hide");
+                button = new JButton("finish");
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {

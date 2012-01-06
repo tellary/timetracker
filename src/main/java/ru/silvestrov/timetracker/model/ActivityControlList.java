@@ -195,6 +195,23 @@ public class ActivityControlList implements InitializingBean {
         });
     }
 
+    public void finishActivity(final int i) {
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                Activity activity = activities.get(i);
+                activity.setFinished(true);
+                activityDao.save(activity);
+                activities.remove(i);
+
+                stopTimer();
+            }
+        });
+
+        startTimer();
+        updateListener.invalidateList();
+    }
+
     @SuppressWarnings({"unchecked"})
     public void afterPropertiesSet() {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {

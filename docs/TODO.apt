@@ -87,11 +87,15 @@
 
 06-Jan-12
 
-* TODO
+* DONE
 
   * U4: As a user I can hide activities from control panel to free it up for faster switching
 
-    * Implement hide ActivityControlList#hide method together with test
+    * Implement ActivityControlList#finishActivity method together with test
+
+* TODO
+
+  * U4: As a user I can hide activities from control panel to free it up for faster switching
 
     * Implement callback for the control
 
