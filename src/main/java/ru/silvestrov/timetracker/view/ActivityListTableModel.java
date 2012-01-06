@@ -7,6 +7,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Silvestrov Ilya
@@ -57,11 +63,11 @@ public class ActivityListTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return rowIndex > 0;
+        return rowIndex > 0 && columnIndex != 1;
     }
 
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
 
@@ -69,12 +75,13 @@ public class ActivityListTableModel extends AbstractTableModel {
         return activityControlList.size() + 1;
     }
 
+    private Map<Integer, JButton> hideButtons = new HashMap<Integer, JButton>();
 
-    public Object getValueAt(int row, int column) {
+    public Object getValueAt(final int row, int column) {
         if (row == 0) {
             if (column == 0)
                 return "(nothing)";
-            else if (column == 1) {
+            else {
                 return "";
             }
         }
@@ -82,8 +89,36 @@ public class ActivityListTableModel extends AbstractTableModel {
             return activityControlList.getActivityInfo(row - 1).getName();
         else if (column == 1) {
             return formatTime(activityControlList.getActivityInfo(row - 1).getTime());
+        } else if (column == 2) {
+            JButton button = hideButtons.get(row);
+            activityControlList.getActivityInfo(row - 1).getName();
+            if (button == null) {
+                button = new JButton("hide");
+                button.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println("Mouse clicked on row " + row);
+                    }
+                });
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Action event on row " + row);
+                    }
+                });
+                hideButtons.put(row, button);
+            }
+            return button;
         }
-        throw new RuntimeException("Only 2 columns in the table");
+
+        throw new RuntimeException(String.format("There are only 3 columns in the table, but column %d is requested", column));
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if (columnIndex != 2)
+            return super.getColumnClass(columnIndex);
+        else
+            return JButton.class;
     }
 
     @Override

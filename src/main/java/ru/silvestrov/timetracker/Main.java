@@ -5,10 +5,7 @@ import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
 import ru.silvestrov.timetracker.model.ActivityControlList;
-import ru.silvestrov.timetracker.view.ActivityListTableModel;
-import ru.silvestrov.timetracker.view.AddActivityController;
-import ru.silvestrov.timetracker.view.RenameActivityController;
-import ru.silvestrov.timetracker.view.WindowSettingsSaver;
+import ru.silvestrov.timetracker.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,6 +65,9 @@ public class Main {
             public void focusLost(FocusEvent e) {
             }
         });
+        table.getColumnModel().getColumn(2).setCellRenderer(new ComponentCellRenderer(table.getDefaultRenderer(String.class)));
+        table.getColumnModel().getColumn(2).setCellEditor(new ComponentCellEditor());
+//        table.addMouseListener(new TableCellClickMouseListener());
 
 
 

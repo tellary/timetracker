@@ -79,25 +79,6 @@ public class ActivityControlList implements InitializingBean {
         updateListener.invalidateList();
     }
 
-    //TODO:activity updates must be handled together in common part
-    public void setActivitiesDone(final int[] indexes) {
-        transactionTemplate.execute(new TransactionCallbackWithoutResult(){
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                for (int i : indexes) {
-                    Activity activity = activities.get(i);
-                    activity.setFinished(true);
-                    activityDao.save(activity);
-                }
-                stopTimer();
-
-                activities =  activityDao.listCurrentActivities();
-            }
-        });
-
-        startTimer();
-        updateListener.invalidateList();
-    }
-
     private class Notifier implements Runnable {
         private int index;
 
