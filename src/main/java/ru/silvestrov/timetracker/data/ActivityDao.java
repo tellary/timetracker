@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ActivityDao extends HibernateDaoSupport {
     public void save(Activity activity) {
-        getHibernateTemplate().merge(activity);
+        getHibernateTemplate().saveOrUpdate(activity);
     }
 
     @SuppressWarnings({"unchecked"})

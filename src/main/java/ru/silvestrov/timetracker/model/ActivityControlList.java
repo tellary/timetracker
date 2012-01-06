@@ -71,7 +71,7 @@ public class ActivityControlList implements InitializingBean {
 
                 stopTimer();
 
-                activities =  activityDao.listCurrentActivities();
+                activities.add(activity);
             }
         });
 

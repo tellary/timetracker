@@ -65,10 +65,13 @@ public class Main {
             public void focusLost(FocusEvent e) {
             }
         });
-        table.getColumnModel().getColumn(2).setCellRenderer(new ComponentCellRenderer(table.getDefaultRenderer(String.class)));
-        table.getColumnModel().getColumn(2).setCellEditor(new ComponentCellEditor());
-//        table.addMouseListener(new TableCellClickMouseListener());
-
+        ButtonCellHelper buttonCellHelper = new ButtonCellHelper("finish", new ButtonCellHelper.CellButtonListener() {
+            public void cellButtonPressed(int row) {
+                activityControlList.finishActivity(row - 1);
+            }
+        });
+        table.getColumnModel().getColumn(2).setCellRenderer(buttonCellHelper);
+        table.getColumnModel().getColumn(2).setCellEditor(buttonCellHelper);
 
 
 

@@ -90,24 +90,7 @@ public class ActivityListTableModel extends AbstractTableModel {
         else if (column == 1) {
             return formatTime(activityControlList.getActivityInfo(row - 1).getTime());
         } else if (column == 2) {
-            JButton button = hideButtons.get(row);
-            activityControlList.getActivityInfo(row - 1).getName();
-            if (button == null) {
-                button = new JButton("finish");
-                button.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println("Mouse clicked on row " + row);
-                    }
-                });
-                button.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("Action event on row " + row);
-                    }
-                });
-                hideButtons.put(row, button);
-            }
-            return button;
+            return null;
         }
 
         throw new RuntimeException(String.format("There are only 3 columns in the table, but column %d is requested", column));

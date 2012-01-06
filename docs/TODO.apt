@@ -93,11 +93,11 @@
 
     * Implement ActivityControlList#finishActivity method together with test
 
-* TODO
+    * Implement cell editor and cell renderer with one button component and pass idx as a field to the component's
+      action performed cellButtonListener when getTableCellEditorComponent is called to invoke finishActivity(idx) on button
+      pressed.
 
-  * U4: As a user I can hide activities from control panel to free it up for faster switching
-
-    * Implement callback for the control
+    * Implement callback for the button pressed
 
 Version 0.4
 

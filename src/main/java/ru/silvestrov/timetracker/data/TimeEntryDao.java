@@ -10,11 +10,11 @@ import org.hibernate.Query;
  */
 public class TimeEntryDao extends HibernateDaoSupport {
     public void addTimeEntry(TimeEntry timeEntry) {
-        getHibernateTemplate().persist(timeEntry);
+        getHibernateTemplate().save(timeEntry);
     }
 
     public void save(TimeEntry timeEntry) {
-        getHibernateTemplate().merge(timeEntry);
+        getHibernateTemplate().saveOrUpdate(timeEntry);
     }
 
     @SuppressWarnings({"unchecked"})
