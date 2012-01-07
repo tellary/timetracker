@@ -121,6 +121,9 @@ Version 0.4
     but showing its contents without cropping while first
     column with name of the task to take all remaining size so what I see as much of the task name as possible.
 
+  * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
+    into cell width`
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work

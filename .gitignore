@@ -4,6 +4,7 @@ target
 /timeDB
 /testDB
 /window.properties
+/out
 *.iml
 *.ipr
 *.iws
