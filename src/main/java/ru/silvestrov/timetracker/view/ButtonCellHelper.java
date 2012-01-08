@@ -43,6 +43,12 @@ public class ButtonCellHelper extends AbstractCellEditor implements TableCellEdi
         button.addActionListener(actionListener);
     }
 
+    public ButtonCellHelper(Icon icon, CellButtonListener cellButtonListener) {
+        button = new JButton(icon);
+        this.cellButtonListener = cellButtonListener;
+        button.addActionListener(actionListener);
+    }
+
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         actionListener.setRowNum(row);
         return button;

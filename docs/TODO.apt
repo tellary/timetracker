@@ -117,17 +117,26 @@
 
 09-Jan-12
 
+* DONE
+
+* U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so what
+    it takes least size possible.
+
 * TODO
 
   * U20: I want name to be of 1024 length so what I could enter "very long" activity names
 
-  * U18: I want to be able to set time on certain value for certain timer so what I could
-    input some time value tracked outside of time tracker, i.e with stopwatch and piece of paper, or in the
+  * U18: I want to be able to add time entry with specific values (start, duration) for timer so what I could
+    input some time values tracked outside of time tracker, i.e with stopwatch and piece of paper, or in the
     another timer program
 
-    * Add time editing GUI handler which will output entered time
+    * Think how to implement
+
+    * Implement GUI stub which will form the database update request and output it into sysout
 
     * Add time edit controller which will update the database
+
+    * Add 15 min for U21 task my timeDB for time around 2:10 - 2:25
 
   * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
     into cell width`

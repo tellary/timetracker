@@ -64,7 +64,21 @@ public class Main {
             public void focusLost(FocusEvent e) {
             }
         });
-        ButtonCellHelper buttonCellHelper = new ButtonCellHelper("finish", new ButtonCellHelper.CellButtonListener() {
+        Icon finishIcon = new Icon() {
+            public void paintIcon(Component c, Graphics g, int x, int y) {
+                g.drawString("x", x + 1, y + getIconHeight());
+            }
+
+            public int getIconWidth() {
+                return 10;
+            }
+
+            public int getIconHeight() {
+                return 10;
+            }
+        };
+
+        ButtonCellHelper buttonCellHelper = new ButtonCellHelper(finishIcon, new ButtonCellHelper.CellButtonListener() {
             public void cellButtonPressed(int row) {
                 activityControlList.finishActivity(row - 1);
             }
@@ -75,8 +89,7 @@ public class Main {
 
         Component timeRendererComponent = table.getDefaultRenderer(String.class).getTableCellRendererComponent(table, "00:00:00", true, true, 2, 1);
         table.getColumnModel().getColumn(1).setMaxWidth((int) timeRendererComponent.getPreferredSize().getWidth() + 10);
-        Component finishRendererComponent = buttonCellHelper.getTableCellRendererComponent(table, "finish", true, true, 1, 2);
-        table.getColumnModel().getColumn(2).setMaxWidth((int) finishRendererComponent.getPreferredSize().getWidth() + 10);
+        table.getColumnModel().getColumn(2).setMaxWidth(finishIcon.getIconWidth());
 
 
         final JButton addActivityButton = new JButton("Add activity");
