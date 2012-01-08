@@ -58,7 +58,6 @@ public class Main {
         table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cellField));
         cellField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                System.out.println("Focus");
                 table.changeSelection(0, 0, true, true);
             }
 
@@ -73,6 +72,11 @@ public class Main {
         table.getColumnModel().getColumn(2).setCellRenderer(buttonCellHelper);
         table.getColumnModel().getColumn(2).setCellEditor(buttonCellHelper);
 
+
+        Component timeRendererComponent = table.getDefaultRenderer(String.class).getTableCellRendererComponent(table, "00:00:00", true, true, 2, 1);
+        table.getColumnModel().getColumn(1).setMaxWidth((int) timeRendererComponent.getPreferredSize().getWidth() + 10);
+        Component finishRendererComponent = buttonCellHelper.getTableCellRendererComponent(table, "finish", true, true, 1, 2);
+        table.getColumnModel().getColumn(2).setMaxWidth((int) finishRendererComponent.getPreferredSize().getWidth() + 10);
 
 
         final JButton addActivityButton = new JButton("Add activity");
