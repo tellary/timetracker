@@ -99,17 +99,34 @@
 
     * Implement callback for the button pressed
 
-Version 0.4
+08-Jan-12
 
-  This version contains minimal set of features to run Timetracker as simple "multi-task timer"
+* DONE
 
   * Add @Null annotation to project and setup IDEA to honor it while doing its checks
 
   * U11: As a user I want "add activity" button to be on top of Activity Control List and to
     be "acceptably small" to avoid wasting of space on the screen
 
-  * U13: I want editing time column (second one) to be prohibit to avoid wasting time on loosing
-    focus if eventually double-clicked
+* TODO
+
+  * U18: I want to be able to set time on certain value for certain timer so what I could
+    input some time value tracked outside of time tracker, i.e with stopwatch and piece of paper, or in the
+    another timer program
+
+    * Add time editing GUI handler which will output entered time
+
+    * Add time edit controller which will update the database
+
+  * U15: I want activity control list to be vertically scrollable so what I could add a any amount of activities
+    into it while preserving small height of the window.
+
+Version 0.4
+
+  This version contains minimal set of features to run Timetracker as simple "multi-task timer"
+
+  * U13: I want editing time column (second one) to be editable to let decrease/increase time with
+    discreet steps and continuously  so what I can adjust time if forgot to switch on/off the timer
 
   * U14: I want "add activity" form to have the same size and position as it was when
     last closed to avoid wasting time on resizing and repositioning
@@ -123,6 +140,12 @@ Version 0.4
 
   * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
     into cell width`
+
+  * U18: I want activity control list to have only time summed up for one day so what I can see how much
+    time is spent on the task during the day to understand how overall time tracked per day is summed up.
+
+  * U19: I want to see sum up time for tasks in activity control list for the day so what I could understand
+    how much time did I already spent for this day to estimate this day efficiency
 
 Version 0.5
 

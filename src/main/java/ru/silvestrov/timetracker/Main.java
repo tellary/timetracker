@@ -100,9 +100,11 @@ public class Main {
             }
         });
 
-        JPanel panel = new JPanel(new GridLayout());
-        panel.add(table);
-        panel.add(addActivityButton);
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.add(topPanel, BorderLayout.NORTH);
+        topPanel.add(addActivityButton);
+        panel.add(table, BorderLayout.CENTER);
 
         mainFrame.add(panel);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -37,6 +37,7 @@ public class Activity {
         this.name = name;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean isFinished() {
         return finished;
     }
