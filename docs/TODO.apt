@@ -131,9 +131,6 @@ Version 0.4
   * U14: I want "add activity" form to have the same size and position as it was when
     last closed to avoid wasting time on resizing and repositioning
 
-  * U15: I want activity control list to be vertically scrollable so what I could add a any amount of activities
-    into it while preserving small height of the window.
-
   * U16: I want all columns on activity control list except name (the first one) to be fixed size,
     but showing its contents without cropping while first
     column with name of the task to take all remaining size so what I see as much of the task name as possible.

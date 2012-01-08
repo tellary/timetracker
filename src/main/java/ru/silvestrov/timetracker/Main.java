@@ -101,10 +101,12 @@ public class Main {
         });
 
         JPanel panel = new JPanel(new BorderLayout());
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         panel.add(topPanel, BorderLayout.NORTH);
         topPanel.add(addActivityButton);
-        panel.add(table, BorderLayout.CENTER);
+        JPanel centerPanel = new JPanel(new GridLayout(0, 1, 0, 0));
+        centerPanel.add(table);
+        panel.add(new JScrollPane(centerPanel),BorderLayout.CENTER);
 
         mainFrame.add(panel);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
