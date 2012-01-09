@@ -110,21 +110,30 @@ public class ActivityControlList implements InitializingBean {
     }
 
     private void processStopData(final int activityIdx, final long timeEnd, final Activity activity) {
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
+        boolean timeDeleted = (Boolean) transactionTemplate.execute(new TransactionCallback() {
+            public Object doInTransaction(TransactionStatus status) {
                 TimeEntry timeEntry = activity.getCurrentTimeEntry();
+                boolean timeDeleted;
                 if (timeEnd - timeEntry.getTimeStart() < smallTimeThreshold) {
                     timeEntryDao.delete(timeEntry);
-                    updateListener.activityTimeUpdated(activityIdx);
-                    //Some additional handling here should be done for U24.
+                    timeDeleted = true;
                 } else {
                     timeEntry.setTimeEnd(timeEnd);
                     timeEntryDao.save(timeEntry);
+                    timeDeleted = false;
                 }
                 activity.setCurrentTimeEntry(null);
                 activityDao.save(activity);
+                return timeDeleted;
             }
         });
+        if (timeDeleted) {
+            //update notification is sent here to redraw the raw as timer data already drawn in the
+            //timer cell is stale after last entry deletion
+            updateListener.activityTimeUpdated(activityIdx);
+            //Some additional handling here should be done for U24.
+        }
+
     }
 
     public void stopTimer() {
