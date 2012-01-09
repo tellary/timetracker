@@ -45,8 +45,10 @@ public class Main {
         renameActivityController.setActivityDao(activityDao);
         renameActivityController.setTransactionTemplate(tt);
 
+        AdjustTimeController adjustTimeController = new AdjustTimeController(tt, timeEntryDao, activityControlList);
+
         ActivityListTableModel tableModel = new ActivityListTableModel(
-            activityControlList, renameActivityController);
+            activityControlList, renameActivityController, adjustTimeController);
         activityControlList.setUpdateListener(tableModel.new UpdateListenerControl());
         activityControlList.afterPropertiesSet();
 
@@ -56,6 +58,7 @@ public class Main {
         tableModel.addTableModelListener(table);
         JTextField cellField = new JTextField();
         table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cellField));
+        table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cellField));
         cellField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 table.changeSelection(0, 0, true, true);

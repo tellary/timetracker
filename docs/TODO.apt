@@ -128,8 +128,6 @@
     could appear due to mistaken selection and Swing jtable selection on double-click. Threshold to consider
     "small time entry" a garbage is 1 to 3 secs. You couldn't do anything sensible for this small amount of time.
 
-* TODO
-
   * U18: I want be able to increase timer value so what I could add several minutes if I forgot to
     start the timer. This should create new timeentry with time_end equal to current moment and times_start
     with specified amount of minutes ago.
