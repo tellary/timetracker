@@ -56,17 +56,26 @@ public class Main {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().addListSelectionListener(tableModel.new SelectionListener());
         tableModel.addTableModelListener(table);
-        JTextField cellField = new JTextField();
-        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cellField));
-        table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cellField));
-        cellField.addFocusListener(new FocusListener() {
+        JTextField nameField = new JTextField();
+        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(nameField));
+        JTextField timeField = new JTextField("-3");
+        table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(timeField) {
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                return editorComponent;
+            }
+        });
+        FocusListener resetTimerFocusListener = new FocusListener() {
             public void focusGained(FocusEvent e) {
                 table.changeSelection(0, 0, true, true);
             }
 
             public void focusLost(FocusEvent e) {
             }
-        });
+        };
+        nameField.addFocusListener(resetTimerFocusListener);
+        timeField.addFocusListener(resetTimerFocusListener);
+
         Icon finishIcon = new Icon() {
             public void paintIcon(Component c, Graphics g, int x, int y) {
                 g.drawString("x", x + 1, y + getIconHeight());

@@ -31,6 +31,9 @@ public class AdjustTimeController {
 
     public void adjustTime(final int activityIdx, final String adjustment) {
         final long timeEnd = System.currentTimeMillis();
+        if (adjustment.trim().isEmpty())
+            return;
+
         if (adjustment.startsWith("+")) {
             transactionTemplate.execute(new TransactionCallbackWithoutResult() {
                 @Override

@@ -137,6 +137,9 @@
 
     * Implement controller
 
+  * U26: I want time cell to be empty (or have some "good value") when I double-click it for
+    time adjustment so what I don't spent time on cleaning it manually.
+
 10-Jan-12
 
 * TODO
