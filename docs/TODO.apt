@@ -119,24 +119,36 @@
 
 * DONE
 
-* U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so what
+  * U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so what
     it takes least size possible.
+
+  * Think how to implement U18, U22 and U13 (have had a long phone call with brother)
+
+  * U25: I want "very small" time entries to be not saved to avoid garbage in the history. Small time entries
+    could appear due to mistaken selection and Swing jtable selection on double-click. Threshold to consider
+    "small time entry" a garbage is 1 to 3 secs. You couldn't do anything sensible for this small amount of time.
+
+* TODO
+
+  * U18: I want be able to increase timer value so what I could add several minutes if I forgot to
+    start the timer. This should create new timeentry with time_end equal to current moment and times_start
+    with specified amount of minutes ago.
+    (blocked by U25)
+
+    * Implement GUI part
+
+    * Implement controller
+
+10-Jan-12
 
 * TODO
 
   * U20: I want name to be of 1024 length so what I could enter "very long" activity names
 
-  * U18: I want to be able to add time entry with specific values (start, duration) for timer so what I could
-    input some time values tracked outside of time tracker, i.e with stopwatch and piece of paper, or in the
-    another timer program
-
-    * Think how to implement
-
-    * Implement GUI stub which will form the database update request and output it into sysout
-
-    * Add time edit controller which will update the database
-
-    * Add 15 min for U21 task my timeDB for time around 2:10 - 2:25
+  * U13: I want be able to decrease timer value so what I could decrease its value for 3 or 5 minutes if I forgot
+    to turn the timer off when quit for cup of coffee. This is achieved by moving end_time of last time entry backwards.
+    If amount of time asked to descrease is greater then duration of time entry then last time entry is removed
+    and overall timer value is decreased on duration of time entry instead of requested amount.
 
   * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
     into cell width`
@@ -145,23 +157,10 @@ Version 0.4
 
   This version contains minimal set of features to run Timetracker as simple "multi-task timer"
 
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
-
-  * U2: As a user I want to see "time tracking" activity on the control list, so what I could
-    easily start it when renaming/creating/hiding activities or doing some other time tracking
-    related stuff.
-    (version 0.5, caused by U3)
-
-    * Add time tracking activity to the database if not present on construction of ActivityControlList
-
-  * U3: As a user I want special "time tracking" activity
-    to be started when I double-click its' name for edit so what I could
-    easily track time spent on "time tracking" activities
-    (version 0.5, caused by U1, depends on U2)
-
-    * Start the "time tracking" activity (U2) on "start edit" event
 
   * U5: As a user I can view activities by days to be able select them back to control panel
 
@@ -178,9 +177,6 @@ Version 0.6
 
   This version improves "multi-task timer" (Activity Control List) usability
 
-  * U13: I want editing time column (second one) to let decrease/increase time with
-    discreet steps and continuously so what I can adjust time if forgot to switch on/off the timer
-
   * U14: I want "add activity" form to have the same size and position as it was when
     last closed to avoid wasting time on resizing and repositioning
 
@@ -189,6 +185,36 @@ Version 0.6
 
   * U19: I want to see sum up time for tasks in activity control list for the day so what I could understand
     how much time did I already spent for this day to estimate this day efficiency
+
+  * U2: As a user I want to see "time tracking" activity on the control list, so what I could
+    easily start it when renaming/creating/hiding activities or doing some other time tracking
+    related stuff.
+    (version 0.5, caused by U3)
+
+    * Add time tracking activity to the database if not present on construction of ActivityControlList
+
+  * U3: As a user I want special "time tracking" activity
+    to be started when I double-click its' name for edit so what I could
+    easily track time spent on "time tracking" activities
+    (version 0.5, caused by U1, depends on U2)
+
+    * Start the "time tracking" activity (U2) on "start edit" event
+
+  * U23: I want just added activity to be started so what I don't waste time on starting it additionly
+
+  * U22: I want to add new time entry specifying time_start and duration, so what I could add some time
+    measurements done outside of the timetracker with stopwatch and piece of paper or from another timer program.
+
+    * Implement GUI stub which will form the database update request and output it into sysout
+
+    * Add time edit controller which will update the database
+
+    * Add 15 min for U21 task my timeDB for time around 2:10 - 2:25, Jan 9
+
+  * U24: I want to be notified when requested time decrease for activity is greater then duration of activity
+    so what I could see that my decrease request won't be executed fully.
+    See ActivityControlList#processStopData method
+
 
 Backlog
 

@@ -28,4 +28,8 @@ public class TimeEntryDao extends HibernateDaoSupport {
         else
             return 0;
     }
+
+    public void delete(TimeEntry timeEntry) {
+        getHibernateTemplate().delete(timeEntry);
+    }
 }

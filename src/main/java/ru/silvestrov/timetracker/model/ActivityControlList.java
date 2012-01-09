@@ -35,6 +35,8 @@ public class ActivityControlList implements InitializingBean {
     private long timeStep = 1000;
     private TimeUnit unit = TimeUnit.MILLISECONDS;
 
+    @SuppressWarnings({"FieldCanBeLocal"})
+    private long smallTimeThreshold = 3000;
 
     public void setActivityDao(ActivityDao activityDao) {
         this.activityDao = activityDao;
@@ -107,12 +109,18 @@ public class ActivityControlList implements InitializingBean {
         }
     }
 
-    private void processStopData(final long timeEnd, final Activity activity) {
+    private void processStopData(final int activityIdx, final long timeEnd, final Activity activity) {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 TimeEntry timeEntry = activity.getCurrentTimeEntry();
-                timeEntry.setTimeEnd(timeEnd);
-                timeEntryDao.save(timeEntry);
+                if (timeEnd - timeEntry.getTimeStart() < smallTimeThreshold) {
+                    timeEntryDao.delete(timeEntry);
+                    updateListener.activityTimeUpdated(activityIdx);
+                    //Some additional handling here should be done for U24.
+                } else {
+                    timeEntry.setTimeEnd(timeEnd);
+                    timeEntryDao.save(timeEntry);
+                }
                 activity.setCurrentTimeEntry(null);
                 activityDao.save(activity);
             }
@@ -125,14 +133,16 @@ public class ActivityControlList implements InitializingBean {
             future.cancel(false);
 
         long currentTime = System.currentTimeMillis();
+        int i = 0;
         for (Activity activity : activities) {
             if (activity.getCurrentTimeEntry() != null) {
                 if (found)
                     throw new RuntimeException("Unable to schedule multiple concurrent activities");
                 found = true;
-                processStopData(currentTime, activity);
+                processStopData(i, currentTime, activity);
                 startTime = currentTime;
             }
+            ++i;
         }
     }
 
@@ -162,7 +172,7 @@ public class ActivityControlList implements InitializingBean {
                 if (found)
                     throw new RuntimeException("Unable to schedule multiple concurrent activities");
                 found = true;
-                processStopData(currentTime, activity);
+                processStopData(i, currentTime, activity);
             }
             if (i == index) {
                 processStartData(currentTime, activity);
