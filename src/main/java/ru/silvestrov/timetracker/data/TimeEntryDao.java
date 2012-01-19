@@ -29,6 +29,16 @@ public class TimeEntryDao extends HibernateDaoSupport {
             return 0;
     }
 
+    public TimeEntry getLastTimeEntry(long activityId) {
+        Query q = getSession().createQuery(
+            "SELECT t FROM TimeEntry t " +
+                "WHERE t.activity.id = ? " +
+                "AND t.timeStart = (SELECT max(t1.timeStart) FROM TimeEntry t1)");
+        q.setLong(0, activityId);
+        q.setCacheable(true);
+        return (TimeEntry) q.uniqueResult();
+    }
+
     public void delete(TimeEntry timeEntry) {
         getHibernateTemplate().delete(timeEntry);
     }

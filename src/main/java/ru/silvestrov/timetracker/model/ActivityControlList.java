@@ -131,7 +131,6 @@ public class ActivityControlList implements InitializingBean {
             //update notification is sent here to redraw the raw as timer data already drawn in the
             //timer cell is stale after last entry deletion
             updateListener.activityTimeUpdated(activityIdx);
-            //Some additional handling here should be done for U24.
         }
 
     }

@@ -46,7 +46,19 @@ public class AdjustTimeController {
                 }
             });
         } else {
-            throw new RuntimeException("Time decrease is not supported yet");
+            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus status) {
+                    Activity activity = activityControlList.getActivity(activityIdx);
+                    TimeEntry lastTimeEntry = timeEntryDao.getLastTimeEntry(activity.getId());
+                    if (lastTimeEntry == null) {
+                        //Some additional handling here should be done for U24.
+                    } else {
+                        //TODO:...
+//                        lastTimeEntry.
+                    }
+                }
+            });
         }
     }
 }

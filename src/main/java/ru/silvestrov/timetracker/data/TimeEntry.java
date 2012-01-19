@@ -23,7 +23,7 @@ public class TimeEntry {
     @JoinColumn (name = "activity_id")
     private Activity activity;
 
-    private TimeEntry() {
+    protected TimeEntry() {
     }
 
     public TimeEntry(long timeStart, Activity activity) {
@@ -45,5 +45,9 @@ public class TimeEntry {
 
     public void setTimeEnd(long timeEnd) {
         this.timeEnd = timeEnd;
+    }
+
+    public boolean isActive() {
+        return timeEnd == null;
     }
 }
