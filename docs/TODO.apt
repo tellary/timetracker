@@ -157,27 +157,13 @@
 
     * Implement TimeEntryDao#getLastTimeEntry(int activityId) method
 
+    * Implement time decrease in AdjustTimeController
+
 20-Jan-12
 
 * TODO
 
   * U20: I want name to be of 1024 length so what I could enter "very long" activity names
-
-  * U13: I want be able to decrease timer value so what I could decrease its value for 3 or 5 minutes if I forgot
-    to turn the timer off when quit for cup of coffee. This is achieved by moving end_time of last time entry backwards.
-    If amount of time asked to decrease is greater then duration of time entry then last time entry is removed
-    and overall timer value is decreased on duration of time entry instead of requested amount.
-
-    * Decrease "Prepare text to send fax request for booking and receive fax booking confirmation" for 5 mins after
-      this feature is ready.
-
-    * Decrease "Скачать Син Сити" for 30 mins and increase "Посмотреть 'Во имя короля" for 30 mins
-    
-    * Decrease "Купить колонки" for 20 mins
-    
-    * Decrease "Сделать расчет уплаченных налогов" for 2h10m
-    
-    * Left only 2 mins in the biggest time entry for Email for 16-Jan-2012
 
   * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
     into cell width`
@@ -247,7 +233,7 @@ Version 0.6
   * U27: I want to adjust time without using of keyboard with predefined set of values (i.e +3m -3m +2m -2m etc)
     so what I could save some time on switching between mouse and keyboard.
 
-  * How should I handle if user wants to decrease on some value which is not predefined with mouse only?
+    * How should I handle if user wants to decrease on some value which is not predefined with mouse only?
 
 
 Backlog
@@ -255,3 +241,17 @@ Backlog
   * U12: As a user I want to see time I started to spend time on the activity today and time
     I finished to spend time to ???
     (is there real necessity in it?)
+
+  * U28: I want to select and edit time entries: two fields of three timeStart, timeEnd, duration so what
+    I could
+
+    * Decrease "Prepare text to send fax request for booking and receive fax booking confirmation" for 5 mins after
+      this feature is ready.
+
+    * Decrease "Скачать Син Сити" for 30 mins and increase "Посмотреть 'Во имя короля" for 30 mins
+
+    * Decrease "Купить колонки" for 20 mins
+
+    * Decrease "Сделать расчет уплаченных налогов" for 2h10m
+
+    * Left only 2 mins in the biggest time entry for Email for 16-Jan-2012

@@ -33,8 +33,12 @@ public class TimeEntryDao extends HibernateDaoSupport {
         Query q = getSession().createQuery(
             "SELECT t FROM TimeEntry t " +
                 "WHERE t.activity.id = ? " +
-                "AND t.timeStart = (SELECT max(t1.timeStart) FROM TimeEntry t1)");
+                "AND t.timeStart = (" +
+                "   SELECT max(t1.timeStart) " +
+                "   FROM TimeEntry t1" +
+                "   WHERE t1.activity.id = ?)");
         q.setLong(0, activityId);
+        q.setLong(1, activityId);
         q.setCacheable(true);
         return (TimeEntry) q.uniqueResult();
     }

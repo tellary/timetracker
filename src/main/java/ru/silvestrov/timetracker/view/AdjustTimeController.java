@@ -53,9 +53,32 @@ public class AdjustTimeController {
                     TimeEntry lastTimeEntry = timeEntryDao.getLastTimeEntry(activity.getId());
                     if (lastTimeEntry == null) {
                         //Some additional handling here should be done for U24.
+                         System.out.println(String.format("Null time entry found for activity with id=%s, name='%s'",
+                             activity.getId(), activity.getName()));
+                        return;
+                    }
+
+                    if (lastTimeEntry.isActive())
+                        throw new RuntimeException("Active activity is prohibit to be decreased");
+
+                    long size = lastTimeEntry.getTimeEnd() - lastTimeEntry.getTimeStart();
+
+                    long adjustmentMillis;
+                    if (adjustment.startsWith("-"))
+                        adjustmentMillis = TimeHelp.timeStringToMillis(adjustment.substring(1));
+                    else
+                        adjustmentMillis = TimeHelp.timeStringToMillis(adjustment);
+
+                    if (adjustmentMillis >= size) {
+                        timeEntryDao.delete(lastTimeEntry);
+                        if (adjustmentMillis > size) {
+                            //Some additional handling here should be done for U24.
+                            System.out.println(String.format("Deleting time entry for smaller size %s when adjustment %s", size, adjustment));
+                        }
                     } else {
-                        //TODO:...
-//                        lastTimeEntry.
+                        long timeEnd = lastTimeEntry.getTimeEnd() - adjustmentMillis;
+                        lastTimeEntry.setTimeEnd(timeEnd);
+                        timeEntryDao.save(lastTimeEntry);
                     }
                 }
             });
