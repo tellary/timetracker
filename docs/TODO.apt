@@ -178,10 +178,6 @@
     * Check newer version of Hibernate if it does alter already existing column length
       (Hibernate 3.5.4 doesn't alter)
 
-* TODO
-
-  * U20: I want name to be of 1024 length so what I could enter "very long" activity names
-
     * Implement custom column length alternation on startup
 
 29-Jan-12

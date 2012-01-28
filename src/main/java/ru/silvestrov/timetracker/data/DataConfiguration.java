@@ -55,4 +55,8 @@ public class DataConfiguration {
     public SessionFactory getSessionFactory() {
         return (SessionFactory) ctx.getBean("sessionFactory");
     }
+
+    public SchemaUpdater getSchemaUpdater() {
+        return (SchemaUpdater) ctx.getBean("schemaUpdater");
+    }
 }

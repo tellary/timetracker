@@ -3,6 +3,7 @@ package ru.silvestrov.timetracker;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
+import ru.silvestrov.timetracker.data.SchemaUpdater;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
 import ru.silvestrov.timetracker.model.ActivityControlList;
 import ru.silvestrov.timetracker.view.*;
@@ -32,7 +33,7 @@ public class Main {
         TimeEntryDao timeEntryDao = dataConfiguration.getTimeEntryDao();
         TransactionTemplate tt = dataConfiguration.getTransactionTemplate();
 
-
+        dataConfiguration.getSchemaUpdater().updateSchema();
 
         final JFrame mainFrame = new JFrame();
         final ActivityControlList activityControlList = new ActivityControlList();
