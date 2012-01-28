@@ -165,9 +165,10 @@
 
   * TestTimeEntryDao#testLatestTimeEntryForEmptyActivity fails when run in full suite after U13, fix it.
 
-* TODO
-
   * Timetracker doesn't start with class not found (Main) when build with assembly:single instead of assembly:assembly
+    (bound assembly:single to package phase to use mvn package instead of assembly:assembly)
+
+* TODO
 
   * U20: I want name to be of 1024 length so what I could enter "very long" activity names
 

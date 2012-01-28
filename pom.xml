@@ -94,6 +94,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.2.2</version>
                 <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
@@ -102,6 +103,25 @@
                             <mainClass>ru.silvestrov.timetracker.Main</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <!--We don't want default jar to be created for the project as it is created by assembly plugin.-->
+                <!--That is why this configuration is present: to make default jar as small as possible-->
+                <configuration>
+                    <excludes>
+                        <exclude>**/*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
