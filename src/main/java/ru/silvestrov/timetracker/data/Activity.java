@@ -15,6 +15,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column (length = 1024)
     private String name;
     private boolean finished;
     @OneToOne
