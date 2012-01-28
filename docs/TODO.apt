@@ -159,11 +159,21 @@
 
     * Implement time decrease in AdjustTimeController
 
-20-Jan-12
+28-Jan-12
+
+* DONE
+
+  * TestTimeEntryDao#testLatestTimeEntryForEmptyActivity fails when run in full suite after U13, fix it.
 
 * TODO
 
+  * Timetracker doesn't start with class not found (Main) when build with assembly:single instead of assembly:assembly
+
   * U20: I want name to be of 1024 length so what I could enter "very long" activity names
+
+29-Jan-12
+
+* TODO
 
   * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
     into cell width`

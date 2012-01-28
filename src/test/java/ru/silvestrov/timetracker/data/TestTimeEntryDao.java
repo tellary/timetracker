@@ -14,8 +14,9 @@ public class TestTimeEntryDao {
 
     @Before
     public void setUp() {
-        DataConfiguration dataConfiguration = new DataConfiguration("./testDB", "test-db.xml", "context.xml");
-        timeEntryDao = dataConfiguration.getTimeEntryDao();
+        DataConfigurationTestSetup dataTestSetup = new DataConfigurationTestSetup();
+        DataConfiguration dataConfig = dataTestSetup.getDataConfiguration();
+        timeEntryDao = dataConfig.getTimeEntryDao();
     }
 
     @Test
