@@ -30,6 +30,7 @@ public class RenameActivityController {
     }
 
     public void renameActivity(int activityControlIdx, final String newName) {
+        System.out.println("Going to rename activity with idx: " + activityControlIdx + " to new name " + newName);
         final Activity activity = activityControlList.getActivity(activityControlIdx);
 
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {

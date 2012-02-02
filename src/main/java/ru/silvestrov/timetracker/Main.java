@@ -3,7 +3,6 @@ package ru.silvestrov.timetracker;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
-import ru.silvestrov.timetracker.data.SchemaUpdater;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
 import ru.silvestrov.timetracker.model.ActivityControlList;
 import ru.silvestrov.timetracker.view.*;
@@ -57,8 +56,6 @@ public class Main {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().addListSelectionListener(tableModel.new SelectionListener());
         tableModel.addTableModelListener(table);
-        JTextField nameField = new JTextField();
-        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(nameField));
         JTextField timeField = new JTextField("-3");
         table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(timeField) {
             @Override
@@ -68,14 +65,22 @@ public class Main {
         });
         FocusListener resetTimerFocusListener = new FocusListener() {
             public void focusGained(FocusEvent e) {
+                System.out.println("Focus gained!");
                 table.changeSelection(0, 0, true, true);
             }
 
             public void focusLost(FocusEvent e) {
             }
         };
-        nameField.addFocusListener(resetTimerFocusListener);
         timeField.addFocusListener(resetTimerFocusListener);
+
+        TextWrapCellRenderer textWrapCellRenderer = new TextWrapCellRenderer();
+        table.getColumnModel().getColumn(0).setCellRenderer(textWrapCellRenderer);
+        table.addComponentListener(new ResizeTableRowsListener());
+
+        TextWrapCellEditor textWrapCellEditor = new TextWrapCellEditor();
+        table.getColumnModel().getColumn(0).setCellEditor(textWrapCellEditor);
+        textWrapCellEditor.getTextArea().addFocusListener(resetTimerFocusListener);
 
         Icon finishIcon = new Icon() {
             public void paintIcon(Component c, Graphics g, int x, int y) {
