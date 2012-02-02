@@ -216,6 +216,8 @@
 
     * Implement textarea cell editor
 
+    * Output debug messages with log4j
+
 Version 0.4
 
   This version contains minimal set of features to run Timetracker as a simple "multi-task timer"

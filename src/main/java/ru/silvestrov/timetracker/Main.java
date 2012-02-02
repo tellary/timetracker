@@ -1,5 +1,6 @@
 package ru.silvestrov.timetracker;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
@@ -18,6 +19,8 @@ import java.lang.reflect.InvocationTargetException;
  * Time: 10:58:13 PM
  */
 public class Main {
+    private static final Logger logger = Logger.getLogger(Main.class);
+
     public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 //        ActivityDao activityDao = new MockActivityDao();
 //        TimeEntryDao timeEntryDao = new MockTimeEntryDao();
@@ -65,7 +68,9 @@ public class Main {
         });
         FocusListener resetTimerFocusListener = new FocusListener() {
             public void focusGained(FocusEvent e) {
-                System.out.println("Focus gained!");
+                if (logger.isTraceEnabled()) {
+                    logger.trace("Focus gained!");
+                }
                 table.changeSelection(0, 0, true, true);
             }
 

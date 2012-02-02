@@ -1,5 +1,6 @@
 package ru.silvestrov.timetracker.view;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -13,6 +14,8 @@ import ru.silvestrov.timetracker.model.ActivityControlList;
  * Time: 11:51 PM
  */
 public class RenameActivityController {
+    private static final Logger logger = Logger.getLogger(RenameActivityController.class);
+
     private ActivityDao activityDao;
     private ActivityControlList activityControlList;
     private TransactionTemplate transactionTemplate;
@@ -30,7 +33,9 @@ public class RenameActivityController {
     }
 
     public void renameActivity(int activityControlIdx, final String newName) {
-        System.out.println("Going to rename activity with idx: " + activityControlIdx + " to new name " + newName);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Going to rename activity with idx: " + activityControlIdx + " to new name " + newName);
+        }
         final Activity activity = activityControlList.getActivity(activityControlIdx);
 
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
