@@ -5,6 +5,13 @@
     <artifactId>timetracker</artifactId>
     <name>Time tracker</name>
     <version>0.4-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:git:.</connection>
+        <developerConnection>scm:git:.</developerConnection>
+    </scm>
+
+
     <dependencies>
         <dependency>
             <groupId>com.atlassian.jira.plugins</groupId>
