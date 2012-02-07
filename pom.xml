@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.silvestrov.timetracker</groupId>
     <artifactId>timetracker</artifactId>
     <name>Time tracker</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
 
     <scm>
         <connection>scm:git:.</connection>
@@ -141,10 +141,10 @@
                             <tasks>
                                 <java classname="org.apache.derby.tools.ij">
                                     <classpath>
-                                        <path refid="maven.compile.classpath"/>
-                                        <path refid="maven.plugin.classpath"/>
+                                        <path refid="maven.compile.classpath" />
+                                        <path refid="maven.plugin.classpath" />
                                     </classpath>
-                                    <!--<arg line="-p testDB.properties"/>-->
+                                    <!--<arg line="-p testDB.properties" />-->
                                 </java>
                             </tasks>
                         </configuration>
