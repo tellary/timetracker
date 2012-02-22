@@ -2,19 +2,31 @@ Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * U5: As a user I can view activities by days to be able select them back to control panel
+  * U33:
 
-  * U6: As a user I can restore activities back to control list to be able to start/stop them
+  * U32: I want be able to assign parent to the activity so what I could see correct activity tree in the
+    "activity tree with time aggregation" view.
 
-  * U7: As a user I want to view activities grouped by tasks and days so what I could easily find activities to
+  * U7: As a user I want to view activities grouped in trees by days so what I could easily find activities to
     to restore them back into control list, to understand what was done on certain day, and to trigger export
     to toggl CSV for certain day.
+    (depends on U32 as I need to create Activities relationship somehow prior building a tree)
 
-  * U8: As a user I want to export "tasks done by day report" in CSV format compatible with toggl to be able
+  * U6: As a user I can restore activities back to control list to be able to start/stop them
+    (depends on U7)
+
+  * U31: I want to see aggregate time spent for a day for activities
+    which have children in the "activity trees by day" view so what I could see
+    how much were done for certain "parent activity" during the day.
+    (depends on U7)
+
+  * U8: As a user I want to export "JIRA tasks done by day report" in CSV format compatible with toggl to be able
     to import it into JIRA with timehelp tool.
+    (depends on U31 because it will reuse the same "make JIRA task tree with time aggregation" logic)
 
-  * U28: I want to select and edit time entries: two fields of three timeStart, timeEnd, duration so what
-    I could
+  * U28: I want to select and edit time entries: two fields out of three ones: timeStart, timeEnd, duration so what
+    I could add time entries tracked outside of the timetracker into it and I could increase/decrease time entries
+    if I failed to do it with the last time entry.
 
     * Decrease "Prepare text to send fax request for booking and receive fax booking confirmation" for 5 mins after
       this feature is ready.
@@ -26,6 +38,8 @@ Version 0.5
     * Decrease "Сделать расчет уплаченных налогов" for 2h10m
 
     * Left only 2 mins in the biggest time entry for Email for 16-Jan-2012
+
+    * Import all entries pending in emails with "Timelog" subject
 
 Version 0.6
 
@@ -80,6 +94,9 @@ Version 0.6
   * U29: I want activity name being edited to be shown even if 'Time tracking' activity is auto switched (see U3)
     and scrollable frame cannot show them both simultaneously due to a lot of over activities so what I don't spend
     time to scroll back to edited row after auto-switch happened.
+
+  * U30: I want activity name editing in the table to be finished by ctrl+enter key stroke so what I could finish
+    its editing without grabbing a mouse.
 
 Backlog
 
