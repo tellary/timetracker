@@ -1,4 +1,4 @@
-package ru.silvestrov.timetracker.model;
+package ru.silvestrov.timetracker.model.activitycontrollist;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.TransactionStatus;

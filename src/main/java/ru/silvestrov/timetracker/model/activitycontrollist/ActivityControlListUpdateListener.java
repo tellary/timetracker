@@ -1,4 +1,4 @@
-package ru.silvestrov.timetracker.model;
+package ru.silvestrov.timetracker.model.activitycontrollist;
 
 /**
  * Created by Silvestrov Ilya

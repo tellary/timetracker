@@ -5,7 +5,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.DataConfiguration;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
-import ru.silvestrov.timetracker.model.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 import ru.silvestrov.timetracker.view.*;
 
 import javax.swing.*;

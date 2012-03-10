@@ -1,6 +1,6 @@
 package ru.silvestrov.timetracker.view;
 
-import ru.silvestrov.timetracker.model.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

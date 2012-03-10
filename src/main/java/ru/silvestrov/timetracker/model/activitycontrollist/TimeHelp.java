@@ -1,4 +1,4 @@
-package ru.silvestrov.timetracker.model;
+package ru.silvestrov.timetracker.model.activitycontrollist;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

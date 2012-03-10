@@ -6,8 +6,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.TimeEntry;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
-import ru.silvestrov.timetracker.model.ActivityControlList;
-import ru.silvestrov.timetracker.model.TimeHelp;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.TimeHelp;
 
 /**
  * Created by Silvestrov Ilya

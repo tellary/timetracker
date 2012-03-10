@@ -22,7 +22,7 @@ Version 0.4
 * DONE
 
   * U3: As a user I want special "time tracking" activity
-    to be started when I double-click its' name for edit so what I could
+    to be started when I double-click its' name for edit so that I could
     easily track time spent on "time tracking" activities
     (version 0.5, caused by U1, depends on U2)
 
@@ -75,8 +75,6 @@ Version 0.4
 
   * U9: As a user I want to see time spent on activities in human readable format
 
-* TODO
-
   * U4: As a user I can hide activities from control panel to free it up for faster switching
 
     * Decided to implement activities hiding with separate column of controls
@@ -112,18 +110,18 @@ Version 0.4
   * U11: As a user I want "add activity" button to be on top of Activity Control List and to
     be "acceptably small" to avoid wasting of space on the screen
 
-  * U15: I want activity control list to be vertically scrollable so what I could add a any amount of activities
+  * U15: I want activity control list to be vertically scrollable so that I could add a any amount of activities
     into it while preserving small height of the window.
 
   * U16: I want all columns on activity control list except name (the first one) to be fixed width,
     but showing its contents without cropping while first
-    column with name of the task to take all remaining size so what I see as much of the task name as possible.
+    column with name of the task to take all remaining size so that I see as much of the task name as possible.
 
 09-Jan-12
 
 * DONE
 
-  * U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so what
+  * U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so that
     it takes least size possible.
 
   * Think how to implement U18, U22 and U13 (have had a long phone call with brother)
@@ -132,7 +130,7 @@ Version 0.4
     could appear due to mistaken selection and Swing jtable selection on double-click. Threshold to consider
     "small time entry" a garbage is 1 to 3 secs. You couldn't do anything sensible for this small amount of time.
 
-  * U18: I want be able to increase timer value so what I could add several minutes if I forgot to
+  * U18: I want be able to increase timer value so that I could add several minutes if I forgot to
     start the timer. This should create new timeentry with time_end equal to current moment and times_start
     with specified amount of minutes ago.
     (blocked by U25)
@@ -142,7 +140,7 @@ Version 0.4
     * Implement controller
 
   * U26: I want time cell to be empty (or have some "good value") when I double-click it for
-    time adjustment so what I don't spent time on cleaning it manually.
+    time adjustment so that I don't spent time on cleaning it manually.
 
 14-Jan-12
 
@@ -154,7 +152,7 @@ Version 0.4
 
 * DONE
 
-  * U13: I want be able to decrease timer value so what I could decrease its value for 3 or 5 minutes if I forgot
+  * U13: I want be able to decrease timer value so that I could decrease its value for 3 or 5 minutes if I forgot
     to turn the timer off when quit for cup of coffee. This is achieved by moving end_time of last time entry backwards.
     If amount of time asked to decrease is greater then duration of time entry then last time entry is removed
     and overall timer value is decreased on duration of time entry instead of requested amount.
@@ -172,7 +170,7 @@ Version 0.4
   * Timetracker doesn't start with class not found (Main) when build with assembly:single instead of assembly:assembly
     (bound assembly:single to package phase to use mvn package instead of assembly:assembly)
 
-  * U20: I want name to be of 1024 length so what I could enter "very long" activity names
+  * U20: I want name to be of 1024 length so that I could enter "very long" activity names
 
     * Make changes
 
@@ -188,7 +186,7 @@ Version 0.4
 
 * DONE
 
-  * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
+  * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width`
 
     * Implemented textarea cell renderer with line wrapping, but without correct row height adjustment when
@@ -206,7 +204,7 @@ Version 0.4
 
 * DONE
 
-  * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
+  * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width`
 
     * Implement textarea cell editor (not finished)
@@ -215,7 +213,7 @@ Version 0.4
 
 * DONE
 
-  * U17: I want activity names to be wrapped so what I could see full activity name when it's too log to fit
+  * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width
 
     * Implement textarea cell editor

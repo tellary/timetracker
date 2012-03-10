@@ -1,8 +1,8 @@
 package ru.silvestrov.timetracker.view;
 
-import ru.silvestrov.timetracker.model.ActivityControlList;
-import ru.silvestrov.timetracker.model.ActivityControlListUpdateListener;
-import ru.silvestrov.timetracker.model.TimeHelp;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlListUpdateListener;
+import ru.silvestrov.timetracker.model.activitycontrollist.TimeHelp;
 
 import javax.swing.JButton;
 import javax.swing.ListSelectionModel;

@@ -6,6 +6,8 @@ import org.junit.Test;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.DataConfiguration;
 import ru.silvestrov.timetracker.data.DataConfigurationTestSetup;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlListUpdateListener;
 
 /**
  * Created by Silvestrov Ilya.

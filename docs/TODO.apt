@@ -1,13 +1,32 @@
+10-Mar-12
+
+* TODO
+
+  * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
+
+    * Designed the domain model and its interaction with tree view, created LazyActivityTreeNode node stub.
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * U33:
+  * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
 
-  * U32: I want be able to assign parent to the activity so what I could see correct activity tree in the
+    * Think how to implement mock-tests for LazyActivityTreeNode.
+
+    * Implement lazy-load tree model without time aggregation together with invalidation.
+
+    * Implement tests on tree model on real database with data setup.
+
+    * Implement tree node aggregation procedure
+
+  * U35: I want to view all unarchived activities as a tree with children time aggregated so what I could
+    restore activities from "inactive" to "active" state.
+
+  * U32: I want be able to assign parent to the activity so that I could see correct activity tree in the
     "activity tree with time aggregation" view.
 
-  * U7: As a user I want to view activities grouped in trees by days so what I could easily find activities to
+  * U7: As a user I want to view activities grouped in trees by days so that I could easily find activities to
     to restore them back into control list, to understand what was done on certain day, and to trigger export
     to toggl CSV for certain day.
     (depends on U32 as I need to create Activities relationship somehow prior building a tree)
@@ -16,7 +35,7 @@ Version 0.5
     (depends on U7)
 
   * U31: I want to see aggregate time spent for a day for activities
-    which have children in the "activity trees by day" view so what I could see
+    which have children in the "activity trees by day" view so that I could see
     how much were done for certain "parent activity" during the day.
     (depends on U7)
 
@@ -24,7 +43,7 @@ Version 0.5
     to import it into JIRA with timehelp tool.
     (depends on U31 because it will reuse the same "make JIRA task tree with time aggregation" logic)
 
-  * U28: I want to select and edit time entries: two fields out of three ones: timeStart, timeEnd, duration so what
+  * U28: I want to select and edit time entries: two fields out of three ones: timeStart, timeEnd, duration so that
     I could add time entries tracked outside of the timetracker into it and I could increase/decrease time entries
     if I failed to do it with the last time entry.
 
@@ -41,6 +60,13 @@ Version 0.5
 
     * Import all entries pending in emails with "Timelog" subject
 
+  * U33: I want activities of type "reportable task" to be shown for certain day with to be shown for certain day
+    with all their children time accumulated so that I could see how much time will be reported on each "reportable
+    task" for the day.
+
+  * U34: I want to select parent activity (from the tree) for the newly created task. Or to mark this task as
+    top-level.
+
 Version 0.6
 
   This version improves "multi-task timer" (Activity Control List) usability
@@ -48,13 +74,13 @@ Version 0.6
   * U14: I want "add activity" form to have the same size and position as it was when
     last closed to avoid wasting time on resizing and repositioning
 
-  * U18: I want activity control list to have only time summed up for one day so what I can see how much
+  * U18: I want activity control list to have only time summed up for one day so that I can see how much
     time is spent on the task during the day to understand how overall time tracked per day is summed up.
 
-  * U19: I want to see sum up time for tasks in activity control list for the day so what I could understand
+  * U19: I want to see sum up time for tasks in activity control list for the day so that I could understand
     how much time did I already spent for this day to estimate this day efficiency
 
-  * U2: As a user I want to see "time tracking" activity on the control list, so what I could
+  * U2: As a user I want to see "time tracking" activity on the control list, so that I could
     easily start it when renaming/creating/hiding activities or doing some other time tracking
     related stuff.
     (version 0.5, caused by U3)
@@ -62,15 +88,15 @@ Version 0.6
     * Add time tracking activity to the database if not present on construction of ActivityControlList
 
   * U3: As a user I want special "time tracking" activity
-    to be started when I double-click its' name for edit so what I could
+    to be started when I double-click its' name for edit so that I could
     easily track time spent on "time tracking" activities
     (version 0.5, caused by U1, depends on U2)
 
     * Start the "time tracking" activity (U2) on "start edit" event
 
-  * U23: I want just added activity to be started so what I don't waste time on starting it additionly
+  * U23: I want just added activity to be started so that I don't waste time on starting it additionly
 
-  * U22: I want to add new time entry specifying time_start and duration, so what I could add some time
+  * U22: I want to add new time entry specifying time_start and duration, so that I could add some time
     measurements done outside of the timetracker with stopwatch and piece of paper or from another timer program.
 
     * Implement GUI stub which will form the database update request and output it into sysout
@@ -80,11 +106,11 @@ Version 0.6
     * Add 15 min for U21 task my timeDB for time around 2:10 - 2:25, Jan 9
 
   * U24: I want to be notified when requested time decrease for activity is greater then duration of activity
-    so what I could see that my decrease request won't be executed fully.
+    so that I could see that my decrease request won't be executed fully.
     See ActivityControlList#processStopData method
 
   * U27: I want to adjust time without using of keyboard with predefined set of values (i.e +3m -3m +2m -2m etc)
-    so what I could save some time on switching between mouse and keyboard.
+    so that I could save some time on switching between mouse and keyboard.
 
     * How should I handle if user wants to decrease on some value which is not predefined with mouse only?
 
@@ -92,10 +118,10 @@ Version 0.6
     listener uses "old" value to set the row height and it doesn't see textarea content being update right now.
 
   * U29: I want activity name being edited to be shown even if 'Time tracking' activity is auto switched (see U3)
-    and scrollable frame cannot show them both simultaneously due to a lot of over activities so what I don't spend
+    and scrollable frame cannot show them both simultaneously due to a lot of over activities so that I don't spend
     time to scroll back to edited row after auto-switch happened.
 
-  * U30: I want activity name editing in the table to be finished by ctrl+enter key stroke so what I could finish
+  * U30: I want activity name editing in the table to be finished by ctrl+enter key stroke so that I could finish
     its editing without grabbing a mouse.
 
 Backlog

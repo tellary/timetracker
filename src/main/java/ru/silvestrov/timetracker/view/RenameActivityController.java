@@ -6,7 +6,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.ActivityDao;
-import ru.silvestrov.timetracker.model.ActivityControlList;
+import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 
 /**
  * Created by Silvestrov Ilya
