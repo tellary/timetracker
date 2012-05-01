@@ -6,15 +6,8 @@ package ru.silvestrov.timetracker.model.activitytree;
  * Time: 10:18 PM
  */
 
-import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.support.TransactionTemplate;
-import ru.silvestrov.timetracker.data.Activity;
-import ru.silvestrov.timetracker.data.ActivityDao;
-
-import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -32,11 +25,23 @@ import java.util.LinkedList;
  */
 public class LazyActivityTreeNode implements ActivityTreeNode {
     private boolean valid = false;
-    private long activityId;
-    private LazyActivityTreeNode parentActivityTreeNode;
+    private long id;
+    private String name;
+    private List<ActivityTreeNode> children = new LinkedList<ActivityTreeNode>();
     private long timeSpent;
-    private String beanName;
     private long aggregateTimeSpent;
+    private LazyActivityTreeNode parentActivityTreeNode;
+
+
+    public LazyActivityTreeNode(long id, String name, long timeSpent) {
+        this.id = id;
+        this.name = name;
+        this.timeSpent = timeSpent;
+    }
+
+    public void setParentActivityTreeNode(LazyActivityTreeNode parentActivityTreeNode) {
+        this.parentActivityTreeNode = parentActivityTreeNode;
+    }
 
     /**
      * Recalculates aggregateTimeSpent if not valid.
@@ -44,6 +49,16 @@ public class LazyActivityTreeNode implements ActivityTreeNode {
     private void validate() {
         if (valid)
             return;
+
+        aggregateTimeSpent = timeSpent;
+        for (ActivityTreeNode child : children) {
+            aggregateTimeSpent += child.getAggregateTimeSpent();
+        }
+        valid = true;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 
     /**
@@ -51,29 +66,33 @@ public class LazyActivityTreeNode implements ActivityTreeNode {
      */
     public void invalidateActivityTreeNode() {
         valid = false;
-        parentActivityTreeNode.invalidateActivityTreeNode();
+        if (parentActivityTreeNode != null)
+            parentActivityTreeNode.invalidateActivityTreeNode();
     }
 
     public long getId() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return id;
     }
 
     public String getName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return name;
     }
 
     public Iterable<ActivityTreeNode> getChildren() {
-        validate();
-        return null;
+        return children;
     }
 
     public long getTimeSpent() {
-        validate();
         return timeSpent;
     }
 
     public long getAggregateTimeSpent() {
         validate();
         return aggregateTimeSpent;
+    }
+
+    public void addChild(LazyActivityTreeNode child) {
+        child.setParentActivityTreeNode(this);
+        children.add(child);
     }
 }

@@ -20,6 +20,7 @@
 
     * Designed the the tree view model, update LazyActivityTreeNode javadoc
 
+    * Implemented lazy-load tree model with time aggregation and invalidation.
 
 Version 0.5
 
@@ -27,13 +28,7 @@ Version 0.5
 
   * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
 
-    * Think how to implement mock-tests for LazyActivityTreeNode.
-
-    * Implement lazy-load tree model with time aggregation and invalidation.
-
     * Implement tests on tree model on real database with data setup.
-
-    * Implement tree node aggregation procedure
 
   * U35: I want to view all unarchived activities as a tree with children time aggregated so what I could
     restore activities from "inactive" to "active" state.
