@@ -1,6 +1,7 @@
 package ru.silvestrov.timetracker.data;
 
 import org.dbunit.IDatabaseTester;
+import org.dbunit.dataset.ReplacementDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.CompositeOperation;
 import org.dbunit.operation.DatabaseOperation;
@@ -22,7 +23,9 @@ public class DataSetup {
             FlatXmlDataSetBuilder flatXmlDataSetBuilder = new FlatXmlDataSetBuilder();
             FlatXmlDataSet dataSet = flatXmlDataSetBuilder.build(
                 ActivityDaoTest.class.getResourceAsStream("activities.xml"));
-            tester.setDataSet(dataSet);
+            ReplacementDataSet replacementDataSet = new ReplacementDataSet(dataSet);
+            replacementDataSet.addReplacementObject("[null]", null);
+            tester.setDataSet(replacementDataSet);
             tester.setSetUpOperation(new CompositeOperation(
                 new DatabaseOperation[]{
                     new ExecuteStatementOperation() {

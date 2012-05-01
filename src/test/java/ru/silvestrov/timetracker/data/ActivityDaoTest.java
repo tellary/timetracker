@@ -14,6 +14,7 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.ITable;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -71,6 +72,26 @@ public class ActivityDaoTest {
         tt.execute(new TransactionCallbackWithoutResult() {
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 Assert.assertEquals(200, timeEntryDao.getTotalTime(2L));
+            }
+        });
+    }
+
+    @Test
+    public void testChildren() {
+        tt.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                Activity activity = activityDao.getActivityById(1);
+                Collection<Activity> children = activity.getChildren();
+                Assert.assertEquals(2, children.size());
+
+                for (Activity child : children) {
+                    if (child.getId() == 2) {
+                        Assert.assertEquals("Second Activity", child.getName());
+                    } else if (child.getId() == 3) {
+                        Assert.assertEquals("Third Activity", child.getName());
+                    }
+                }
             }
         });
     }

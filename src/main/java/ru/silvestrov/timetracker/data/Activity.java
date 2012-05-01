@@ -56,4 +56,8 @@ public class Activity {
     public void setCurrentTimeEntry(@Nullable TimeEntry currentTimeEntry) {
         this.currentTimeEntry = currentTimeEntry;
     }
+
+    public Collection<Activity> getChildren() {
+        return children;
+    }
 }
