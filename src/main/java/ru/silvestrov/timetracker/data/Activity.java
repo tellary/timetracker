@@ -3,6 +3,7 @@ package ru.silvestrov.timetracker.data;
 import ru.silvestrov.timetracker.annotations.Nullable;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by Silvestrov Ilya
@@ -17,9 +18,15 @@ public class Activity {
     private long id;
     @Column (length = 1024)
     private String name;
+    @Column
     private boolean finished;
     @OneToOne
     private TimeEntry currentTimeEntry;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Activity parent;
+    @OneToMany(mappedBy = "parent")
+    private Collection<Activity> children;
 
 
     public long getId() {
@@ -36,11 +43,6 @@ public class Activity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-    public boolean isFinished() {
-        return finished;
     }
 
     public void setFinished(boolean finished) {
