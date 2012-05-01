@@ -6,7 +6,9 @@ package ru.silvestrov.timetracker.model.activitytree;
  * Time: 10:18 PM
  */
 
+import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
+import ru.silvestrov.timetracker.data.ActivityDao;
 
 /**
  * <p>
@@ -26,6 +28,8 @@ import ru.silvestrov.timetracker.data.Activity;
 public class LazyActivityTreeNode implements ActivityTreeNode {
     private boolean valid = false;
     private LazyActivityTreeNode parentActivityTreeNode;
+    private ActivityDao activityDao;
+    private TransactionTemplate tt;
 
     public LazyActivityTreeNode(Activity activity, LazyActivityTreeNode parentActivityTreeNode) {
         this.parentActivityTreeNode = parentActivityTreeNode;
