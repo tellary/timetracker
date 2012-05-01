@@ -12,13 +12,13 @@
 
     * Implemented child/parent relationships and read/update operations for them with tests
 
+    * Wrote down "Change activity parent" use case
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
   * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
-
-    * Write down "Change activity parent" use case
 
     * Design the the tree view model
 
