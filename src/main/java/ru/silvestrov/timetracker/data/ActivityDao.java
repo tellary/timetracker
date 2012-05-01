@@ -22,4 +22,8 @@ public class ActivityDao extends HibernateDaoSupport {
     public Activity getActivityById(long id) {
         return (Activity) getHibernateTemplate().find("FROM Activity WHERE id = ?", id).get(0);
     }
+
+    public void setParent(Activity activity, Activity parent) {
+        activity.setParent(parent);
+    }
 }

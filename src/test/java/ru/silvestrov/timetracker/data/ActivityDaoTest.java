@@ -95,4 +95,44 @@ public class ActivityDaoTest {
             }
         });
     }
+
+
+
+    @Test
+    public void testChangeParent() {
+        tt.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                Activity activity = activityDao.getActivityById(1);
+                Collection<Activity> children = activity.getChildren();
+                Assert.assertEquals(2, children.size());
+
+                for (Activity child : children) {
+                    if (child.getId() == 2) {
+                        Assert.assertEquals("Second Activity", child.getName());
+                    } else if (child.getId() == 3) {
+                        Assert.assertEquals("Third Activity", child.getName());
+                        activityDao.setParent(child, activityDao.getActivityById(2));
+                    }
+                }
+            }
+        });
+        tt.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                Activity activity = activityDao.getActivityById(1);
+                Collection<Activity> children = activity.getChildren();
+                Assert.assertEquals(1, children.size());
+
+                Activity child = children.iterator().next();
+                Assert.assertEquals(2, child.getId());
+
+                children = child.getChildren();
+                Assert.assertEquals(1, children.size());
+                Activity grandChild = children.iterator().next();
+                Assert.assertEquals(3, grandChild.getId());
+                Assert.assertEquals(0, grandChild.getChildren().size());
+            }
+        });
+    }
 }

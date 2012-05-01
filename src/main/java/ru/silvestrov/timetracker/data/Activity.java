@@ -60,4 +60,8 @@ public class Activity {
     public Collection<Activity> getChildren() {
         return children;
     }
+
+    void setParent(Activity parent) {
+        this.parent = parent;
+    }
 }
