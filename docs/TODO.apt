@@ -1,27 +1,26 @@
 10-Mar-12
 
-* DONE
-
   * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
 
-    * Designed the domain model and its interaction with tree view, created LazyActivityTreeNode node stub.
+    * Started to design the domain model and its interaction with tree view, created LazyActivityTreeNode node stub.
 
 01-May-12
-
-* DONE
 
   * T3: Implement database and DAO support for parent/child relation of Activities. (for T2)
 
     * Got rid of DataConfiguration class and in favor of object's initialization by Spring
 
+    * Implemented child/parent relationships and read/update operations for them with tests
 
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * T3: Implement database and DAO support for parent/child relation of Activities. (for T2)
-
   * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
+
+    * Write down "Change activity parent" use case
+
+    * Design the the tree view model
 
     * Think how to implement mock-tests for LazyActivityTreeNode.
 

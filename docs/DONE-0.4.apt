@@ -4,13 +4,9 @@ Version 0.4
 
 17-Dec-11
 
-* DONE
-
   * U1: As a user I can rename activity to correct my mistakes: made cell editable and get cell updates
 
 18-Dec-11
-
-* DONE
 
   * Remove TODO highlighting in *.apt files in IntelliJ (changed pattern to catch TODO\: instead of "TODO")
 
@@ -18,8 +14,6 @@ Version 0.4
 
 
 19-Dec-11
-
-* DONE
 
   * U3: As a user I want special "time tracking" activity
     to be started when I double-click its' name for edit so that I could
@@ -35,8 +29,6 @@ Version 0.4
 
 25-Dec-11
 
-* DONE
-
   * U1: As a user I can rename activity to correct my mistakes
     (version 0.5)
 
@@ -46,14 +38,10 @@ Version 0.4
 
 26-Dec-11
 
-* DONE
-
   * U10: As a user I want to have distribution of TimeTracker to be able to run it on new workstations and
     with new database files.
 
 02-Jan-12
-
-* DONE
 
   * Resolve dependency
 ---
@@ -68,8 +56,6 @@ Version 0.4
 
 04-Jan-12
 
-* DONE
-
   * Connect to timeDB with my actual entries and issue several queries to see how much time was spent on certain
     task during specified interval of time.
 
@@ -81,15 +67,11 @@ Version 0.4
 
 05-Jan-12
 
-* DONE
-
   * U4: As a user I can hide activities from control panel to free it up for faster switching
 
     * Add column with hide button in ActivityControlList
 
 06-Jan-12
-
-* DONE
 
   * U4: As a user I can hide activities from control panel to free it up for faster switching
 
@@ -102,8 +84,6 @@ Version 0.4
     * Implement callback for the button pressed
 
 08-Jan-12
-
-* DONE
 
   * Add @Null annotation to project and setup IDEA to honor it while doing its checks
 
@@ -118,8 +98,6 @@ Version 0.4
     column with name of the task to take all remaining size so that I see as much of the task name as possible.
 
 09-Jan-12
-
-* DONE
 
   * U21: I want "done/finish" button on Activity Control List (3rd column) to have "X" label or icon so that
     it takes least size possible.
@@ -144,13 +122,9 @@ Version 0.4
 
 14-Jan-12
 
-* DONE
-
   * Added pullTimeDB.sh which allows to sync between to machines with timetracker over ssh
 
 19-Jan-12
-
-* DONE
 
   * U13: I want be able to decrease timer value so that I could decrease its value for 3 or 5 minutes if I forgot
     to turn the timer off when quit for cup of coffee. This is achieved by moving end_time of last time entry backwards.
@@ -162,8 +136,6 @@ Version 0.4
     * Implement time decrease in AdjustTimeController
 
 28-Jan-12
-
-* DONE
 
   * TestTimeEntryDao#testLatestTimeEntryForEmptyActivity fails when run in full suite after U13, fix it.
 
@@ -184,8 +156,6 @@ Version 0.4
 
 29-Jan-12
 
-* DONE
-
   * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width`
 
@@ -202,16 +172,12 @@ Version 0.4
 
 31-Jan-12
 
-* DONE
-
   * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width`
 
     * Implement textarea cell editor (not finished)
 
 02-Feb-12
-
-* DONE
 
   * U17: I want activity names to be wrapped so that I could see full activity name when it's too log to fit
     into cell width
