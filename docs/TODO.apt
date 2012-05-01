@@ -14,13 +14,18 @@
 
     * Wrote down "Change activity parent" use case
 
+02-May-12
+
+  * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
+
+    * Designed the the tree view model, update LazyActivityTreeNode javadoc
+
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
   * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
-
-    * Design the the tree view model
 
     * Think how to implement mock-tests for LazyActivityTreeNode.
 

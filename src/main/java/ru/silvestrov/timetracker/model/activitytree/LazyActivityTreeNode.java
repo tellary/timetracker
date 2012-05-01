@@ -6,52 +6,60 @@ package ru.silvestrov.timetracker.model.activitytree;
  * Time: 10:18 PM
  */
 
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.ActivityDao;
 
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * <p>
- *     This class loads information about children and aggregate time spent lazily.
- *
- *     On every call to getTimeSpent, getAggregateTimeSpent or getChildren it start validation procedure.
- *     Validation procedure includes getting children nodes from the database and calling calculateAggregateTimeSpent
- *     procedure. This procedure sum ups time aggregateTimeSpent through all child tree nodes.
- *
- *     LazyActivityTreeNode manages transaction itself. If validation procedure is necessary then it is performed
- *     within a transaction.
- *
+ *     This class is responsible for lazy calculation of aggregate time spent for Activity.
+ * </p>
+ * <p>
+ *     On every call of {@link LazyActivityTreeNode#getAggregateTimeSpent} method it checks whatever it is
+ *     {@link LazyActivityTreeNode#valid aggregate time valid}. If it is not then
+ *     {@link LazyActivityTreeNode#aggregateTimeSpent} is recalculated by summing up all children's
+ *     aggregateTimeSpent values and its own timeSpent.
+ * </p>
+ * <p>
  *     On invalidation it invalidates parent ActivityTreeNode.
  * </p>
- *
  */
 public class LazyActivityTreeNode implements ActivityTreeNode {
     private boolean valid = false;
+    private long activityId;
     private LazyActivityTreeNode parentActivityTreeNode;
-    private ActivityDao activityDao;
-    private TransactionTemplate tt;
+    private long timeSpent;
+    private String beanName;
+    private long aggregateTimeSpent;
 
-    public LazyActivityTreeNode(Activity activity, LazyActivityTreeNode parentActivityTreeNode) {
-        this.parentActivityTreeNode = parentActivityTreeNode;
-    }
-
-    private void calculateAggregateTimeSpent() {
-
-    }
-
+    /**
+     * Recalculates aggregateTimeSpent if not valid.
+     */
     private void validate() {
-
         if (valid)
-            //noinspection UnnecessaryReturnStatement
             return;
-
-        //TODO: Implement and remove noinpection above
     }
 
+    /**
+     * Mark this node as invalid and call this method recursively.
+     */
     public void invalidateActivityTreeNode() {
         valid = false;
-
         parentActivityTreeNode.invalidateActivityTreeNode();
+    }
+
+    public long getId() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Iterable<ActivityTreeNode> getChildren() {
@@ -61,11 +69,11 @@ public class LazyActivityTreeNode implements ActivityTreeNode {
 
     public long getTimeSpent() {
         validate();
-        return 0;
+        return timeSpent;
     }
 
     public long getAggregateTimeSpent() {
         validate();
-        return 0;
+        return aggregateTimeSpent;
     }
 }

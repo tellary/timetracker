@@ -35,9 +35,11 @@ Activity tree use cases
 
   [[]] LazyActivityTreeNode checks if it is not aggregate time valid
 
-  [[]] For each child node it calls getAggregateTimeSpent and sums up the results.
+  [[]] For each child node it calls getAggregateTimeSpent and sums up the results as aggregateTimeSpent
 
-  [[]] It returns the aggregateTimeSpent
+  [[]] It adds its own timeSpent to the aggregateTimeSpent
+
+  [[]] It stores and returns the aggregateTimeSpent
 
 ** Extensions
 
