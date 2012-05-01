@@ -3,6 +3,9 @@ package ru.silvestrov.timetracker.data;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Assert;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -10,6 +13,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.ITable;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,22 +21,24 @@ import java.util.List;
  * Date: Jul 13, 2008
  * Time: 2:21:09 PM
  */
-public class TestDataConfiguration {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"test-db.xml", "dao.xml"})
+public class ActivityDaoTest {
+    @Resource
     private ActivityDao activityDao;
+    @Resource
     private TimeEntryDao timeEntryDao;
+    @Resource
     private TransactionTemplate tt;
+    @Resource
     private IDatabaseTester tester;
+    @Resource
+    private DataSetup dataSetup;
       
-    
 
     @Before
-    public void setUp() throws Exception {
-        DataConfigurationTestSetup dataTestSetup = new DataConfigurationTestSetup();
-        DataConfiguration dataConfiguration = dataTestSetup.getDataConfiguration();
-        activityDao = dataConfiguration.getActivityDao();
-        timeEntryDao = dataConfiguration.getTimeEntryDao();
-        tt = dataConfiguration.getTransactionTemplate();
-        tester = dataTestSetup.getTester();
+    public void setUp() {
+        dataSetup.setup();
     }
 
     @Test

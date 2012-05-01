@@ -9,25 +9,20 @@ import ru.silvestrov.timetracker.data.TimeEntryDao;
 import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 import ru.silvestrov.timetracker.model.activitycontrollist.TimeHelp;
 
+import javax.annotation.Resource;
+
 /**
  * Created by Silvestrov Ilya
  * Date: 1/9/12
  * Time: 9:59 PM
  */
 public class AdjustTimeController {
+    @Resource
     private TransactionTemplate transactionTemplate;
+    @Resource
     private TimeEntryDao timeEntryDao;
+    @Resource
     private ActivityControlList activityControlList;
-
-    public AdjustTimeController(
-        TransactionTemplate transactionTemplate,
-        TimeEntryDao timeEntryDao,
-        ActivityControlList activityControlList) {
-
-        this.transactionTemplate = transactionTemplate;
-        this.timeEntryDao = timeEntryDao;
-        this.activityControlList = activityControlList;
-    }
 
     public void adjustTime(final int activityIdx, final String adjustment) {
         final long timeEnd = System.currentTimeMillis();

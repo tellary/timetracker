@@ -7,10 +7,10 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.ActivityDao;
-import ru.silvestrov.timetracker.data.DataConfiguration;
 import ru.silvestrov.timetracker.data.TimeEntry;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -23,8 +23,11 @@ import java.util.concurrent.TimeUnit;
  * Time: 9:13:30 PM
  */
 public class ActivityControlList implements InitializingBean {
+    @Resource
     private ActivityDao activityDao;
+    @Resource
     private TimeEntryDao timeEntryDao;
+    @Resource
     private TransactionTemplate transactionTemplate;
     private List<Activity> activities;
     private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -37,24 +40,6 @@ public class ActivityControlList implements InitializingBean {
 
     @SuppressWarnings({"FieldCanBeLocal"})
     private long smallTimeThreshold = 3000;
-
-    public void setActivityDao(ActivityDao activityDao) {
-        this.activityDao = activityDao;
-    }
-
-    public void setTimeEntryDao(TimeEntryDao timeEntryDao) {
-        this.timeEntryDao = timeEntryDao;
-    }
-
-    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-        this.transactionTemplate = transactionTemplate;
-    }
-
-    public void setDataConfiguration(DataConfiguration dataConfiguration) {
-        setActivityDao(dataConfiguration.getActivityDao());
-        setTimeEntryDao(dataConfiguration.getTimeEntryDao());
-        setTransactionTemplate(dataConfiguration.getTransactionTemplate());
-    }
 
     public void setUpdateListener(ActivityControlListUpdateListener updateListener) {
         this.updateListener = updateListener;
@@ -94,7 +79,7 @@ public class ActivityControlList implements InitializingBean {
     }
 
 
-    private void startTimer() {
+    public void startTimer() {
         this.startTime = System.currentTimeMillis();
         boolean found = false;
         int i = 0;
@@ -128,7 +113,7 @@ public class ActivityControlList implements InitializingBean {
             }
         });
         if (timeDeleted) {
-            //update notification is sent here to redraw the raw as timer data already drawn in the
+            //update notification is sent here to redraw the row as timer data already drawn in the
             //timer cell is stale after last entry deletion
             updateListener.activityTimeUpdated(activityIdx);
         }
@@ -237,6 +222,5 @@ public class ActivityControlList implements InitializingBean {
                 activities =  activityDao.listCurrentActivities();
             }
         });
-        startTimer();
     }
 }

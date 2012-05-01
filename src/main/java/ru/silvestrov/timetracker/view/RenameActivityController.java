@@ -8,6 +8,8 @@ import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 
+import javax.annotation.Resource;
+
 /**
  * Created by Silvestrov Ilya
  * Date: 12/17/11
@@ -16,20 +18,16 @@ import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 public class RenameActivityController {
     private static final Logger logger = Logger.getLogger(RenameActivityController.class);
 
+    @Resource
     private ActivityDao activityDao;
+    @Resource
     private ActivityControlList activityControlList;
+    @Resource
     private TransactionTemplate transactionTemplate;
 
-    public void setActivityDao(ActivityDao activityDao) {
-        this.activityDao = activityDao;
-    }
 
     public void setActivityControlList(ActivityControlList activityControlList) {
         this.activityControlList = activityControlList;
-    }
-
-    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-        this.transactionTemplate = transactionTemplate;
     }
 
     public void renameActivity(int activityControlIdx, final String newName) {

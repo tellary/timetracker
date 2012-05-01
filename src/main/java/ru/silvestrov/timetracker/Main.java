@@ -1,17 +1,16 @@
 package ru.silvestrov.timetracker;
 
 import org.apache.log4j.Logger;
-import org.springframework.transaction.support.TransactionTemplate;
-import ru.silvestrov.timetracker.data.ActivityDao;
-import ru.silvestrov.timetracker.data.DataConfiguration;
-import ru.silvestrov.timetracker.data.TimeEntryDao;
+import org.springframework.context.ApplicationContext;
+import ru.silvestrov.timetracker.data.ContextUtil;
+import ru.silvestrov.timetracker.data.SchemaUpdater;
 import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 import ru.silvestrov.timetracker.view.*;
 
+import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Silvestrov Ilya
@@ -21,39 +20,29 @@ import java.lang.reflect.InvocationTargetException;
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-//        ActivityDao activityDao = new MockActivityDao();
-//        TimeEntryDao timeEntryDao = new MockTimeEntryDao();
-//        TransactionTemplate tt = new TransactionTemplate() {
-//            public Object execute(TransactionCallback action) throws TransactionException {
-//                return action.doInTransaction(null);
-//            }
-//        };
+    @Resource
+    private SchemaUpdater schemaUpdater;
+    @Resource
+    private ActivityControlList activityControlList;
+    @Resource
+    private RenameActivityController renameActivityController;
+    @Resource
+    private AdjustTimeController adjustTimeController;
 
-        DataConfiguration dataConfiguration = new DataConfiguration("./timeDB");
-        ActivityDao activityDao = dataConfiguration.getActivityDao();
-        TimeEntryDao timeEntryDao = dataConfiguration.getTimeEntryDao();
-        TransactionTemplate tt = dataConfiguration.getTransactionTemplate();
+    public static void main(String[] args) {
+        ApplicationContext ctx = ContextUtil.createContext("./timeDB");
+        ((Main) ctx.getBean("main")).start();
+    }
 
-        dataConfiguration.getSchemaUpdater().updateSchema();
+    public void start() {
+        schemaUpdater.updateSchema();
 
         final JFrame mainFrame = new JFrame();
-        final ActivityControlList activityControlList = new ActivityControlList();
-        activityControlList.setActivityDao(activityDao);
-        activityControlList.setTimeEntryDao(timeEntryDao);
-        activityControlList.setTransactionTemplate(tt);
-
-        RenameActivityController renameActivityController = new RenameActivityController();
-        renameActivityController.setActivityControlList(activityControlList);
-        renameActivityController.setActivityDao(activityDao);
-        renameActivityController.setTransactionTemplate(tt);
-
-        AdjustTimeController adjustTimeController = new AdjustTimeController(tt, timeEntryDao, activityControlList);
 
         ActivityListTableModel tableModel = new ActivityListTableModel(
             activityControlList, renameActivityController, adjustTimeController);
         activityControlList.setUpdateListener(tableModel.new UpdateListenerControl());
-        activityControlList.afterPropertiesSet();
+        activityControlList.startTimer();
 
         final JTable table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
