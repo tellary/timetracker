@@ -11,7 +11,7 @@ import org.junit.Test;
 public class LazyActivityTreeNodeTest {
     @Test
     public void test() {
-        LazyActivityTreeNode root = new LazyActivityTreeNode(1, "Root activity", 100);
+        LazyActivityTree root = new LazyActivityTree();
         LazyActivityTreeNode first = new LazyActivityTreeNode(2, "First", 200);
         root.addChild(first);
         LazyActivityTreeNode second = new LazyActivityTreeNode(3, "Second", 300);
@@ -21,18 +21,15 @@ public class LazyActivityTreeNodeTest {
         LazyActivityTreeNode secondSecond = new LazyActivityTreeNode(5, "SecondSecond", 200);
         second.addChild(secondSecond);
 
-        Assert.assertFalse(root.isValid());
-        Assert.assertEquals(100+200+300+100+200, root.getAggregateTimeSpent());
-        Assert.assertTrue(root.isValid());
+        Assert.assertEquals(200 + 300 + 100 + 200, root.getAggregateTimeSpent());
 
-        secondSecond.invalidateActivityTreeNode();
-        Assert.assertFalse(secondSecond.isValid());
-        Assert.assertTrue(secondFirst.isValid());
-        Assert.assertFalse(second.isValid());
-        Assert.assertTrue(first.isValid());
-        Assert.assertFalse(root.isValid());
+        secondSecond.invalidateAggregateTimeSpent();
 
-        Assert.assertEquals(100+200+300+100+200, root.getAggregateTimeSpent());
+        Assert.assertEquals(200+300+100+200, root.getAggregateTimeSpent());
         Assert.assertEquals(300+100+200, second.getAggregateTimeSpent());
+
+        secondSecond.addChild(new LazyActivityTreeNode(6, "SecondSecondFirst", 400));
+        secondSecond.invalidateAggregateTimeSpent();
+        Assert.assertEquals(200+300+100+200 + 400, root.getAggregateTimeSpent());
     }
 }

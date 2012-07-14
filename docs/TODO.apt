@@ -26,9 +26,9 @@ Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * T2: Implement model for activities tree with time aggregation and write tests for it (for U35).
+  * T4: Implement functionality to populate activity tree from database (for U35)
 
-    * Implement tests on tree model on real database with data setup.
+    * T4.1: Implement tests on real database with data setup.
 
   * U35: I want to view all unarchived activities as a tree with children time aggregated so what I could
     restore activities from "inactive" to "active" state.
