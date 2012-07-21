@@ -35,11 +35,11 @@ public class LazyActivityTree implements ActivityTree {
         if (valid)
             return;
 
-        aggregateTimeSpent = 0;
         for (ActivityTree child : children) {
             aggregateTimeSpent += child.getAggregateTimeSpent();
         }
         valid = true;
+        aggregateTimeSpent = 0;
         aggregationComplete();
     }
 

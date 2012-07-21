@@ -30,6 +30,8 @@ Version 0.5
 
     * T4.1: Implement tests on real database with data setup.
 
+    * T4.2: Implement mock tests
+
   * U35: I want to view all unarchived activities as a tree with children time aggregated so what I could
     restore activities from "inactive" to "active" state.
 

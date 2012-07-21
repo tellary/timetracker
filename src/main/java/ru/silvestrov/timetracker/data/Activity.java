@@ -61,6 +61,10 @@ public class Activity {
         return children;
     }
 
+    public Activity getParent() {
+        return parent;
+    }
+
     void setParent(Activity parent) {
         this.parent = parent;
     }
