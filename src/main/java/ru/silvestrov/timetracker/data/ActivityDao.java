@@ -34,6 +34,6 @@ public class ActivityDao extends HibernateDaoSupport {
 
     @SuppressWarnings("unchecked")
     public List<Activity> findActivitiesByParentId(long parentId) {
-        return getHibernateTemplate().find("FROM Activity WHERE parent = ?", parentId);
+        return getHibernateTemplate().find("FROM Activity WHERE parent.id = ?", parentId);
     }
 }

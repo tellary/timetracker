@@ -39,7 +39,6 @@ public class LazyActivityTree implements ActivityTree {
             aggregateTimeSpent += child.getAggregateTimeSpent();
         }
         valid = true;
-        aggregateTimeSpent = 0;
         aggregationComplete();
     }
 
@@ -56,6 +55,7 @@ public class LazyActivityTree implements ActivityTree {
         valid = false;
         if (parentActivityTree != null)
             parentActivityTree.invalidateAggregateTimeSpent();
+        aggregateTimeSpent = 0;
     }
 
     public void addChild(LazyActivityTreeNode child) {

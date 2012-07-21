@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 7/21/12
  * Time: 8:12 PM
  */
-    public class ActivityTreeManager {
+public class ActivityTreeManager {
     @Resource
     private ActivityDao activityDao;
     @Resource
@@ -25,6 +25,7 @@ import java.util.List;
             activityTree.addChild(
                     treeNode(activity),
                     null);
+            loadActivitiesForParent(activityTree, activity.getId());
         }
         return activityTree;
     }
