@@ -61,6 +61,7 @@ public class LazyActivityTree implements ActivityTree {
     public void addChild(LazyActivityTreeNode child) {
         child.setParentActivityTree(this);
         children.add(child);
+        invalidateAggregateTimeSpent();
     }
 
     public void aggregationComplete() {

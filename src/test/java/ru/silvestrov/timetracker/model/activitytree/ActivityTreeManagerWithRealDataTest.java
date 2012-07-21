@@ -97,11 +97,28 @@ public class ActivityTreeManagerWithRealDataTest {
         Assert.assertFalse(grandChildren.hasNext());
         Assert.assertFalse(children.hasNext());
         Assert.assertEquals((60+30+780+78+80+180)*1000, tree.getAggregateTimeSpent());
+        ((HashActivityTree)tree).invalidateAggregateTimeSpent();
+        Assert.assertEquals((60+30+780+78+80+180)*1000, tree.getAggregateTimeSpent());
     }
 
     @Test
     public void testLoadByParent() {
         ActivityTree tree = activityTreeManager.loadActivitiesForParent(a1.getId());
         Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
+        ((HashActivityTree)tree).invalidateAggregateTimeSpent();
+        Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
+    }
+
+    @Test
+    public void testAggregateTimeSpentAfterAddingAnotherChild() {
+        HashActivityTree tree = (HashActivityTree) activityTreeManager.loadAllActivitiesTree();
+        tree.getAggregateTimeSpent();
+        long expectedTime = (60+30+780+78+80+180)*1000;
+        Assert.assertEquals(expectedTime, tree.getAggregateTimeSpent());
+        Activity newActivity = createActivity("new", 120);
+        setParent(a1, newActivity);
+        tree.addChild(new LazyActivityTreeNode(newActivity.getId(), newActivity.getName(), 120*1000), a1.getId());
+
+        Assert.assertEquals(expectedTime + 120*1000, tree.getAggregateTimeSpent());
     }
 }
