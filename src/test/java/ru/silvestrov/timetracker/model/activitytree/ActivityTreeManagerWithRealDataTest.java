@@ -37,10 +37,23 @@ public class ActivityTreeManagerWithRealDataTest {
     private ActivityTreeManager activityTreeManager;
 
 
+    private Activity a1;
+
     @Before
     public void before() {
         jdbcTemplate.execute("delete from time_entry");
         jdbcTemplate.execute("delete from activity");
+
+
+        a1 = createActivity("a1", 60);
+        Activity a2 = createActivity("a2", 30);
+        createActivity("a3", 780);
+        Activity a11 = createActivity("a11", 78);
+        Activity a12 = createActivity("a12", 80);
+        setParent(a11, a1);
+        setParent(a12, a1);
+        Activity a21 = createActivity("a21", 180);
+        setParent(a21, a2);
     }
 
     private Activity createActivity(String name, long timeSec) {
@@ -62,16 +75,6 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void test() {
-        Activity a1 = createActivity("a1", 60);
-        Activity a2 = createActivity("a2", 30);
-        createActivity("a3", 780);
-        Activity a11 = createActivity("a11", 78);
-        Activity a12 = createActivity("a12", 80);
-        setParent(a11, a1);
-        setParent(a12, a1);
-        Activity a21 = createActivity("a21", 180);
-        setParent(a21, a2);
-
         ActivityTree tree = activityTreeManager.loadAllActivitiesTree();
         Iterator<ActivityTreeNode> children = tree.getChildren().iterator();
         ActivityTreeNode child = children.next();
@@ -94,5 +97,11 @@ public class ActivityTreeManagerWithRealDataTest {
         Assert.assertFalse(grandChildren.hasNext());
         Assert.assertFalse(children.hasNext());
         Assert.assertEquals((60+30+780+78+80+180)*1000, tree.getAggregateTimeSpent());
+    }
+
+    @Test
+    public void testLoadByParent() {
+        ActivityTree tree = activityTreeManager.loadActivitiesForParent(a1.getId());
+        Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
     }
 }
