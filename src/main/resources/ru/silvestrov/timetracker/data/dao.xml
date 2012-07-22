@@ -18,6 +18,7 @@
 
     <bean id="activityDao" class="ru.silvestrov.timetracker.data.ActivityDao" autowire="byName"/>
 
-    <bean id="schemaUpdater" class="ru.silvestrov.timetracker.data.SchemaUpdater" autowire="byName"/>
+    <bean id="schemaUpdater" class="ru.silvestrov.timetracker.data.SchemaUpdater"
+          autowire="byName" init-method="updateSchema"/>
 </beans>
 

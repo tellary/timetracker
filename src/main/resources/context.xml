@@ -17,5 +17,7 @@
 
     <bean id="adjustTimeController" class="ru.silvestrov.timetracker.view.AdjustTimeController"/>
 
-    <bean id="main" class="ru.silvestrov.timetracker.Main"/>
+    <bean id="activityControlListView" class="ru.silvestrov.timetracker.view.ActivityControlListView"/>
+
+    <bean id="mainFrameView" class="ru.silvestrov.timetracker.view.MainFrameView" init-method="show"/>
 </beans>

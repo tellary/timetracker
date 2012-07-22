@@ -30,24 +30,32 @@
 
 22-Jul-12
 
-* T5: Create view showing all activities in tree (for U35, U7)
+  * T5: Create view showing all activities in tree (for U35, U7)
 
     * T5.1: Find how to implement a tree which will support drag-and-drop (seems that JTree supports drag-and-drop)
 
-* Think how should I display own time of parent task in the tree (created U38)
+  * Think how should I display own time of parent task in the tree (created U38)
 
+  * Think how to show all activities tree in application (Decided to implement a main frame
+    which will have control to show <activity control tree> and <archive activity tree>, T6 created)
+
+23-Jul-12
+
+  * T6: Create main frame for the time tracker which has controls to show <activity control tree> and
+    <activity archive tree> (for T5, U35, U7)
+
+    * Created mainFrame which shows ActivityControlList
 
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
-  * Think how to show all activities tree in application (Decided to implement a main frame
-    which will have control to show <activity control tree> and <archive activity tree>, T6 created)
-
-  * T5: Create view showing all activities in tree (for U35, U7)
-
   * T6: Create main frame for the time tracker which has controls to show <activity control tree> and
-    <activity archive tree> (for U35, U7)
+    <activity archive tree> (for T5, U35, U7)
+
+    * Make ActivityControlList to save its size after it is closed and then opened again from MainFrame
+
+    * Plug <all activities tree> to be show on button press in MainFrame
 
   * U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
     displays aggregate time only

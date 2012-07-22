@@ -88,7 +88,10 @@ public class ActivityControlList implements InitializingBean {
                 if (found)
                     throw new RuntimeException("Unable to schedule multiple concurrent activities");
                 found = true;
-                future = executor.scheduleAtFixedRate(new Notifier(i), timeStep - (System.currentTimeMillis() - startTime), timeStep, unit);
+                future = executor.scheduleAtFixedRate(
+                        new Notifier(i),
+                        timeStep - (System.currentTimeMillis() - startTime),
+                        timeStep, unit);
             }
             ++i;
         }
