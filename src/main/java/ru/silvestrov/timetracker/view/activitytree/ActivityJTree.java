@@ -2,7 +2,6 @@ package ru.silvestrov.timetracker.view.activitytree;
 
 import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNode;
-import ru.silvestrov.timetracker.model.activitytree.HashActivityTree;
 
 import javax.swing.*;
 
@@ -12,7 +11,7 @@ import javax.swing.*;
  * Time: 3:08 PM
  */
 public class ActivityJTree extends JTree {
-    public ActivityJTree(HashActivityTree tree) {
+    public ActivityJTree(ActivityTree tree) {
         super(new ActivityTreeModel(tree));
     }
 

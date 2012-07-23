@@ -1,5 +1,9 @@
 package ru.silvestrov.timetracker.view;
 
+import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
+import ru.silvestrov.timetracker.model.activitytree.ActivityTreeManager;
+import ru.silvestrov.timetracker.view.activitytree.ActivityJTree;
+
 import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +19,8 @@ public class MainFrameView {
     @Resource
     private ActivityControlListView activityControlListView;
 
+    @Resource
+    private ActivityTreeManager activityTreeManager;
 
     public void show() {
         JButton showActivityControlTree = new JButton("Show activity control tree");
@@ -35,7 +41,18 @@ public class MainFrameView {
         showAllActivitiesTree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Show all activities pressed");
+                ActivityTree tree = activityTreeManager.loadAllActivitiesTree();
+                final JFrame frame = new JFrame();
+                ActivityJTree jtree = new ActivityJTree(tree);
+                frame.add(jtree);
+                jtree.setVisible(true);
+                frame.pack();
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        frame.setVisible(true);
+                    }
+                });
             }
         });
 
