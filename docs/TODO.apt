@@ -46,6 +46,12 @@
 
     * Created mainFrame which shows ActivityControlList
 
+    * Plug <all activities tree> to be show on button press in MainFrame
+
+  * T5: Create view showing all activities in tree (for U35, U7)
+
+    * T5.2: Make tree to display aggregate time spent in clock format
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
@@ -53,9 +59,10 @@ Version 0.5
   * T6: Create main frame for the time tracker which has controls to show <activity control tree> and
     <activity archive tree> (for T5, U35, U7)
 
-    * Make ActivityControlList to save its size after it is closed and then opened again from MainFrame
+    * T6.1: Make ActivityControlList to save its size after it is closed and then opened again from MainFrame
 
-    * Plug <all activities tree> to be show on button press in MainFrame
+    * T6.2: Make MainFrame to display <activity control tree> and <activity archive tree> frames if they
+      are not shown yet only.
 
   * U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
     displays aggregate time only
