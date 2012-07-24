@@ -11,14 +11,17 @@ import javax.swing.*;
  * Time: 9:32 PM
  */
 public class ActivityTreeModelTestRunner {
+    private static long mins(int mins) {
+        return mins*60*1000;
+    }
     public static void main(String[] args) {
         HashActivityTree tree = new HashActivityTree();
-        tree.addChild(new LazyActivityTreeNode(1, "a1", 1), null);
-        tree.addChild(new LazyActivityTreeNode(2, "Проверка цен", 90), null);
-        tree.addChild(new LazyActivityTreeNode(20, "Проверка цен", 20), 2L);
-        tree.addChild(new LazyActivityTreeNode(21, "Формирование отчета", 40), 2L);
-        tree.addChild(new LazyActivityTreeNode(22, "Посылка отчета", 30), 2L);
-        tree.addChild(new LazyActivityTreeNode(3, "a3", 3), null);
+        tree.addChild(new LazyActivityTreeNode(1, "a1", mins(10)), null);
+        tree.addChild(new LazyActivityTreeNode(2, "Проверка цен", mins(90)), null);
+        tree.addChild(new LazyActivityTreeNode(20, "Проверка цен", mins(20)), 2L);
+        tree.addChild(new LazyActivityTreeNode(21, "Формирование отчета", mins(40)), 2L);
+        tree.addChild(new LazyActivityTreeNode(22, "Посылка отчета", mins(30)), 2L);
+        tree.addChild(new LazyActivityTreeNode(3, "a3", mins(33)), null);
 
         final JFrame frame = new JFrame();
         ActivityJTree jtree = new ActivityJTree(tree);

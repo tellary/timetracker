@@ -14,13 +14,15 @@ import javax.swing.*;
 public class ActivityJTree extends JTree {
     public ActivityJTree(ActivityTree tree) {
         super(new ActivityTreeModel(tree));
+        setDragEnabled(true);
+        setTransferHandler(new ActivityJTreeTransferHandler());
     }
 
     @Override
     public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         if (value instanceof ActivityTreeNode) {
             ActivityTreeNode node = (ActivityTreeNode) value;
-            return node.getName() + "(" + TimeHelp.formatTime(node.getAggregateTimeSpent()) + ")";
+            return node.getName() + " (" + TimeHelp.formatTime(node.getAggregateTimeSpent()) + ")";
         } else if (value instanceof ActivityTree) {
             return "";
         } else {

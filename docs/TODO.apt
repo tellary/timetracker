@@ -52,6 +52,14 @@
 
     * T5.2: Make tree to display aggregate time spent in clock format
 
+24-Jul-12
+
+* U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    * TU39.1: Enable drag-and-drop in <activities archive tree>, log DnD events
+
+      * TU39.1.1: Implemented basic DnD sample with ActivityJTree with copy of the child without its removal
+
 Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
@@ -62,7 +70,17 @@ Version 0.5
     * T6.1: Make ActivityControlList to save its size after it is closed and then opened again from MainFrame
 
     * T6.2: Make MainFrame to display <activity control tree> and <activity archive tree> frames if they
-      are not shown yet only.
+      are not shown yet only: avoid duplicate windows.
+
+  * U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    * TU39.1: Enable drag-and-drop in <activities archive tree>, log DnD events
+
+      * TU39.1.2: Remove just copied child from its previous location
+
+      * TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
+
+    * TU39.2: Implement set parent functionality on drag-n-drop event
 
   * U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
     displays aggregate time only
