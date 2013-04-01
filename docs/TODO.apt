@@ -64,6 +64,11 @@ Version 0.5
 
   This version contains minimal set of features to start run Timetracker for work
 
+  * T7: Change git commit history so that Ilya Silvestrov author has an email tellary@gmail.com,
+    but commit and author dates are not changed.
+
+  * T8: Rewrite TODO list in Markdown format instead of APT.
+
   * T6: Create main frame for the time tracker which has controls to show <activity control tree> and
     <activity archive tree> (for T5, U35, U7)
 
