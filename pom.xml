@@ -4,7 +4,7 @@
     <groupId>ru.silvestrov.timetracker</groupId>
     <artifactId>timetracker</artifactId>
     <name>Time tracker</name>
-    <version>0.4.1</version>
+    <version>0.4.2-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:.</connection>
