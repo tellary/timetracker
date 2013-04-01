@@ -112,7 +112,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.silvestrov.timetracker.view.ActivityControlListView</mainClass>
+                            <mainClass>ru.silvestrov.timetracker.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

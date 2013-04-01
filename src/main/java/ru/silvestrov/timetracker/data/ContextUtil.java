@@ -34,4 +34,8 @@ public class ContextUtil {
         return createContext(dbName, "db.xml", "dao.xml", "/context.xml",
                 "/ru/silvestrov/timetracker/model/activitytree/activityTree.xml");
     }
+
+    public static ApplicationContext createDaoContext(String dbName) {
+        return createContext(dbName, "db.xml", "dao.xml");
+    }
 }
