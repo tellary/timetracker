@@ -11,6 +11,7 @@ import ru.silvestrov.timetracker.view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -22,18 +23,21 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-//        ActivityDao activityDao = new MockActivityDao();
-//        TimeEntryDao timeEntryDao = new MockTimeEntryDao();
-//        TransactionTemplate tt = new TransactionTemplate() {
-//            public Object execute(TransactionCallback action) throws TransactionException {
-//                return action.doInTransaction(null);
-//            }
-//        };
-
         DataConfiguration dataConfiguration = new DataConfiguration("./timeDB");
         ActivityDao activityDao = dataConfiguration.getActivityDao();
         TimeEntryDao timeEntryDao = dataConfiguration.getTimeEntryDao();
         TransactionTemplate tt = dataConfiguration.getTransactionTemplate();
+
+        if (CommandLineTools.isCommandSupported(args)) {
+            CommandLineTools commandLineTools =
+                    new CommandLineTools(
+                            activityDao,
+                            timeEntryDao,
+                            new PrintWriter(System.out));
+            commandLineTools.main(args);
+            return;
+        }
+
 
         dataConfiguration.getSchemaUpdater().updateSchema();
 

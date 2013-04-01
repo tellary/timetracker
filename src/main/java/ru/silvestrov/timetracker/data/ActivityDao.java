@@ -20,6 +20,6 @@ public class ActivityDao extends HibernateDaoSupport {
     }
 
     public Activity getActivityById(long id) {
-        return (Activity) getHibernateTemplate().find("FROM Activity WHERE id = ?", id);
+        return (Activity) getHibernateTemplate().get(Activity.class, id);
     }
 }
