@@ -1,0 +1,11 @@
+h1 {font-size: 24}
+h2 {font-size: 18}
+h3 {font-size: 14}
+h4 {font-size: 12}
+* {font-size: 14}
+code {font-family: courier}
+blockquote {
+    border-left: 1px solid black;
+    padding-left: 1em
+}
+pb {page-break-after: always}
