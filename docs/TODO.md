@@ -67,15 +67,18 @@
     *   T8.2: Convert `DONE-0.4.apt` to Markdown
     *   T8.4: Convert `activity_tree_use_case.apt` to Markdown
 
-# Version 0.5
-
-This version contains minimal set of features to start run Timetracker for work
+# 2013-Apr-05
 
 *   T8: Rewrite existing docs to Markdown
 
     *   T8.3: Convert `goal.apt` to Markdown and make `README.md` out of it
     
         *   Push to github and make sure it is displayed correctly.
+
+# Version 0.5
+
+This version contains minimal set of features to start run Timetracker for work
+
         
 *   T6: Create main frame for the time tracker which has controls to show _activity control tree_ and
     _activity archive tree_ (for T5, U35, U7)
