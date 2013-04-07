@@ -7,10 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.silvestrov.timetracker.data.Activity;
-import ru.silvestrov.timetracker.data.ActivityDao;
-import ru.silvestrov.timetracker.data.TimeEntry;
-import ru.silvestrov.timetracker.data.TimeEntryDao;
+import ru.silvestrov.timetracker.data.*;
 
 import javax.annotation.Resource;
 import java.util.Iterator;
@@ -35,15 +32,15 @@ public class ActivityTreeManagerWithRealDataTest {
     private JdbcTemplate jdbcTemplate;
     @Resource
     private ActivityTreeManager activityTreeManager;
+    @Resource
+    private DataSetup dataSetup;
 
 
     private Activity a1;
 
     @Before
     public void before() {
-        jdbcTemplate.execute("delete from time_entry");
-        jdbcTemplate.execute("delete from activity");
-
+        dataSetup.cleanup();
 
         a1 = createActivity("a1", 60);
         Activity a2 = createActivity("a2", 30);

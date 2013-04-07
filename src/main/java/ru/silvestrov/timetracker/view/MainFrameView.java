@@ -23,7 +23,7 @@ public class MainFrameView {
     private ActivityTreeManager activityTreeManager;
 
     public void show() {
-        JButton showActivityControlTree = new JButton("Show activity control tree");
+        JButton showActivityControlTree = new JButton("Show activity control list");
         JButton showAllActivitiesTree = new JButton("Show all activities tree");
 
         final JFrame mainFrame = new JFrame("Time tracker main frame");

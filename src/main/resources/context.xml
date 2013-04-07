@@ -11,8 +11,6 @@
 
     <context:annotation-config/>
 
-    <bean id="activityControlList" class="ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList"/>
-
     <bean id="renameActivityController" class="ru.silvestrov.timetracker.view.RenameActivityController"/>
 
     <bean id="adjustTimeController" class="ru.silvestrov.timetracker.view.AdjustTimeController"/>

@@ -4,14 +4,13 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.TransactionStatus;
-import org.dbunit.IDatabaseTester;
-import org.dbunit.dataset.ITable;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -32,9 +31,9 @@ public class ActivityDaoTest {
     @Resource
     private TransactionTemplate tt;
     @Resource
-    private IDatabaseTester tester;
-    @Resource
     private DataSetup dataSetup;
+    @Resource
+    private JdbcTemplate jdbcTemplate;
       
 
     @Before
@@ -63,8 +62,7 @@ public class ActivityDaoTest {
             }
         });
 
-        ITable activity = tester.getConnection().createQueryTable("activity", "select * from activity where name = 'test'");
-        Assert.assertEquals(1, activity.getRowCount());
+        Assert.assertEquals(1, jdbcTemplate.queryForInt("select count(*) from activity where name = 'test'"));
     }
 
     @Test

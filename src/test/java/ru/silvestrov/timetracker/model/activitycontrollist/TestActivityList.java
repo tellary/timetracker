@@ -1,4 +1,4 @@
-package ru.silvestrov.timetracker.model;
+package ru.silvestrov.timetracker.model.activitycontrollist;
 
 import junit.framework.Assert;
 import org.junit.After;
@@ -10,8 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.DataSetup;
-import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
-import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlListUpdateListener;
 
 import javax.annotation.Resource;
 
@@ -22,13 +20,13 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/ru/silvestrov/timetracker/data/test-db.xml",
-    "/ru/silvestrov/timetracker/data/dao.xml", "/context.xml"})
+    "/ru/silvestrov/timetracker/data/dao.xml", "activityControlList.xml"})
 public class TestActivityList {
     @Resource
     private ApplicationContext applicationContext;
     @Resource
     private DataSetup dataSetup;
-
+    @Resource(shareable = false)
     private ActivityControlList activityControlList;
 
     @Before
@@ -44,6 +42,8 @@ public class TestActivityList {
             }
         });
         dataSetup.setup();
+        //This call is necessary to reset activity list to be in sync with db
+        activityControlList.afterPropertiesSet();
     }
 
     @After

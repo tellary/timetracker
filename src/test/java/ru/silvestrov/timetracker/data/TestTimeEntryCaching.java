@@ -2,10 +2,7 @@ package ru.silvestrov.timetracker.data;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.ContextLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -21,8 +18,8 @@ import javax.annotation.Resource;
  * Time: 12:54:01 AM
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = TestTimeEntryCaching.class)
-public class TestTimeEntryCaching implements ContextLoader {
+@ContextConfiguration(locations = {"test-db.xml", "dao.xml"})
+public class TestTimeEntryCaching {
     @Resource
     private TimeEntryDao timeEntryDao;
     @Resource
@@ -30,11 +27,19 @@ public class TestTimeEntryCaching implements ContextLoader {
     @Resource
     private SessionFactory sessionFactory;
 
-
     @Test
     public void testCaching() {
         tt.execute(new TransactionCallbackWithoutResult() {
             protected void doInTransactionWithoutResult(TransactionStatus status) {
+                timeEntryDao.getTotalTime(2L);
+                timeEntryDao.getTotalTime(2L);
+                Assert.assertTrue(sessionFactory.getStatistics().getQueryCacheHitCount() > 0);
+                sessionFactory.getCache().evictQueryRegions();
+                sessionFactory.getCache().evictCollectionRegions();
+                sessionFactory.getCache().evictEntityRegions();
+                sessionFactory.getCache().evictDefaultQueryRegion();
+                sessionFactory.getStatistics().clear();
+                Assert.assertEquals(0, sessionFactory.getStatistics().getQueryCacheHitCount());
                 timeEntryDao.getTotalTime(2L);
                 Assert.assertEquals(0, sessionFactory.getStatistics().getQueryCacheHitCount());
             }
@@ -45,14 +50,6 @@ public class TestTimeEntryCaching implements ContextLoader {
                 Assert.assertTrue("Query cache must be hit", sessionFactory.getStatistics().getQueryCacheHitCount() > 0);
             }
         });
-    }
-
-    public String[] processLocations(Class<?> clazz, String... locations) {
-        return new String[] {"Non-existent.xml"};
-    }
-
-    public ApplicationContext loadContext(String... locations) throws Exception {
-        return new ClassPathXmlApplicationContext(new String[]{"test-db.xml", "dao.xml"}, getClass());
     }
 }
 

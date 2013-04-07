@@ -31,11 +31,9 @@
         </property>
     </bean>
 
-    <bean id="databaseTester" class="org.dbunit.DataSourceDatabaseTester">
-        <constructor-arg ref="dataSource"/>
+    <bean id="testDataSetup" class="ru.silvestrov.timetracker.data.DataSetup">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
-
-    <bean id="testDataSetup" class="ru.silvestrov.timetracker.data.DataSetup"/>
 
     <bean class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>

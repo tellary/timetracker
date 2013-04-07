@@ -1,7 +1,6 @@
 package ru.silvestrov.timetracker.view;
 
 import org.apache.log4j.Logger;
-import ru.silvestrov.timetracker.data.SchemaUpdater;
 import ru.silvestrov.timetracker.model.activitycontrollist.ActivityControlList;
 
 import javax.annotation.Resource;
@@ -17,8 +16,6 @@ import java.awt.event.*;
 public class ActivityControlListView {
     private static final Logger logger = Logger.getLogger(ActivityControlListView.class);
 
-    @Resource
-    private SchemaUpdater schemaUpdater;
     @Resource
     private ActivityControlList activityControlList;
     @Resource

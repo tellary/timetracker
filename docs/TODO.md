@@ -91,12 +91,15 @@
             
             Actually made DnD work properly by firing treeNodesInserted inserted
             for the newly add node (due to DnD).
+            
+    *   T9: Move project to JDK1.7
+    
+    *   T10: Fixed test to run together
     
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
 
-        
 *   T6: Create main frame for the time tracker which has controls to show _activity control tree_ and
     _activity archive tree_ (for T5, U35, U7)
 
