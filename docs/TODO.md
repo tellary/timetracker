@@ -75,6 +75,23 @@
     
         *   Push to github and make sure it is displayed correctly.
 
+# 2013-Apr-06
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+    
+        Identified "TU39.1.4: Make expand/collapse node control appear after DnD is finished" task.
+
+# 2013-Apr-07
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+    
+        *   TU39.1.4: Made expand/collapse node control appear after DnD is finished
+            
+            Actually made DnD work properly by firing treeNodesInserted inserted
+            for the newly add node (due to DnD).
+    
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work

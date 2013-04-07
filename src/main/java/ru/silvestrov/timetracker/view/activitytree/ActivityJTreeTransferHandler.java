@@ -15,6 +15,15 @@ import java.io.IOException;
  */
 public class ActivityJTreeTransferHandler extends TransferHandler {
     private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + "; class=" + LazyActivityTreeNode.class.getName();
+
+    private ActivityTreeModel activityTreeModel;
+    private ActivityJTree activityJTree;
+
+    public ActivityJTreeTransferHandler(ActivityTreeModel activityTreeModel, ActivityJTree activityJTree) {
+        this.activityTreeModel = activityTreeModel;
+        this.activityJTree = activityJTree;
+    }
+
     @Override
     public boolean canImport(TransferSupport support) {
         for (DataFlavor flavor : support.getDataFlavors()) {
@@ -32,7 +41,8 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
             JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
             LazyActivityTreeNode parent = (LazyActivityTreeNode) dl.getPath().getLastPathComponent();
             parent.addChild(newChild);
-            support.getComponent().revalidate();
+            activityTreeModel.treeNodeInserted(dl.getPath(), newChild);
+            activityJTree.revalidate();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,10 +3,13 @@ package ru.silvestrov.timetracker.view.activitytree;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNode;
 
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Silvestrov Ilya
@@ -15,6 +18,7 @@ import java.util.Iterator;
  */
 public class ActivityTreeModel implements TreeModel {
     private ActivityTree tree;
+    private List<TreeModelListener> treeModelListeners = new ArrayList<>();
 
     public ActivityTreeModel(ActivityTree tree) {
         this.tree = tree;
@@ -81,13 +85,22 @@ public class ActivityTreeModel implements TreeModel {
         return -1;
     }
 
+    public void treeNodeInserted(TreePath parentPath, ActivityTreeNode child) {
+        for (TreeModelListener listener : treeModelListeners) {
+            int[] childIndices = new int[1];
+            childIndices[0] = getIndexOfChild(parentPath.getLastPathComponent(), child);
+            TreeModelEvent e = new TreeModelEvent(this, parentPath, childIndices, new Object[] {child});
+            listener.treeNodesInserted(e);
+        }
+    }
+
     @Override
     public void addTreeModelListener(TreeModelListener l) {
-        System.out.println(String.format("Setting TreeModelListener %s", l));
+        treeModelListeners.add(l);
     }
 
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
-        System.out.println(String.format("Removing TreeModelListener %s", l));
+        treeModelListeners.remove(l);
     }
 }

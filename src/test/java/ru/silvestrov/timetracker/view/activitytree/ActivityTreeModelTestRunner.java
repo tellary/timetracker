@@ -10,6 +10,10 @@ import javax.swing.*;
  * Date: 7/22/12
  * Time: 9:32 PM
  */
+
+/**
+ * Test runner to test ActivityJTree
+ */
 public class ActivityTreeModelTestRunner {
     private static long mins(int mins) {
         return mins*60*1000;
