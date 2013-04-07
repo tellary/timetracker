@@ -103,9 +103,11 @@ This version contains minimal set of features to start run Timetracker for work
 *   T6: Create main frame for the time tracker which has controls to show _activity control tree_ and
     _activity archive tree_ (for T5, U35, U7)
 
-    *   T6.1: Make ActivityControlList to save its size after it is closed and then opened again from MainFrame
-    *   T6.2: Make MainFrame to display _activity control tree_ and _activity archive tree_ frames if they
-        are not shown yet only: avoid duplicate windows.
+    *   T6.1: Make _activity control list_ to save its size after it is closed and then opened again from MainFrame
+    *   T6.2: Make MainFrame to display _all activities tree_ and _activity control list_ frames if they
+        are not shown yet: avoid duplicate windows.
+        
+*   T11: Make all frames save their size and position b/w program runs
 
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
