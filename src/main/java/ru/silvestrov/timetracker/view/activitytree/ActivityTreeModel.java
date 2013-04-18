@@ -88,9 +88,19 @@ public class ActivityTreeModel implements TreeModel {
     public void treeNodeInserted(TreePath parentPath, ActivityTreeNode child) {
         for (TreeModelListener listener : treeModelListeners) {
             int[] childIndices = new int[1];
-            childIndices[0] = getIndexOfChild(parentPath.getLastPathComponent(), child);
-            TreeModelEvent e = new TreeModelEvent(this, parentPath, childIndices, new Object[] {child});
+            Object parent = parentPath.getLastPathComponent();
+            childIndices[0] = getIndexOfChild(parent, child);
+            TreeModelEvent e = new TreeModelEvent(this, parentPath, childIndices, new Object[]{child});
             listener.treeNodesInserted(e);
+        }
+    }
+
+    public void treeNodeRemoved(TreePath parentPath, ActivityTreeNode child, int oldIndex) {
+        for (TreeModelListener listener : treeModelListeners) {
+            int[] childIndices = new int[1];
+            childIndices[0] = oldIndex;
+            TreeModelEvent e = new TreeModelEvent(this, parentPath, childIndices, new Object[]{child});
+            listener.treeNodesRemoved(e);
         }
     }
 

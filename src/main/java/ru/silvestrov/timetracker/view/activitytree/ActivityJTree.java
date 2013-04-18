@@ -17,8 +17,7 @@ public class ActivityJTree extends JTree {
         setDragEnabled(true);
         setTransferHandler(
                 new ActivityJTreeTransferHandler(
-                        (ActivityTreeModel)getModel(),
-                        this));
+                        (ActivityTreeModel)getModel()));
     }
 
     @Override

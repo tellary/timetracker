@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class LazyActivityTree implements ActivityTree {
     private boolean valid = false;
-    private List<ActivityTreeNode> children = new LinkedList<ActivityTreeNode>();
+    private List<ActivityTreeNode> children = new LinkedList<>();
     private long aggregateTimeSpent;
     private LazyActivityTree parentActivityTree;
 
@@ -62,6 +62,15 @@ public class LazyActivityTree implements ActivityTree {
         child.setParentActivityTree(this);
         children.add(child);
         invalidateAggregateTimeSpent();
+    }
+
+    protected void removeChild(LazyActivityTreeNode child) {
+        children.remove(child);
+        invalidateAggregateTimeSpent();
+    }
+
+    protected LazyActivityTree getParentActivityTree() {
+        return parentActivityTree;
     }
 
     public void aggregationComplete() {

@@ -85,6 +85,8 @@
 
 # 2013-Apr-07
 
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
     
         *   TU39.1.4: Made expand/collapse node control appear after DnD is finished
@@ -92,10 +94,21 @@
             Actually made DnD work properly by firing treeNodesInserted inserted
             for the newly add node (due to DnD).
             
-    *   T9: Move project to JDK1.7
+*   T9: Move project to JDK1.7
     
-    *   T10: Fixed test to run together
-    
+*   T10: Fixed tests to run together
+
+# 2013-Apr-17
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.2: Remove just copied child from its previous location
+
+            Also implemented proper recalculation of aggregate time on
+            child removal
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -113,7 +126,6 @@ This version contains minimal set of features to start run Timetracker for work
 
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
 
-        *   TU39.1.2: Remove just copied child from its previous location
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event

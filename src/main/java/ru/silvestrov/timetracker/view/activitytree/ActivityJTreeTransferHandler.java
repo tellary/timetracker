@@ -1,8 +1,10 @@
 package ru.silvestrov.timetracker.view.activitytree;
 
+import ru.silvestrov.timetracker.model.activitytree.LazyActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.LazyActivityTreeNode;
 
 import javax.swing.*;
+import javax.swing.tree.TreePath;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -17,11 +19,9 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
     private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + "; class=" + LazyActivityTreeNode.class.getName();
 
     private ActivityTreeModel activityTreeModel;
-    private ActivityJTree activityJTree;
 
-    public ActivityJTreeTransferHandler(ActivityTreeModel activityTreeModel, ActivityJTree activityJTree) {
+    public ActivityJTreeTransferHandler(ActivityTreeModel activityTreeModel) {
         this.activityTreeModel = activityTreeModel;
-        this.activityJTree = activityJTree;
     }
 
     @Override
@@ -37,12 +37,19 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
     @Override
     public boolean importData(TransferSupport support) {
         try {
-            LazyActivityTreeNode newChild = (LazyActivityTreeNode) support.getTransferable().getTransferData(new DataFlavor(MIME_TYPE));
+            TreePath sourceSelectionPath = (TreePath) support.getTransferable().getTransferData(new DataFlavor(MIME_TYPE));
+            Object sourceParent = sourceSelectionPath.getParentPath().getLastPathComponent();
+            int oldIndex = activityTreeModel.getIndexOfChild(sourceParent, sourceSelectionPath.getLastPathComponent());
+
+            LazyActivityTreeNode newChild = (LazyActivityTreeNode)sourceSelectionPath.getLastPathComponent();
             JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-            LazyActivityTreeNode parent = (LazyActivityTreeNode) dl.getPath().getLastPathComponent();
+            LazyActivityTree parent = (LazyActivityTree) dl.getPath().getLastPathComponent();
+
             parent.addChild(newChild);
+
+            activityTreeModel.treeNodeRemoved(sourceSelectionPath.getParentPath(), newChild, oldIndex);
             activityTreeModel.treeNodeInserted(dl.getPath(), newChild);
-            activityJTree.revalidate();
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +65,7 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
         JTree tree = (JTree) c;
-        final LazyActivityTreeNode node = (LazyActivityTreeNode) tree.getSelectionPath().getLastPathComponent();
+        final TreePath sourceSelectionPath = tree.getSelectionPath();
         return new Transferable() {
             @Override
             public DataFlavor[] getTransferDataFlavors() {
@@ -77,7 +84,7 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
 
             @Override
             public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-                return node;
+                return sourceSelectionPath;
             }
         };
     }

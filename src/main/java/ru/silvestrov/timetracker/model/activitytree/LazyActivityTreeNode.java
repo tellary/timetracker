@@ -45,4 +45,11 @@ public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTr
         super.getAggregateTimeSpent();
         return aggregateTimeSpent;
     }
+
+    public void setParentActivityTree(LazyActivityTree parentActivityTree) {
+        LazyActivityTree oldParentActivityTree = this.getParentActivityTree();
+        if (oldParentActivityTree != null)
+            oldParentActivityTree.removeChild(this);
+        super.setParentActivityTree(parentActivityTree);
+    }
 }
