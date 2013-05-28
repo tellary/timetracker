@@ -1,6 +1,6 @@
 package ru.silvestrov.timetracker.view.activitytree;
 
-import ru.silvestrov.timetracker.model.activitytree.LazyActivityTree;
+import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.LazyActivityTreeNode;
 
 import javax.swing.*;
@@ -43,7 +43,7 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
 
             LazyActivityTreeNode newChild = (LazyActivityTreeNode)sourceSelectionPath.getLastPathComponent();
             JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-            LazyActivityTree parent = (LazyActivityTree) dl.getPath().getLastPathComponent();
+            ActivityTree parent = (ActivityTree) dl.getPath().getLastPathComponent();
 
             parent.addChild(newChild);
 

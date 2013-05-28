@@ -22,9 +22,9 @@ import java.util.List;
  *     On invalidation it invalidates parent ActivityTreeNode.
  * </p>
  */
-public class LazyActivityTree implements ActivityTree {
+public class LazyActivityTree implements ActivityTree<LazyActivityTreeNode> {
     private boolean valid = false;
-    private List<ActivityTreeNode> children = new LinkedList<>();
+    private List<LazyActivityTreeNode> children = new LinkedList<>();
     private long aggregateTimeSpent;
     private LazyActivityTree parentActivityTree;
 
@@ -47,7 +47,7 @@ public class LazyActivityTree implements ActivityTree {
         return aggregateTimeSpent;
     }
 
-    public Iterable<ActivityTreeNode> getChildren() {
+    public Iterable<LazyActivityTreeNode> getChildren() {
         return children;
     }
 

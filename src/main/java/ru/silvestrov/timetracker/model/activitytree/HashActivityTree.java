@@ -7,30 +7,39 @@ import java.util.HashMap;
  * Date: 7/15/12
  * Time: 1:06 AM
  */
-public class HashActivityTree implements ActivityTree {
-    private HashMap<Long, LazyActivityTreeNode> nodes = new HashMap<Long, LazyActivityTreeNode>();
-    private LazyActivityTree tree = new LazyActivityTree();
+public class HashActivityTree<T extends ActivityTreeNode<T>> implements ActivityTree<T> {
+    private HashMap<Long, T> nodes = new HashMap<>();
+    private ActivityTree<T> tree;
+
+    public HashActivityTree(ActivityTree<T> tree) {
+        this.tree = tree;
+    }
 
     public long getAggregateTimeSpent() {
         return tree.getAggregateTimeSpent();
     }
 
-    public Iterable<ActivityTreeNode> getChildren() {
+    public Iterable<T> getChildren() {
         return tree.getChildren();
     }
 
-    public void invalidateAggregateTimeSpent() {
-        tree.invalidateAggregateTimeSpent();
+    @Override
+    public void addChild(T child) {
+        tree.addChild(child);
     }
 
-    public void addChild(LazyActivityTreeNode child, Long parentId) {
+    public ActivityTree<T> getTree() {
+        return tree;
+    }
+
+    public void addChild(T child, Long parentId) {
         if (nodes.put(child.getId(), child) != null) {
-            throw new RuntimeException("Activity with the same id used to already exist in the Hash");
+            throw new RuntimeException("Activity with the same id already exist");
         }
         if (parentId == null) {
             tree.addChild(child);
         } else {
-            LazyActivityTreeNode parentNode = nodes.get(parentId);
+            T parentNode = nodes.get(parentId);
             parentNode.addChild(child);
         }
     }

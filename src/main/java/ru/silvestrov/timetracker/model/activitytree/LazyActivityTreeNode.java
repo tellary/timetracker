@@ -7,7 +7,7 @@ package ru.silvestrov.timetracker.model.activitytree;
  */
 
 
-public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTreeNode {
+public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTreeNode<LazyActivityTreeNode> {
     private long id;
     private String name;
     private long timeSpent;
@@ -31,10 +31,6 @@ public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTr
 
     public String getName() {
         return name;
-    }
-
-    public Iterable<ActivityTreeNode> getChildren() {
-        return super.getChildren();
     }
 
     public long getTimeSpent() {

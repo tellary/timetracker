@@ -1,6 +1,7 @@
 package ru.silvestrov.timetracker.view.activitytree;
 
 import ru.silvestrov.timetracker.model.activitytree.HashActivityTree;
+import ru.silvestrov.timetracker.model.activitytree.LazyActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.LazyActivityTreeNode;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class ActivityTreeModelTestRunner {
         return mins*60*1000;
     }
     public static void main(String[] args) {
-        HashActivityTree tree = new HashActivityTree();
+        HashActivityTree<LazyActivityTreeNode> tree = new HashActivityTree<>(new LazyActivityTree());
         tree.addChild(new LazyActivityTreeNode(1, "a1", mins(10)), null);
         tree.addChild(new LazyActivityTreeNode(2, "Проверка цен", mins(90)), null);
         tree.addChild(new LazyActivityTreeNode(20, "Проверка цен", mins(20)), 2L);

@@ -26,7 +26,7 @@ public class ActivityJTree extends JTree {
             ActivityTreeNode node = (ActivityTreeNode) value;
             return node.getName() + " (" + TimeHelp.formatTime(node.getAggregateTimeSpent()) + ")";
         } else if (value instanceof ActivityTree) {
-            return "";
+            return "(root)";
         } else {
             return super.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
         }

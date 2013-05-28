@@ -109,6 +109,21 @@
             Also implemented proper recalculation of aggregate time on
             child removal
 
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.5: Make drop to root level work
+        
+            Made it work in ActivityTreeModelTestRunner.
+            But implementation problem exist: it is implemented with
+            generics, but it still has unsafe conversion in 
+            ActivityJTreeTransferHandler#importData when
+            adding new tree child.
+
+            Created task TU39.1.6 to address this.
+            
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -127,6 +142,8 @@ This version contains minimal set of features to start run Timetracker for work
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
 
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
+
+        *   TU39.1.6: Get rid of unsafe conversion in ActivityJTreeTransferHandler#importData
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event
 

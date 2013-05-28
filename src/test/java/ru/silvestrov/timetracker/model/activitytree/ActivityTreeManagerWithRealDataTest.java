@@ -4,7 +4,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.silvestrov.timetracker.data.*;
@@ -28,8 +27,6 @@ public class ActivityTreeManagerWithRealDataTest {
     private ActivityDao activityDao;
     @Resource
     private TimeEntryDao timeEntryDao;
-    @Resource
-    private JdbcTemplate jdbcTemplate;
     @Resource
     private ActivityTreeManager activityTreeManager;
     @Resource
@@ -72,12 +69,12 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void test() {
-        ActivityTree tree = activityTreeManager.loadAllActivitiesTree();
-        Iterator<ActivityTreeNode> children = tree.getChildren().iterator();
-        ActivityTreeNode child = children.next();
+        ActivityTree<? extends ActivityTreeNode<?>> tree = activityTreeManager.loadAllActivitiesTree();
+        Iterator<? extends ActivityTreeNode<?>> children = tree.getChildren().iterator();
+        ActivityTreeNode<?> child = children.next();
         Assert.assertEquals("a1", child.getName());
-        Iterator<ActivityTreeNode> grandChildren = child.getChildren().iterator();
-        ActivityTreeNode grandChild = grandChildren.next();
+        Iterator<? extends ActivityTreeNode<?>> grandChildren = child.getChildren().iterator();
+        ActivityTreeNode<?> grandChild = grandChildren.next();
         Assert.assertEquals("a11", grandChild.getName());
         grandChild = grandChildren.next();
         Assert.assertEquals("a12", grandChild.getName());
@@ -94,7 +91,7 @@ public class ActivityTreeManagerWithRealDataTest {
         Assert.assertFalse(grandChildren.hasNext());
         Assert.assertFalse(children.hasNext());
         Assert.assertEquals((60+30+780+78+80+180)*1000, tree.getAggregateTimeSpent());
-        ((HashActivityTree)tree).invalidateAggregateTimeSpent();
+        ((LazyActivityTree) ((HashActivityTree) tree).getTree()).invalidateAggregateTimeSpent();
         Assert.assertEquals((60+30+780+78+80+180)*1000, tree.getAggregateTimeSpent());
     }
 
@@ -102,13 +99,14 @@ public class ActivityTreeManagerWithRealDataTest {
     public void testLoadByParent() {
         ActivityTree tree = activityTreeManager.loadActivitiesForParent(a1.getId());
         Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
-        ((HashActivityTree)tree).invalidateAggregateTimeSpent();
+        ((LazyActivityTree) ((HashActivityTree) tree).getTree()).invalidateAggregateTimeSpent();
         Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testAggregateTimeSpentAfterAddingAnotherChild() {
-        HashActivityTree tree = (HashActivityTree) activityTreeManager.loadAllActivitiesTree();
+        HashActivityTree<LazyActivityTreeNode> tree = (HashActivityTree<LazyActivityTreeNode>) activityTreeManager.loadAllActivitiesTree();
         tree.getAggregateTimeSpent();
         long expectedTime = (60+30+780+78+80+180)*1000;
         Assert.assertEquals(expectedTime, tree.getAggregateTimeSpent());

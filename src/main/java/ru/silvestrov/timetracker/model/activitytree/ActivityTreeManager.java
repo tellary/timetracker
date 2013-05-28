@@ -18,8 +18,8 @@ public class ActivityTreeManager {
     @Resource
     private TimeEntryDao timeEntryDao;
 
-    public ActivityTree loadAllActivitiesTree() {
-        HashActivityTree activityTree = new HashActivityTree();
+    public ActivityTree<? extends ActivityTreeNode<?>> loadAllActivitiesTree() {
+        HashActivityTree<LazyActivityTreeNode> activityTree = new HashActivityTree<>(new LazyActivityTree());
         List<Activity> activities = activityDao.findRootActivities();
         for (Activity activity : activities) {
             activityTree.addChild(
@@ -38,7 +38,7 @@ public class ActivityTreeManager {
     }
 
     public ActivityTree loadActivitiesForParent(long parentId) {
-        HashActivityTree activityTree = new HashActivityTree();
+        HashActivityTree<LazyActivityTreeNode> activityTree = new HashActivityTree<>(new LazyActivityTree());
         Activity activity = activityDao.getActivityById(parentId);
         activityTree.addChild(treeNode(activity), null);
 
@@ -46,7 +46,7 @@ public class ActivityTreeManager {
         return activityTree;
     }
 
-    private void loadActivitiesForParent(HashActivityTree tree, long parentId) {
+    private void loadActivitiesForParent(HashActivityTree<LazyActivityTreeNode> tree, long parentId) {
         List<Activity> activities = activityDao.findActivitiesByParentId(parentId);
         for (Activity activity : activities) {
             tree.addChild(treeNode(activity), parentId);
