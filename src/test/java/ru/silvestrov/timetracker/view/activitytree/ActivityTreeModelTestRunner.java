@@ -20,7 +20,7 @@ public class ActivityTreeModelTestRunner {
         return mins*60*1000;
     }
     public static void main(String[] args) {
-        HashActivityTree<LazyActivityTreeNode> tree = new HashActivityTree<>(new LazyActivityTree());
+        HashActivityTree tree = new HashActivityTree(new LazyActivityTree());
         tree.addChild(new LazyActivityTreeNode(1, "a1", mins(10)), null);
         tree.addChild(new LazyActivityTreeNode(2, "Проверка цен", mins(90)), null);
         tree.addChild(new LazyActivityTreeNode(20, "Проверка цен", mins(20)), 2L);

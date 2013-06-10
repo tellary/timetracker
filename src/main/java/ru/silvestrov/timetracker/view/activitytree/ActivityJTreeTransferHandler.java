@@ -1,7 +1,7 @@
 package ru.silvestrov.timetracker.view.activitytree;
 
 import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
-import ru.silvestrov.timetracker.model.activitytree.LazyActivityTreeNode;
+import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNode;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * Time: 10:48 PM
  */
 public class ActivityJTreeTransferHandler extends TransferHandler {
-    private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + "; class=" + LazyActivityTreeNode.class.getName();
+    private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + "; class=" + ActivityTreeNode.class.getName();
 
     private ActivityTreeModel activityTreeModel;
 
@@ -41,7 +41,7 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
             Object sourceParent = sourceSelectionPath.getParentPath().getLastPathComponent();
             int oldIndex = activityTreeModel.getIndexOfChild(sourceParent, sourceSelectionPath.getLastPathComponent());
 
-            LazyActivityTreeNode newChild = (LazyActivityTreeNode)sourceSelectionPath.getLastPathComponent();
+            ActivityTreeNode newChild = (ActivityTreeNode)sourceSelectionPath.getLastPathComponent();
             JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
             ActivityTree parent = (ActivityTree) dl.getPath().getLastPathComponent();
 

@@ -109,6 +109,8 @@
             Also implemented proper recalculation of aggregate time on
             child removal
 
+# 2013-May-28
+
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
@@ -123,6 +125,92 @@
 
             Created task TU39.1.6 to address this.
             
+# 2013-Jun-06
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.6: Get rid of unsafe conversion in ActivityJTreeTransferHandler#importData
+
+            Simplest solution to the problem is to admit that "View" component (`ActivityJTree` +
+            `ActivityTreeModel` + `ActivityJTreeTransferHandler`) not only read the tree,
+            but also moves tree nodes from one parent to another.
+
+            This requires that `interface MovableActivityTree` is introduced and used in "View".
+            This interface must have all methods required to implement node move: `setParent` and `addChild`.
+
+            Another solution would be to left `addChild` only interface,
+            but make implementation lookup node by id. Found node is of required type
+            which has `setParent` and other necessary functionality.
+
+            Development of this idea is to have `moveNode(newParent, child)` method on a "Tree".
+            This seems to be more cohesive as the method is implemented on a single "Tree" object
+            instead of implementing it on every "node".
+
+            Decided to go with "simplest solution" to avoid lookup of node by id
+
+# 2013-Jun-08
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.6: Get rid of unsafe conversion in ActivityJTreeTransferHandler#importData
+
+            Tried to introduce interface `ParentActivityTree extends ActivityTree` and
+            `MovableActivityTreeNode extends ParentActivityTree, ActivityTreeNode`.
+            Found out a problem:
+            `ActivityTree` "read" interface has `getChildren():List[ActivityTreeNode]` method.
+            In order for "view" to navigate the tree and then move nodes this method should
+            return `List[MovableActivityTreeNode]`.
+
+            Considered 3 possible solutions:
+
+            1.  Join `ParentActivityTree` and `ActivityTree` interfaces
+            2.  Add second `getMovableChildren():List[MovableActivityTreeNode]` method
+                to return required type along with "read-only" `getChildren():List[ActivityTreeNode]`.
+            3.  Make `ActivityTree` generic on children type, so that you can set
+                `ActivityTreeNode` or `MovableActivityTreeNode`.
+
+            Decided to go with simplest option 1. Main reason for this is that
+            we only have one client using the `ActivityTree` - the "view", so we have no good reason
+            to segregate `ActivityTree/ParentActivityTree`.
+
+# 2013-Jun-08
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.6: Get rid of unsafe conversion in ActivityJTreeTransferHandler#importData
+
+            Here is an explanation why do we have no interface segregation in
+            `ActivityTree/ActivityTreeNode`.
+
+            All the methods in these interfaces could be split into these groups,
+            according to their usage by client:
+
+            1.  `getAggregateTimeSpent`, `getTimeSpent`, `getChildren` are used to read data by "view".
+                (read group)
+            2.  `setParent` is used by "view" to move node from one parent to another.
+                (move group)
+            3.  `add/removeChild` and `invalidateTree` are used by "moving" functionality by itself.
+                (parent)
+
+            Usage of tree is following: view client reads nodes, then it moves node by
+            passing new parent node as an argument to `setParent` method. Then `setParent`
+            functionality calls `add/remove` and `invalidateTree`. So, the same object should
+            have methods of all 3 groups implemented.
+
+            To split the interface you should rather downcast where required,
+            or lookup implementation specific instance by id.
+            For example, you want to move "add/remove/invalidate" to separate
+            interface. When you implement "move" functionality you should
+            downcast corresponding "tree" instance to "ParentTree" interface,
+            or lookup "ParentTree" nodes by id and then call "add/remove/invalidate"
+            on found instances.
+
 
 # Version 0.5
 
@@ -142,8 +230,6 @@ This version contains minimal set of features to start run Timetracker for work
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
 
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
-
-        *   TU39.1.6: Get rid of unsafe conversion in ActivityJTreeTransferHandler#importData
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event
 

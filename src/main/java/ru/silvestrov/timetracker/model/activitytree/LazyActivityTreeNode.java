@@ -7,13 +7,11 @@ package ru.silvestrov.timetracker.model.activitytree;
  */
 
 
-public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTreeNode<LazyActivityTreeNode> {
+public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTreeNode {
     private long id;
     private String name;
     private long timeSpent;
-
-    private long aggregateTimeSpent;
-
+    private ActivityTree parentActivityTree;
 
     public LazyActivityTreeNode(long id, String name, long timeSpent) {
         this.id = id;
@@ -21,31 +19,31 @@ public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTr
         this.timeSpent = timeSpent;
     }
 
-    public void aggregationComplete() {
-        aggregateTimeSpent = timeSpent + super.getAggregateTimeSpent();
-    }
-
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public long getTimeSpent() {
         return this.timeSpent;
     }
 
-    public long getAggregateTimeSpent() {
-        super.getAggregateTimeSpent();
-        return aggregateTimeSpent;
+    @Override
+    public void invalidateTree() {
+        super.invalidateTree();
+        parentActivityTree.invalidateTree();
     }
 
-    public void setParentActivityTree(LazyActivityTree parentActivityTree) {
-        LazyActivityTree oldParentActivityTree = this.getParentActivityTree();
-        if (oldParentActivityTree != null)
-            oldParentActivityTree.removeChild(this);
-        super.setParentActivityTree(parentActivityTree);
+    @Override
+    public void setParent(ActivityTree parentActivityTree) {
+        if (this.parentActivityTree != null)
+            this.parentActivityTree.removeChild(this);
+        this.parentActivityTree = parentActivityTree;
     }
 }

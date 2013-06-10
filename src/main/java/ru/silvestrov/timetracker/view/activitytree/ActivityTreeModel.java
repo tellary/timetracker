@@ -34,7 +34,7 @@ public class ActivityTreeModel implements TreeModel {
         if (index < 0)
             throw new RuntimeException("Negative index is not supported");
 
-        ActivityTree<? extends ActivityTreeNode> parentNode = (ActivityTree<? extends ActivityTreeNode>) parent;
+        ActivityTree parentNode = (ActivityTree) parent;
         Iterator<? extends ActivityTreeNode> iterator = parentNode.getChildren().iterator();
         ActivityTreeNode child = null;
 
@@ -52,7 +52,7 @@ public class ActivityTreeModel implements TreeModel {
     @Override
     public int getChildCount(Object parent) {
         int count = 0;
-        ActivityTree<? extends ActivityTreeNode> tree = (ActivityTree<? extends ActivityTreeNode>) parent;
+        ActivityTree tree = (ActivityTree) parent;
         Iterator<? extends ActivityTreeNode> children = tree.getChildren().iterator();
         //noinspection WhileLoopReplaceableByForEach
         while(children.hasNext()) {
@@ -74,7 +74,7 @@ public class ActivityTreeModel implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        ActivityTree<? extends ActivityTreeNode> parentNode = (ActivityTree<? extends ActivityTreeNode>) parent;
+        ActivityTree parentNode = (ActivityTree) parent;
         int idx = 0;
         for (ActivityTreeNode childNode : parentNode.getChildren()) {
             if (childNode == child) {

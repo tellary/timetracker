@@ -5,7 +5,7 @@ package ru.silvestrov.timetracker.model.activitytree;
  * Date: 7/15/12
  * Time: 1:05 AM
  */
-public interface ActivityTree<T extends ActivityTreeNode<T>> {
+public interface ActivityTree {
     /**
      * Return time spent by all activities in this tree
      *
@@ -16,7 +16,11 @@ public interface ActivityTree<T extends ActivityTreeNode<T>> {
     /**
      * @return nodes representing children of this activity.
      */
-    Iterable<T> getChildren();
+    Iterable<ActivityTreeNode> getChildren();
 
-    void addChild(T child);
+    void addChild(ActivityTreeNode child);
+
+    void removeChild(ActivityTreeNode child);
+
+    void invalidateTree();
 }

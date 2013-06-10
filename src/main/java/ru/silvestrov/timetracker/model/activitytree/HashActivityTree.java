@@ -7,11 +7,11 @@ import java.util.HashMap;
  * Date: 7/15/12
  * Time: 1:06 AM
  */
-public class HashActivityTree<T extends ActivityTreeNode<T>> implements ActivityTree<T> {
-    private HashMap<Long, T> nodes = new HashMap<>();
-    private ActivityTree<T> tree;
+public class HashActivityTree implements ActivityTree {
+    private HashMap<Long, ActivityTreeNode> nodes = new HashMap<>();
+    private ActivityTree tree;
 
-    public HashActivityTree(ActivityTree<T> tree) {
+    public HashActivityTree(ActivityTree tree) {
         this.tree = tree;
     }
 
@@ -19,27 +19,37 @@ public class HashActivityTree<T extends ActivityTreeNode<T>> implements Activity
         return tree.getAggregateTimeSpent();
     }
 
-    public Iterable<T> getChildren() {
+    public Iterable<ActivityTreeNode> getChildren() {
         return tree.getChildren();
     }
 
     @Override
-    public void addChild(T child) {
+    public void addChild(ActivityTreeNode child) {
         tree.addChild(child);
     }
 
-    public ActivityTree<T> getTree() {
+    @Override
+    public void removeChild(ActivityTreeNode child) {
+        tree.removeChild(child);
+    }
+
+    @Override
+    public void invalidateTree() {
+        tree.invalidateTree();
+    }
+
+    public ActivityTree getTree() {
         return tree;
     }
 
-    public void addChild(T child, Long parentId) {
+    public void addChild(ActivityTreeNode child, Long parentId) {
         if (nodes.put(child.getId(), child) != null) {
             throw new RuntimeException("Activity with the same id already exist");
         }
         if (parentId == null) {
             tree.addChild(child);
         } else {
-            T parentNode = nodes.get(parentId);
+            ActivityTree parentNode = nodes.get(parentId);
             parentNode.addChild(child);
         }
     }

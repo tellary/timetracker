@@ -18,16 +18,16 @@ public class ActivityTreeManager {
     @Resource
     private TimeEntryDao timeEntryDao;
 
-    public ActivityTree<? extends ActivityTreeNode<?>> loadAllActivitiesTree() {
-        HashActivityTree<LazyActivityTreeNode> activityTree = new HashActivityTree<>(new LazyActivityTree());
+    public ActivityTree loadAllActivitiesTree() {
+        HashActivityTree activityTreeBuilder = new HashActivityTree(new LazyActivityTree());
         List<Activity> activities = activityDao.findRootActivities();
         for (Activity activity : activities) {
-            activityTree.addChild(
+            activityTreeBuilder.addChild(
                     treeNode(activity),
                     null);
-            loadActivitiesForParent(activityTree, activity.getId());
+            loadActivitiesForParent(activityTreeBuilder, activity.getId());
         }
-        return activityTree;
+        return activityTreeBuilder;
     }
 
     private LazyActivityTreeNode treeNode(Activity activity) {
@@ -38,15 +38,15 @@ public class ActivityTreeManager {
     }
 
     public ActivityTree loadActivitiesForParent(long parentId) {
-        HashActivityTree<LazyActivityTreeNode> activityTree = new HashActivityTree<>(new LazyActivityTree());
+        HashActivityTree activityTree = new HashActivityTree(new LazyActivityTree());
         Activity activity = activityDao.getActivityById(parentId);
         activityTree.addChild(treeNode(activity), null);
 
         loadActivitiesForParent(activityTree, parentId);
-        return activityTree;
+        return activityTree.getTree();
     }
 
-    private void loadActivitiesForParent(HashActivityTree<LazyActivityTreeNode> tree, long parentId) {
+    private void loadActivitiesForParent(HashActivityTree tree, long parentId) {
         List<Activity> activities = activityDao.findActivitiesByParentId(parentId);
         for (Activity activity : activities) {
             tree.addChild(treeNode(activity), parentId);

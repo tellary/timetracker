@@ -13,7 +13,7 @@ package ru.silvestrov.timetracker.model.activitytree;
  * </p>
  *
  */
-public interface ActivityTreeNode<T extends ActivityTreeNode<T>> extends ActivityTree<T> {
+public interface ActivityTreeNode extends ActivityTree {
     /**
      * Method returns id of the activity represented by this node.
      * It is used to find ActivityTreeNode by id when necessary.
@@ -31,4 +31,6 @@ public interface ActivityTreeNode<T extends ActivityTreeNode<T>> extends Activit
      * @return time spent by the activity itself
      */
     long getTimeSpent();
+
+    void setParent(ActivityTree parent);
 }

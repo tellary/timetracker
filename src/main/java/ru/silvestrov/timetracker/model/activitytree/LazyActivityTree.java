@@ -1,5 +1,7 @@
 package ru.silvestrov.timetracker.model.activitytree;
 
+import org.apache.log4j.Logger;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,11 +24,12 @@ import java.util.List;
  *     On invalidation it invalidates parent ActivityTreeNode.
  * </p>
  */
-public class LazyActivityTree implements ActivityTree<LazyActivityTreeNode> {
+public class LazyActivityTree implements ActivityTree {
+    private static final Logger logger = Logger.getLogger(LazyActivityTree.class);
+
     private boolean valid = false;
-    private List<LazyActivityTreeNode> children = new LinkedList<>();
+    private List<ActivityTreeNode> children = new LinkedList<>();
     private long aggregateTimeSpent;
-    private LazyActivityTree parentActivityTree;
 
     /**
      * Recalculates aggregateTimeSpent if not valid.
@@ -35,11 +38,16 @@ public class LazyActivityTree implements ActivityTree<LazyActivityTreeNode> {
         if (valid)
             return;
 
+        logger.debug("Found \"invalid\" state, recalculating aggregate time");
         for (ActivityTree child : children) {
             aggregateTimeSpent += child.getAggregateTimeSpent();
         }
+        aggregateTimeSpent += getTimeSpent();
         valid = true;
-        aggregationComplete();
+    }
+
+    protected long getTimeSpent() {
+        return 0;
     }
 
     public long getAggregateTimeSpent() {
@@ -47,36 +55,29 @@ public class LazyActivityTree implements ActivityTree<LazyActivityTreeNode> {
         return aggregateTimeSpent;
     }
 
-    public Iterable<LazyActivityTreeNode> getChildren() {
+    public Iterable<ActivityTreeNode> getChildren() {
         return children;
     }
 
-    public void invalidateAggregateTimeSpent() {
+    private void invalidateAggregateTimeSpent() {
         valid = false;
-        if (parentActivityTree != null)
-            parentActivityTree.invalidateAggregateTimeSpent();
         aggregateTimeSpent = 0;
+        logger.debug("Time invalidated");
     }
 
-    public void addChild(LazyActivityTreeNode child) {
-        child.setParentActivityTree(this);
+    @Override
+    public void invalidateTree() {
+        invalidateAggregateTimeSpent();
+    }
+
+    public void addChild(ActivityTreeNode child) {
+        child.setParent(this);
         children.add(child);
-        invalidateAggregateTimeSpent();
+        invalidateTree();
     }
 
-    protected void removeChild(LazyActivityTreeNode child) {
+    public void removeChild(ActivityTreeNode child) {
         children.remove(child);
-        invalidateAggregateTimeSpent();
-    }
-
-    protected LazyActivityTree getParentActivityTree() {
-        return parentActivityTree;
-    }
-
-    public void aggregationComplete() {
-    }
-
-    public void setParentActivityTree(LazyActivityTree parentActivityTree) {
-        this.parentActivityTree = parentActivityTree;
+        invalidateTree();
     }
 }

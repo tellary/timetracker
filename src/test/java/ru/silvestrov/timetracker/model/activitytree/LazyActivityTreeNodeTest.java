@@ -23,13 +23,13 @@ public class LazyActivityTreeNodeTest {
 
         Assert.assertEquals(200 + 300 + 100 + 200, root.getAggregateTimeSpent());
 
-        secondSecond.invalidateAggregateTimeSpent();
+        secondSecond.invalidateTree();
 
         Assert.assertEquals(200+300+100+200, root.getAggregateTimeSpent());
         Assert.assertEquals(300+100+200, second.getAggregateTimeSpent());
 
         secondSecond.addChild(new LazyActivityTreeNode(6, "SecondSecondFirst", 400));
-        secondSecond.invalidateAggregateTimeSpent();
+        secondSecond.invalidateTree();
         Assert.assertEquals(200+300+100+200 + 400, root.getAggregateTimeSpent());
     }
 }
