@@ -211,6 +211,9 @@
             or lookup "ParentTree" nodes by id and then call "add/remove/invalidate"
             on found instances.
 
+    *   TU39.3: Handle parent in dragged to be child of a child node
+
+        Currently this just fails with an exception.
 
 # Version 0.5
 
@@ -232,6 +235,8 @@ This version contains minimal set of features to start run Timetracker for work
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event
+
+    *   TU39.3: Handle parent in dragged to be child of a child node
 
 *   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
     displays aggregate time only
