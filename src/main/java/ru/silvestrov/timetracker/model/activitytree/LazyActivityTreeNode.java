@@ -41,6 +41,11 @@ public class LazyActivityTreeNode extends LazyActivityTree implements ChildActiv
     }
 
     @Override
+    public boolean isNode() {
+        return true;
+    }
+
+    @Override
     public void setParent(ParentActivityTree parentActivityTree) {
         if (this.parentActivityTree != null)
             this.parentActivityTree.removeChild(this);

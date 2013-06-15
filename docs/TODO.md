@@ -225,6 +225,14 @@
         to database on `setParent` call requires delegating a lot of methods.
         Decided to segregate `ActivityTreeNodeMover`.
 
+# 2013-Jun-15
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.2: Implement set parent functionality on drag-n-drop event
+
+        Set parent functionality implemented, besides issue exist described in TU39.2.1
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -245,6 +253,8 @@ This version contains minimal set of features to start run Timetracker for work
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event
+
+        *   TU39.2.1: Stopping timer for an activity on the control list overrides setting new parent for this activitys
 
     *   TU39.3: Handle parent in dragged to be child of a child node
 

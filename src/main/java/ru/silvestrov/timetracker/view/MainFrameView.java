@@ -1,7 +1,7 @@
 package ru.silvestrov.timetracker.view;
 
+import ru.silvestrov.timetracker.model.activitytree.ActivityTreeAndNodeMover;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTreeManager;
-import ru.silvestrov.timetracker.model.activitytree.MovableActivityTree;
 import ru.silvestrov.timetracker.view.activitytree.ActivityJTree;
 
 import javax.annotation.Resource;
@@ -41,9 +41,12 @@ public class MainFrameView {
         showAllActivitiesTree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MovableActivityTree tree = activityTreeManager.loadAllActivitiesTree();
+                ActivityTreeAndNodeMover treeAndMover = activityTreeManager.loadAllActivitiesTree();
                 final JFrame frame = new JFrame();
-                ActivityJTree jtree = new ActivityJTree(tree, tree);
+                ActivityJTree jtree =
+                        new ActivityJTree(
+                                treeAndMover.getActivityTree(),
+                                treeAndMover.getActivityTreeNodeMover());
                 frame.add(jtree);
                 jtree.setVisible(true);
                 frame.pack();

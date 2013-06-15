@@ -36,4 +36,18 @@ public class ActivityDao extends HibernateDaoSupport {
     public List<Activity> findActivitiesByParentId(long parentId) {
         return getHibernateTemplate().find("FROM Activity WHERE parent.id = ?", parentId);
     }
+
+    public void setParent(long parentId, long childId) {
+        Activity parent = getActivityById(parentId);
+        Activity child = getActivityById(childId);
+        child.setParent(parent);
+        save(parent);
+        save(child);
+    }
+
+    public void unsetParent(long childId) {
+        Activity child = getActivityById(childId);
+        child.setParent(null);
+        save(child);
+    }
 }

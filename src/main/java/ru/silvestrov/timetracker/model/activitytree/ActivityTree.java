@@ -17,4 +17,6 @@ public interface ActivityTree {
      * @return nodes representing children of this activity.
      */
     Iterable<ActivityTreeNode> getChildren();
+
+    boolean isNode();
 }

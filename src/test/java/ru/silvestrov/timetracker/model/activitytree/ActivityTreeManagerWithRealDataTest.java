@@ -68,7 +68,7 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void test() {
-        ParentActivityTree tree = (ParentActivityTree) activityTreeManager.loadAllActivitiesTree();
+        ParentActivityTree tree = (ParentActivityTree) activityTreeManager.loadAllActivitiesTree().getActivityTree();
         Iterator<ActivityTreeNode> children = tree.getChildren().iterator();
         ActivityTreeNode child = children.next();
         Assert.assertEquals("a1", child.getName());
@@ -104,7 +104,7 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void testAggregateTimeSpentAfterAddingAnotherChild() {
-        HashActivityTree tree = (HashActivityTree) activityTreeManager.loadAllActivitiesTree();
+        HashActivityTree tree = (HashActivityTree) activityTreeManager.loadAllActivitiesTree().getActivityTree();
         tree.getAggregateTimeSpent();
         long expectedTime = (60+30+780+78+80+180)*1000;
         Assert.assertEquals(expectedTime, tree.getAggregateTimeSpent());

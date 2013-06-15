@@ -43,6 +43,11 @@ public class HashActivityTree implements MovableActivityTree, ParentActivityTree
     }
 
     @Override
+    public boolean isNode() {
+        return false;
+    }
+
+    @Override
     public void move(ActivityTree newParent, ActivityTreeNode childNode) {
         ParentActivityTree parent = (ParentActivityTree) newParent;
         ChildActivityTreeNode child = (ChildActivityTreeNode) childNode;

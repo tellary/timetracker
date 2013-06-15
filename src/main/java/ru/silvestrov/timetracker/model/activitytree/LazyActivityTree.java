@@ -59,6 +59,11 @@ public class LazyActivityTree implements ActivityTree, ParentActivityTree {
         return children;
     }
 
+    @Override
+    public boolean isNode() {
+        return false;
+    }
+
     private void invalidateAggregateTimeSpent() {
         valid = false;
         aggregateTimeSpent = 0;

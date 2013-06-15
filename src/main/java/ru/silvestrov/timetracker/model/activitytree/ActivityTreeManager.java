@@ -18,16 +18,30 @@ public class ActivityTreeManager {
     @Resource
     private TimeEntryDao timeEntryDao;
 
-    public MovableActivityTree loadAllActivitiesTree() {
-        HashActivityTree activityTreeBuilder = new HashActivityTree(new LazyActivityTree());
+    public ActivityTreeAndNodeMover loadAllActivitiesTree() {
+        final HashActivityTree hashActivityTree = new HashActivityTree(new LazyActivityTree());
         List<Activity> activities = activityDao.findRootActivities();
         for (Activity activity : activities) {
-            activityTreeBuilder.addChild(
+            hashActivityTree.addChild(
                     treeNode(activity),
                     null);
-            loadActivitiesForParent(activityTreeBuilder, activity.getId());
+            loadActivitiesForParent(hashActivityTree, activity.getId());
         }
-        return activityTreeBuilder;
+        return new ActivityTreeAndNodeMover(
+                hashActivityTree,
+                new ActivityTreeNodeMover() {
+                    @Override
+                    public void move(ActivityTree newParent, ActivityTreeNode child) {
+                        if (newParent.isNode()) {
+                            ActivityTreeNode newParentNode = (ActivityTreeNode) newParent;
+                            activityDao.setParent(newParentNode.getId(), child.getId());
+                        } else {
+                            activityDao.unsetParent(child.getId());
+                        }
+                        hashActivityTree.move(newParent, child);
+                    }
+                }
+        );
     }
 
     private LazyActivityTreeNode treeNode(Activity activity) {
