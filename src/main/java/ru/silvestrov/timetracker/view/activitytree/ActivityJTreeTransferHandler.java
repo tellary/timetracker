@@ -2,6 +2,7 @@ package ru.silvestrov.timetracker.view.activitytree;
 
 import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNode;
+import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNodeMover;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -19,9 +20,11 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
     private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + "; class=" + ActivityTreeNode.class.getName();
 
     private ActivityTreeModel activityTreeModel;
+    private ActivityTreeNodeMover treeNodeMover;
 
-    public ActivityJTreeTransferHandler(ActivityTreeModel activityTreeModel) {
+    public ActivityJTreeTransferHandler(ActivityTreeModel activityTreeModel, ActivityTreeNodeMover treeNodeMover) {
         this.activityTreeModel = activityTreeModel;
+        this.treeNodeMover = treeNodeMover;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class ActivityJTreeTransferHandler extends TransferHandler {
             JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
             ActivityTree parent = (ActivityTree) dl.getPath().getLastPathComponent();
 
-            parent.addChild(newChild);
+            treeNodeMover.move(parent, newChild);
 
             activityTreeModel.treeNodeRemoved(sourceSelectionPath.getParentPath(), newChild, oldIndex);
             activityTreeModel.treeNodeInserted(dl.getPath(), newChild);

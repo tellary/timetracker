@@ -17,10 +17,4 @@ public interface ActivityTree {
      * @return nodes representing children of this activity.
      */
     Iterable<ActivityTreeNode> getChildren();
-
-    void addChild(ActivityTreeNode child);
-
-    void removeChild(ActivityTreeNode child);
-
-    void invalidateTree();
 }

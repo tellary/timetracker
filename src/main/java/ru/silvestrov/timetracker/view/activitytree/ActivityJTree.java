@@ -3,6 +3,7 @@ package ru.silvestrov.timetracker.view.activitytree;
 import ru.silvestrov.timetracker.model.activitycontrollist.TimeHelp;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTree;
 import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNode;
+import ru.silvestrov.timetracker.model.activitytree.ActivityTreeNodeMover;
 
 import javax.swing.*;
 
@@ -12,12 +13,12 @@ import javax.swing.*;
  * Time: 3:08 PM
  */
 public class ActivityJTree extends JTree {
-    public ActivityJTree(ActivityTree tree) {
+    public ActivityJTree(ActivityTree tree, ActivityTreeNodeMover treeNodeMover) {
         super(new ActivityTreeModel(tree));
         setDragEnabled(true);
         setTransferHandler(
                 new ActivityJTreeTransferHandler(
-                        (ActivityTreeModel)getModel()));
+                        (ActivityTreeModel) getModel(), treeNodeMover));
     }
 
     @Override

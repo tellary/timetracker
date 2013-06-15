@@ -32,5 +32,4 @@ public interface ActivityTreeNode extends ActivityTree {
      */
     long getTimeSpent();
 
-    void setParent(ActivityTree parent);
 }

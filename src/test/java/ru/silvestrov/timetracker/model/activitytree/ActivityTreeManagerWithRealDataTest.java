@@ -68,7 +68,7 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void test() {
-        ActivityTree tree = activityTreeManager.loadAllActivitiesTree();
+        ParentActivityTree tree = (ParentActivityTree) activityTreeManager.loadAllActivitiesTree();
         Iterator<ActivityTreeNode> children = tree.getChildren().iterator();
         ActivityTreeNode child = children.next();
         Assert.assertEquals("a1", child.getName());
@@ -96,7 +96,7 @@ public class ActivityTreeManagerWithRealDataTest {
 
     @Test
     public void testLoadByParent() {
-        ActivityTree tree = activityTreeManager.loadActivitiesForParent(a1.getId());
+        ParentActivityTree tree = (ParentActivityTree) activityTreeManager.loadActivitiesForParent(a1.getId());
         Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());
         tree.invalidateTree();
         Assert.assertEquals((60 + 78 + 80)*1000, tree.getAggregateTimeSpent());

@@ -29,7 +29,7 @@ public class ActivityTreeModelTestRunner {
         tree.addChild(new LazyActivityTreeNode(3, "a3", mins(33)), null);
 
         final JFrame frame = new JFrame();
-        ActivityJTree jtree = new ActivityJTree(tree);
+        ActivityJTree jtree = new ActivityJTree(tree, tree);
         frame.add(jtree);
         jtree.setVisible(true);
         frame.pack();

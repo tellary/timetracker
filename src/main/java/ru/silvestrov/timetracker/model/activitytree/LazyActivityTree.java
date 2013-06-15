@@ -24,7 +24,7 @@ import java.util.List;
  *     On invalidation it invalidates parent ActivityTreeNode.
  * </p>
  */
-public class LazyActivityTree implements ActivityTree {
+public class LazyActivityTree implements ActivityTree, ParentActivityTree {
     private static final Logger logger = Logger.getLogger(LazyActivityTree.class);
 
     private boolean valid = false;
@@ -70,13 +70,13 @@ public class LazyActivityTree implements ActivityTree {
         invalidateAggregateTimeSpent();
     }
 
-    public void addChild(ActivityTreeNode child) {
+    public void addChild(ChildActivityTreeNode child) {
         child.setParent(this);
         children.add(child);
         invalidateTree();
     }
 
-    public void removeChild(ActivityTreeNode child) {
+    public void removeChild(ChildActivityTreeNode child) {
         children.remove(child);
         invalidateTree();
     }

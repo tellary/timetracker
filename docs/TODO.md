@@ -215,6 +215,16 @@
 
         Currently this just fails with an exception.
 
+# 2013-Jun-11
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.2: Implement set parent functionality on drag-n-drop event
+
+        Implementing `DBActivityTree` which delegates to `ActivityTree` and makes record
+        to database on `setParent` call requires delegating a lot of methods.
+        Decided to segregate `ActivityTreeNodeMover`.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work

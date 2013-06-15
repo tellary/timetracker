@@ -7,11 +7,11 @@ package ru.silvestrov.timetracker.model.activitytree;
  */
 
 
-public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTreeNode {
+public class LazyActivityTreeNode extends LazyActivityTree implements ChildActivityTreeNode {
     private long id;
     private String name;
     private long timeSpent;
-    private ActivityTree parentActivityTree;
+    private ParentActivityTree parentActivityTree;
 
     public LazyActivityTreeNode(long id, String name, long timeSpent) {
         this.id = id;
@@ -41,7 +41,7 @@ public class LazyActivityTreeNode extends LazyActivityTree implements ActivityTr
     }
 
     @Override
-    public void setParent(ActivityTree parentActivityTree) {
+    public void setParent(ParentActivityTree parentActivityTree) {
         if (this.parentActivityTree != null)
             this.parentActivityTree.removeChild(this);
         this.parentActivityTree = parentActivityTree;

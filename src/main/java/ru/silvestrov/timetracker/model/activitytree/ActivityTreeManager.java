@@ -18,7 +18,7 @@ public class ActivityTreeManager {
     @Resource
     private TimeEntryDao timeEntryDao;
 
-    public ActivityTree loadAllActivitiesTree() {
+    public MovableActivityTree loadAllActivitiesTree() {
         HashActivityTree activityTreeBuilder = new HashActivityTree(new LazyActivityTree());
         List<Activity> activities = activityDao.findRootActivities();
         for (Activity activity : activities) {
