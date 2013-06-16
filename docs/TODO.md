@@ -233,6 +233,12 @@
 
         Set parent functionality implemented, besides issue exist described in TU39.2.1
 
+        *   TU39.2.1: Stopping timer for an activity on the control list overrides
+            setting new parent for this activity
+
+            Solved the problem by storing activity ids in "activity control list"
+            and loading activity each time modification is done.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -253,9 +259,6 @@ This version contains minimal set of features to start run Timetracker for work
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
 
     *   TU39.2: Implement set parent functionality on drag-n-drop event
-
-        *   TU39.2.1: Stopping timer for an activity on the control list overrides setting new parent for this activitys
-
     *   TU39.3: Handle parent in dragged to be child of a child node
 
 *   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree

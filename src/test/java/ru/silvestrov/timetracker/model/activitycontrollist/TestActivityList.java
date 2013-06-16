@@ -80,7 +80,11 @@ public class TestActivityList {
     private void checkAllInactive() {
         for (int i = 0; i < activityControlList.size(); ++i) {
             Activity a = activityControlList.getActivity(i);
-            Assert.assertNull(a.getCurrentTimeEntry());
+            Assert.assertNull(
+                    String.format(
+                        "Found current activity %d", a.getId()
+                    ),
+                    a.getCurrentTimeEntry());
         }
     }
 }
