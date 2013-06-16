@@ -225,7 +225,7 @@
         to database on `setParent` call requires delegating a lot of methods.
         Decided to segregate `ActivityTreeNodeMover`.
 
-# 2013-Jun-15
+# 2013-Jun-15, Sat
 
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
@@ -243,6 +243,22 @@
 
             Added tests on node move in ActivityTreeManagerWithRealDataTest
 
+*   U32: I want be able to assign parent to the activity so that I could see correct activity tree in the
+    "activity tree with time aggregation" view.
+
+    Duplicate of U39.
+
+# 2013-Jun-16, Sun
+
+*   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
+    displays aggregate time only
+
+    Created less restrictive user story to handle this: U40.
+
+    This task is moved to backlog.
+
+*   U41: I want to see aggregate time for the whole tree
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -256,23 +272,18 @@ This version contains minimal set of features to start run Timetracker for work
         
 *   T11: Make all frames save their size and position b/w program runs
 
+*   U40: I want to see task's own time as well as aggregate time if they differ.
+
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
     *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
 
         *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
 
-    *   TU39.2: Implement set parent functionality on drag-n-drop event
-    *   TU39.3: Handle parent in dragged to be child of a child node
-
-*   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
-    displays aggregate time only
+    *   TU39.3: Handle parent dragged to be child of a child node
 
 *   U35: I want to view all inactive activities as a tree with children time aggregated so what I could
     restore activities from "inactive" to "active" state.
-
-*   U32: I want be able to assign parent to the activity so that I could see correct activity tree in the
-    "activity tree with time aggregation" view.
 
 *   U7: As a user I want to view activities grouped in trees by days so that I could easily find activities to
     to restore them back into control list, to understand what was done on certain day, and to trigger export
@@ -372,3 +383,6 @@ This version improves "multi-task timer" (Activity Control List) usability
     Inactive are not appeared, but I want easily restore them back to active state. Archived activities are
     unlikely to appear on activity control list. All activities ever created in the tool will become
     archived at some point.
+
+*   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
+    displays aggregate time only
