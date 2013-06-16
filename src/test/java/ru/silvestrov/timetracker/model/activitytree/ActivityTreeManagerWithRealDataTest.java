@@ -114,4 +114,56 @@ public class ActivityTreeManagerWithRealDataTest {
 
         Assert.assertEquals(expectedTime + 120*1000, tree.getAggregateTimeSpent());
     }
+
+    @Test
+    public void testMoveNodeToRoot() {
+        ActivityTreeAndNodeMover treeAndMover = activityTreeManager.loadAllActivitiesTree();
+        ActivityTree tree = treeAndMover.getActivityTree();
+        ActivityTreeNodeMover mover = treeAndMover.getActivityTreeNodeMover();
+
+        Iterator<ActivityTreeNode> iterator = tree.getChildren().iterator();
+        iterator.next();
+        ActivityTreeNode a2 = iterator.next();
+        ActivityTreeNode a21 = a2.getChildren().iterator().next();
+        mover.move(tree, a21);
+
+        Assert.assertEquals(30000, a2.getAggregateTimeSpent());
+        Assert.assertEquals(30000, a2.getTimeSpent());
+
+        tree = activityTreeManager.loadAllActivitiesTree().getActivityTree();
+        iterator = tree.getChildren().iterator();
+        iterator.next();
+        a2 = iterator.next();
+
+        Assert.assertEquals(30000, a2.getAggregateTimeSpent());
+        Assert.assertEquals(30000, a2.getTimeSpent());
+    }
+
+    @Test
+    public void testMoveNodeToSibling() {
+        ActivityTreeAndNodeMover treeAndMover = activityTreeManager.loadAllActivitiesTree();
+        ActivityTree tree = treeAndMover.getActivityTree();
+        ActivityTreeNodeMover mover = treeAndMover.getActivityTreeNodeMover();
+
+        Iterator<ActivityTreeNode> iterator = tree.getChildren().iterator();
+        iterator.next();
+        ActivityTreeNode a2 = iterator.next();
+        ActivityTreeNode a21 = a2.getChildren().iterator().next();
+        ActivityTreeNode a3 = iterator.next();
+        mover.move(a3, a21);
+
+        Assert.assertEquals(30000, a2.getAggregateTimeSpent());
+        Assert.assertEquals(30000, a2.getTimeSpent());
+
+        Assert.assertEquals((780 + 180)*1000, a3.getAggregateTimeSpent());
+        Assert.assertEquals(780000, a3.getTimeSpent());
+
+        tree = activityTreeManager.loadAllActivitiesTree().getActivityTree();
+        iterator = tree.getChildren().iterator();
+        iterator.next();
+        a2 = iterator.next();
+
+        Assert.assertEquals(30000, a2.getAggregateTimeSpent());
+        Assert.assertEquals(30000, a2.getTimeSpent());
+    }
 }

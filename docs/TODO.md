@@ -239,6 +239,10 @@
             Solved the problem by storing activity ids in "activity control list"
             and loading activity each time modification is done.
 
+            Also added transaction on node move in ActivityTreeManager.
+
+            Added tests on node move in ActivityTreeManagerWithRealDataTest
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
