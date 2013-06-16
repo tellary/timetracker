@@ -1,5 +1,9 @@
 package ru.silvestrov.timetracker.model.activitytree;
 
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 import ru.silvestrov.timetracker.data.Activity;
 import ru.silvestrov.timetracker.data.ActivityDao;
 import ru.silvestrov.timetracker.data.TimeEntryDao;
@@ -17,6 +21,8 @@ public class ActivityTreeManager {
     private ActivityDao activityDao;
     @Resource
     private TimeEntryDao timeEntryDao;
+    @Resource
+    private TransactionTemplate transactionTemplate;
 
     public ActivityTreeAndNodeMover loadAllActivitiesTree() {
         final HashActivityTree hashActivityTree = new HashActivityTree(new LazyActivityTree());
@@ -31,14 +37,19 @@ public class ActivityTreeManager {
                 hashActivityTree,
                 new ActivityTreeNodeMover() {
                     @Override
-                    public void move(ActivityTree newParent, ActivityTreeNode child) {
-                        if (newParent.isNode()) {
-                            ActivityTreeNode newParentNode = (ActivityTreeNode) newParent;
-                            activityDao.setParent(newParentNode.getId(), child.getId());
-                        } else {
-                            activityDao.unsetParent(child.getId());
-                        }
-                        hashActivityTree.move(newParent, child);
+                    public void move(final ActivityTree newParent, final ActivityTreeNode child) {
+                        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                            @Override
+                            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                                if (newParent.isNode()) {
+                                    ActivityTreeNode newParentNode = (ActivityTreeNode) newParent;
+                                    activityDao.setParent(newParentNode.getId(), child.getId());
+                                } else {
+                                    activityDao.unsetParent(child.getId());
+                                }
+                                hashActivityTree.move(newParent, child);
+                            }
+                        });
                     }
                 }
         );
