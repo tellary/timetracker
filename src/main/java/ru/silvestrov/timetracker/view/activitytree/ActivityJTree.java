@@ -25,7 +25,14 @@ public class ActivityJTree extends JTree {
     public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         if (value instanceof ActivityTreeNode) {
             ActivityTreeNode node = (ActivityTreeNode) value;
-            return node.getName() + " (" + TimeHelp.formatTime(node.getAggregateTimeSpent()) + ")";
+            long timeSpent = node.getTimeSpent();
+            long aggregateTimeSpent = node.getAggregateTimeSpent();
+            if (timeSpent == aggregateTimeSpent)
+                return node.getName() + " (" + TimeHelp.formatTime(timeSpent) + ")";
+            else
+                return node.getName() +
+                        " (" + TimeHelp.formatTime(timeSpent) + "/" +
+                        TimeHelp.formatTime(aggregateTimeSpent) + ")";
         } else if (value instanceof ActivityTree) {
             ActivityTree tree = (ActivityTree) value;
             return TimeHelp.formatTime(tree.getAggregateTimeSpent());

@@ -259,6 +259,8 @@
 
 *   U41: I want to see aggregate time for the whole tree
 
+*   U40: I want to see task's own time as well as aggregate time if they differ.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -271,8 +273,6 @@ This version contains minimal set of features to start run Timetracker for work
         are not shown yet: avoid duplicate windows.
         
 *   T11: Make all frames save their size and position b/w program runs
-
-*   U40: I want to see task's own time as well as aggregate time if they differ.
 
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
