@@ -312,6 +312,24 @@
     then grand-children's loaders should by "preloaded". They just return cached grand-children instead
     of going to the DB. This scales for 3, 4 etc layers of descendants.
 
+# 2013-Aug-25, Sun
+
+*   U7: As a user I want to view activities grouped in trees by days so that I could easily find activities to
+    to restore them back into control list, to understand what was done on certain day, and to trigger export
+    to toggl CSV for certain day.
+    (depends on U32 as I need to create Activities relationship somehow prior building a tree)
+
+    *   TU7.2: Implement "lazy" activity tree which goes to the database to load child activities information
+
+        *   TU7.2.1: Clean up git
+
+    *   TU7.6: Update `ActivityTreeManager` to use `TreeNodeLoadStrategy` to abstract all vs time range modes of operation.
+
+        Who loads the tree, knows its implementation. This is why it should also be responsible for implementing
+        "tree node mover". It's `ActivityTreeManager` who does both know. I cannot move responsibility for loading
+        tree into `TreeNodeLoadStrategy`. Deleted `TreeNodeLoadStrategy` interface and `AllTimeTreeNodeLoadStrategy`
+        implementation.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -344,12 +362,6 @@ This version contains minimal set of features to start run Timetracker for work
     (depends on U32 as I need to create Activities relationship somehow prior building a tree)
 
     *   TU7.1: Create method to load all activities having a time entry started or stopped in certain time interval
-
-    *   TU7.2: Implement "lazy" activity tree which goes to the database to load child activities information
-
-        *   TU7.2.1: Clean up git
-
-    *   TU7.6: Update `ActivityTreeManager` to use `TreeNodeLoadStrategy` to abstract all vs time range modes of operation.
 
     *   TU7.3: Limit the tree loading to only time entries which are only started or stopped in selected interval
 
