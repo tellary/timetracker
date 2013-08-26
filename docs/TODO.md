@@ -261,6 +261,57 @@
 
 *   U40: I want to see task's own time as well as aggregate time if they differ.
 
+# 2013-Jul-14, Sun
+
+*   U39: I want to assign parent activity to the already created activity so that I could structure activities
+
+    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
+
+        *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
+
+# 2013-Aug-18, Sun
+
+*   U7: As a user I want to view activities grouped in trees by days so that I could easily find activities to
+    to restore them back into control list, to understand what was done on certain day, and to trigger export
+    to toggl CSV for certain day.
+    (depends on U32 as I need to create Activities relationship somehow prior building a tree)
+
+    *   TU7.2: Implement "lazy" activity tree which goes to the database to load child activities information
+
+        The tree should not reload children unless notified explicitly, but it should reload aggregate time.
+
+        `LazyActivityTree` will use `TreeNodeLoadStrategy` to load child `ActivityTreeNode`s.
+        The reason why it doesn't use DAO directly is because we have several modes of loading:
+
+        1.  Load all child nodes.
+        2.  Load nodes in time range.
+
+        Find out that there is no pragmatic reason to make tree responsible to load itself,
+        but there is a disadvantage: with tree loading itself "lazily" it is difficult
+        to load whole tree in one transaction.
+
+        The only benefit of tree loading itself is to get rid of `HashActivityTree`,
+        but the same can be achieved with external load as well - TU7.5.
+
+        Nevertheless, `TreeNodeLoadStrategy` is a good idea which can be used
+        to decouple different modes of tree loading and be useful in TU7.3 and TU7.4.
+
+        Decided to update current load routine in `ActivityTreeManager` with the strategy - TU7.6.
+
+        Discovered a performance optimization idea while playing with "lazy nodes" + "node load strategy".
+        I can load several layers of descendants while loading child nodes, thus making less database calls - T12.
+
+*   T12: Load several layers of activity descendants to reduce number of DB queries
+
+    Let's say I load children together with grand-children. When I can avoid database call to load children of children
+    as grand-children are already loaded, but for grand children I have to make a database call again.
+
+    Implementation hint for this is that I should use different loader to load children every time and
+    I should return child nodes together with loaders for grand-children for each child node. Then
+    I should use these loaders to load grand-children. If my query loads children with grand-children,
+    then grand-children's loaders should by "preloaded". They just return cached grand-children instead
+    of going to the DB. This scales for 3, 4 etc layers of descendants.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -276,11 +327,13 @@ This version contains minimal set of features to start run Timetracker for work
 
 *   U39: I want to assign parent activity to the already created activity so that I could structure activities
 
-    *   TU39.1: Enable drag-and-drop in _activities archive tree_, log DnD events
-
-        *   TU39.1.3: Make all exceptions to be shown on DnD, extensively test sample app, fix all errors
-
     *   TU39.3: Handle parent dragged to be child of a child node
+
+*   U42: I want to see an alert with error message on every exception happen
+
+*   U43: I want to download binary release of time tracker s.t. I can start it locally
+
+    *   TU43.1: Find out if it is possible to create custom binary releases in github
 
 *   U35: I want to view all inactive activities as a tree with children time aggregated so what I could
     restore activities from "inactive" to "active" state.
@@ -289,6 +342,20 @@ This version contains minimal set of features to start run Timetracker for work
     to restore them back into control list, to understand what was done on certain day, and to trigger export
     to toggl CSV for certain day.
     (depends on U32 as I need to create Activities relationship somehow prior building a tree)
+
+    *   TU7.1: Create method to load all activities having a time entry started or stopped in certain time interval
+
+    *   TU7.2: Implement "lazy" activity tree which goes to the database to load child activities information
+
+        *   TU7.2.1: Clean up git
+
+    *   TU7.6: Update `ActivityTreeManager` to use `TreeNodeLoadStrategy` to abstract all vs time range modes of operation.
+
+    *   TU7.3: Limit the tree loading to only time entries which are only started or stopped in selected interval
+
+    *   TU7.4: Make tree loading split activities if they span over the given time boundary.
+
+    *   TU7.5: Load activity tree without accessing nodes by id in `HashMap`.
 
 *   U6: As a user I can restore activities back to control list to be able to start/stop them
     (depends on U7)
@@ -386,3 +453,5 @@ This version improves "multi-task timer" (Activity Control List) usability
 
 *   U38: I want to see parent task's own time as a child node in the task tree so that parent node in the tree
     displays aggregate time only
+
+*   T12: Load several layers of activity descendants to reduce number of DB queries
