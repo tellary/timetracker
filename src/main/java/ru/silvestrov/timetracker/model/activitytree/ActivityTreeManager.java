@@ -24,16 +24,10 @@ public class ActivityTreeManager {
     private TransactionTemplate transactionTemplate;
 
     public ActivityTreeAndNodeMover loadAllActivitiesTree() {
-        final HashActivityTree hashActivityTree = new HashActivityTree(new LazyActivityTree());
-        List<Activity> activities = activityDao.findRootActivities();
-        for (Activity activity : activities) {
-            hashActivityTree.addChild(
-                    treeNode(activity),
-                    null);
-            loadActivitiesForParent(hashActivityTree, activity.getId());
-        }
+        ParentActivityTree activityTree = new LazyActivityTree();
+        addChildActivitiesRecursive(activityTree, activityDao.findRootActivities());
         return new ActivityTreeAndNodeMover(
-                hashActivityTree,
+                activityTree,
                 new ActivityTreeNodeMover() {
                     @Override
                     public void move(final ActivityTree newParent, final ActivityTreeNode child) {
@@ -46,7 +40,8 @@ public class ActivityTreeManager {
                                 } else {
                                     activityDao.unsetParent(child.getId());
                                 }
-                                hashActivityTree.move(newParent, child);
+                                ParentActivityTree parent = (ParentActivityTree) newParent;
+                                parent.addChild((ChildActivityTreeNode) child);
                             }
                         });
                     }
@@ -61,20 +56,15 @@ public class ActivityTreeManager {
                 timeEntryDao.getTotalTime(activity.getId()));
     }
 
-    public ActivityTree loadActivitiesForParent(long parentId) {
-        HashActivityTree activityTree = new HashActivityTree(new LazyActivityTree());
-        Activity activity = activityDao.getActivityById(parentId);
-        activityTree.addChild(treeNode(activity), null);
-
-        loadActivitiesForParent(activityTree, parentId);
-        return activityTree.getTree();
+    private void addChildActivitiesRecursive(ParentActivityTree tree, List<Activity> activities) {
+        for (Activity activity : activities) {
+            ChildActivityTreeNode childTreeNode = treeNode(activity);
+            tree.addChild(childTreeNode);
+            loadActivitiesForParent(childTreeNode, activity.getId());
+        }
     }
 
-    private void loadActivitiesForParent(HashActivityTree tree, long parentId) {
-        List<Activity> activities = activityDao.findActivitiesByParentId(parentId);
-        for (Activity activity : activities) {
-            tree.addChild(treeNode(activity), parentId);
-            loadActivitiesForParent(tree, activity.getId());
-        }
+    private void loadActivitiesForParent(ParentActivityTree tree, long parentId) {
+        addChildActivitiesRecursive(tree, activityDao.findActivitiesByParentId(parentId));
     }
 }

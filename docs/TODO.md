@@ -330,6 +330,22 @@
         tree into `TreeNodeLoadStrategy`. Deleted `TreeNodeLoadStrategy` interface and `AllTimeTreeNodeLoadStrategy`
         implementation.
 
+    *   TU7.5: Load activity tree without accessing nodes by id in `HashMap`.
+
+        Changed `ActivityTreeManager` to use not `HashActivityTree`. Need to clean up other (mainly test)
+        usages of it.
+
+# 2013-Aug-26, Mon
+
+*   U7: As a user I want to view activities grouped in trees by days so that I could easily find activities to
+    to restore them back into control list, to understand what was done on certain day, and to trigger export
+    to toggl CSV for certain day.
+    (depends on U32 as I need to create Activities relationship somehow prior building a tree)
+
+    *   TU7.5: Load activity tree without accessing nodes by id in `HashMap`.
+
+        Cleaned up usages of `HashActivityTree` in tests.
+
 # Version 0.5
 
 This version contains minimal set of features to start run Timetracker for work
@@ -366,8 +382,6 @@ This version contains minimal set of features to start run Timetracker for work
     *   TU7.3: Limit the tree loading to only time entries which are only started or stopped in selected interval
 
     *   TU7.4: Make tree loading split activities if they span over the given time boundary.
-
-    *   TU7.5: Load activity tree without accessing nodes by id in `HashMap`.
 
 *   U6: As a user I can restore activities back to control list to be able to start/stop them
     (depends on U7)
